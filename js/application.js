@@ -1,10 +1,29 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     console.log(context);
-    window.filter1 = audioContext.createBiquadFilterNode('lowpass', 2000, 1, null, context, context.destination);
+    window.filter1 = audioContext.createBiquadFilterNode(
+        document.querySelector('#filter1Type').value,
+        Math.pow(2, document.querySelector('#filter1frequency').value) * 55,
+        document.querySelector('#filter1Q').value,
+        document.querySelector('#filter1Gain').value,
+        context,
+        context.destination
+        );
     window.playOscillators = function(time){
-        window.osc1 = audioContext.createOscillatorNode('sine', 220, 0, context, filter1);
-        window.osc2 = audioContext.createOscillatorNode('sawtooth', 110, 0, context, filter1);
+        window.osc1 = audioContext.createOscillatorNode(
+            document.querySelector('#oscillator1Type').value,
+            Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55,
+            0,
+            context,
+            filter1
+            );
+        window.osc2 = audioContext.createOscillatorNode(
+            document.querySelector('#oscillator2Type').value,
+            (Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value),
+            document.querySelector('#oscillator2Detune').value,
+            context,
+            filter1
+            );
         osc1.start(time);
         osc2.start(time);
     }
