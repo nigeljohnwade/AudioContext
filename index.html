@@ -58,6 +58,10 @@
             <input type='range' min='-100' max='100' id='oscillator2Detune'>
         </div>
         <div class='control-group'>
+            <label for='oscillator2Octave'>Osc2 Octave</label>
+            <input type='range' min='-2' max='2' step='1' id='oscillator2Octave'>
+        </div>
+        <div class='control-group'>
             <label for='oscillator1Type'>Osc1 Waveform</label>
             <select id='oscillator1Type'>
                 <option value='sine'>Sine</option>
@@ -95,11 +99,14 @@
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
         osc1.frequency.value = Math.pow(2, event.target.value) * 55;
-        osc2.frequency.value = osc1.frequency.value/2;
+        osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
         console.log(event.target.value, osc1.frequency.value, osc2.frequency.value)
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         osc2.detune.value = event.target.value;
+    });
+    document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
+        osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
         osc1.type = event.target.value;
