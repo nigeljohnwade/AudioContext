@@ -95,35 +95,44 @@
 <script type='text/javascript'>
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
         filter1.frequency.value = Math.pow(2, event.target.value) * 55;
+        drawWaveform();
     });
     document.querySelector('#filter1Q').addEventListener('change', function(event){
         filter1.Q.value = event.target.value;
+        drawWaveform();
     });
     document.querySelector('#filter1Gain').addEventListener('change', function(event){
         filter1.gain.value = event.target.value;
+        drawWaveform();
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
+        drawWaveform();
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
         osc1.frequency.value = Math.pow(2, event.target.value) * 55;
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
-        console.log(event.target.value, osc1.frequency.value, osc2.frequency.value)
+        drawWaveform();
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         osc2.detune.value = event.target.value;
+        drawWaveform();
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
+        drawWaveform();
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
         osc1.type = event.target.value;
+        drawWaveform();
     });
     document.querySelector('#oscillator2Type').addEventListener('change', function(event){
         osc2.type = event.target.value;
+        drawWaveform();
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
+        drawWaveform();
     });    
     document.querySelector('#dualOscillatorsOn').addEventListener('click', function(event){
         playOscillators(0);
