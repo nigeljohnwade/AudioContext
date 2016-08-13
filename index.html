@@ -6,8 +6,50 @@
 </head>
 
 <body>
-
+<form>
+    <fieldset id='filter1'>
+        <legend>Filter 1</legend>
+        <input type='range' min='50' max='20000' id='filter1frequency'>
+        <input type='number' min='0.0001' max='1000' id='filter1Q'>
+        <input type='range' min='-40' max='40' id='filter1Gain'>
+        <select id='filter1Type'>
+            <option value='lowpass'>Low Pass</option>
+            <option value='bandpass'>Band Pass</option>
+            <option value='highpass'>High Pass</option>
+            <option value='lowshelf'>Low Shelf</option>
+            <option value='highshelf'>High Shelf</option>
+            <option value='peaking'>Peaking</option>
+            <option value='notch'>Notch</option>
+            <option value='allpass'>All Pass</option>
+        </select>
+    </fieldset>
+    <button type='button' id='dualOscillatorsOn'>Start</button>
+    <button type='button' id='dualOscillatorsOff'>Stop</button>
+</form>
 <script src='js/require.js' data-main='js/application'></script>
-
+<script type='text/javascript'>
+    document.querySelector('#filter1frequency').addEventListener('change', function(event){
+        filter1.frequency.value = event.target.value;
+    });
+    document.querySelector('#filter1Q').addEventListener('change', function(event){
+        filter1.Q.value = event.target.value;
+    });
+    document.querySelector('#filter1Gain').addEventListener('change', function(event){
+        filter1.gain.value = event.target.value;
+    });
+    document.querySelector('#filter1Type').addEventListener('change', function(event){
+        filter1.type = event.target.value;
+    });
+    document.querySelector('#dualOscillatorsOn').addEventListener('click', function(event){
+        playOscillators(0);
+    });
+    document.querySelector('#dualOscillatorsOff').addEventListener('click', function(event){
+        osc1.stop(0);
+        osc2.stop(0);
+    });
+    document.querySelector('form').addEventListener('submit', function(event){
+        event && event.preventDefault()    
+    })
+</script>
 </body>
 </html>
