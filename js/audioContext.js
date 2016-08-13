@@ -15,7 +15,7 @@ define({
         }
         return _osc;
     },
-    createBiquadFilterNode: function(type, frequency, q, gain, destination){
+    createBiquadFilterNode: function(type, frequency, q, gain, context, destination){
         var _filter = context.createBiquadFilter();
         _filter.type = type;
         _filter.frequency.value = frequency;
@@ -29,5 +29,11 @@ define({
             _filter.connect(destination)
         }
         return _filter;
+    },
+    createAnalyserNode: function(source, context, destination){
+        var _analyser = context.createAnalyser();
+        source.connect(_analyser);
+        _analyser.connect(destination);
+        return _analyser;
     }
 });

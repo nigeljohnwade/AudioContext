@@ -13,6 +13,14 @@
         .control-group input[type=number]{
             width: 20%;
         }
+        #oscilliscope{
+            width: 100%;
+            height: 10%;
+        }
+        canvas{
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 
@@ -80,8 +88,12 @@
             </select>
         </div>
     </fieldset>
+    <div id='oscilliscope'>
+        <canvas id='oscilliscopeVisualiser'></canvas>
+    </div>
     <button type='button' id='dualOscillatorsOn'>Start</button>
     <button type='button' id='dualOscillatorsOff'>Stop</button>
+    <button type='button' id='captureWaveform'>Capture waveform</button>
 </form>
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
@@ -123,6 +135,9 @@
     document.querySelector('#dualOscillatorsOff').addEventListener('click', function(event){
         osc1.stop(0);
         osc2.stop(0);
+    });
+    document.querySelector('#captureWaveform').addEventListener('click', function(event){
+        drawWaveform();
     });
     document.querySelector('form').addEventListener('submit', function(event){
         event && event.preventDefault()    
