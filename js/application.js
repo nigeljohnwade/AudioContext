@@ -1,13 +1,14 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     console.log(context);
+    window.gainStage = audioContext.createGainNode(1, filter1, context, context.destination);
     window.filter1 = audioContext.createBiquadFilterNode(
         document.querySelector('#filter1Type').value,
         Math.pow(2, document.querySelector('#filter1frequency').value) * 55,
         document.querySelector('#filter1Q').value,
         document.querySelector('#filter1Gain').value,
         context,
-        context.destination
+        gainStage
         );
     window.playOscillators = function(time){
         window.osc1 = audioContext.createOscillatorNode(
@@ -27,7 +28,7 @@ requirejs(['audioContext'], function(audioContext){
         osc1.start(time);
         osc2.start(time);
     }
-    window.analyser = audioContext.createAnalyserNode(filter1, context, context.destination);
+    window.analyser = audioContext.createAnalyserNode(gainStage, context, context.destination);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");

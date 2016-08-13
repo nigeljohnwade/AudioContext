@@ -35,5 +35,10 @@ define({
         source.connect(_analyser);
         _analyser.connect(destination);
         return _analyser;
+    },
+    createGainNode: function(gain, source, context, destination){
+        var _gain = context.createGain();
+        _gain.gain.value = gain;
+        return _gain;
     }
 });

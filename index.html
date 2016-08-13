@@ -22,6 +22,12 @@
 
 <body>
 <form>
+    <fieldset id='gain'>
+        <div class='control-group'>
+            <label for='gain'>Gain</label>
+            <input type='range' min='0' max='2' step='0.001' value='1' id='gain'>
+        </div>
+    </fieldset>
     <fieldset id='filter1'>
         <legend>Filter 1</legend>
         <div class='control-group'>
@@ -51,7 +57,6 @@
         </div>
     </fieldset>
     <fieldset id='oscillators'>
-        
         <legend>Oscillators</legend>
         <div class='control-group'>
             <label for='oscillator1Octave'>Osc1 Frequency</label>
@@ -93,6 +98,10 @@
 </form>
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
+    document.querySelector('#gain').addEventListener('change', function(event){
+        gainStage.gain.value = event.target.value;
+        drawWaveform();
+    });
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
         filter1.frequency.value = Math.pow(2, event.target.value) * 55;
         drawWaveform();
