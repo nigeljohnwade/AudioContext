@@ -3,42 +3,78 @@
 <html>
 <head>
     <title>AudioContext</title>
+    <style>
+        .control-group label{
+            display: block
+        }
+        .control-group input{
+            width: 100%;
+        }
+        .control-group input[type=number]{
+            width: 20%;
+        }
+    </style>
 </head>
 
 <body>
 <form>
     <fieldset id='filter1'>
         <legend>Filter 1</legend>
-        <input type='range' min='50' max='20000' id='filter1frequency'>
-        <input type='number' min='0.0001' max='1000' id='filter1Q'>
-        <input type='range' min='-40' max='40' id='filter1Gain'>
-        <select id='filter1Type'>
-            <option value='lowpass'>Low Pass</option>
-            <option value='bandpass'>Band Pass</option>
-            <option value='highpass'>High Pass</option>
-            <option value='lowshelf'>Low Shelf</option>
-            <option value='highshelf'>High Shelf</option>
-            <option value='peaking'>Peaking</option>
-            <option value='notch'>Notch</option>
-            <option value='allpass'>All Pass</option>
-        </select>
+        <div class='control-group'>
+            <label for='filter1frequency'>Filter Frequency</label>
+            <input type='range' min='50' max='20000' id='filter1frequency'>
+        </div>
+        <div class='control-group'>
+            <label for='filter1Q'>Filter Q</label>
+            <input type='number' min='0.0001' max='1000' step='0.0001' id='filter1Q'>
+        </div>
+        <div class='control-group'>
+            <label for='filter1Gain'>Filter Gain</label>
+            <input type='range' min='-40' max='40' id='filter1Gain'>
+        </div>
+        <div class='control-group'>
+            <label for='filter1Type'>Filter Type</label>
+            <select id='filter1Type'>
+                <option value='lowpass'>Low Pass</option>
+                <option value='bandpass'>Band Pass</option>
+                <option value='highpass'>High Pass</option>
+                <option value='lowshelf'>Low Shelf</option>
+                <option value='highshelf'>High Shelf</option>
+                <option value='peaking'>Peaking</option>
+                <option value='notch'>Notch</option>
+                <option value='allpass'>All Pass</option>
+            </select>
+        </div>
     </fieldset>
     <fieldset id='oscillators'>
+        
         <legend>Oscillators</legend>
-        <input type='range' min='20' max='20000' id='oscillator1frequency'>
-        <input type='range' min='-100' max='100' id='oscillator2Detune'>
-        <select id='oscillator1Type'>
-            <option value='sine'>Sine</option>
-            <option value='square'>Square</option>
-            <option value='sawtooth'>Sawtooth</option>
-            <option value='triangle'>Triangle</option>
-        </select>
-        <select id='oscillator2Type'>
-            <option value='sine'>Sine</option>
-            <option value='square'>Square</option>
-            <option value='sawtooth'>Sawtooth</option>
-            <option value='triangle'>Triangle</option>
-        </select>
+        <div class='control-group'>
+            <label for='oscillator1Octave'>Osc1 Frequency</label>
+            <input type='range' min='1' max='8' step='0.001' id='oscillator1Octave'>
+        </div>
+        <div class='control-group'>
+            <label for='oscillator2Detune'>Osc2 Detune</label>
+            <input type='range' min='-100' max='100' id='oscillator2Detune'>
+        </div>
+        <div class='control-group'>
+            <label for='oscillator1Type'>Osc1 Waveform</label>
+            <select id='oscillator1Type'>
+                <option value='sine'>Sine</option>
+                <option value='square'>Square</option>
+                <option value='sawtooth'>Sawtooth</option>
+                <option value='triangle'>Triangle</option>
+            </select>
+        </div>
+        <div class='control-group'>
+            <label for='oscillator2Type'>Osc2 Waveform</label>
+            <select id='oscillator2Type'>
+                <option value='sine'>Sine</option>
+                <option value='square'>Square</option>
+                <option value='sawtooth'>Sawtooth</option>
+                <option value='triangle'>Triangle</option>
+            </select>
+        </div>
     </fieldset>
     <button type='button' id='dualOscillatorsOn'>Start</button>
     <button type='button' id='dualOscillatorsOff'>Stop</button>
@@ -57,9 +93,10 @@
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
     });
-    document.querySelector('#oscillator1frequency').addEventListener('change', function(event){
-        osc1.frequency.value = event.target.value;
-        osc2.frequency.value = event.target.value/2;
+    document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
+        osc1.frequency.value = Math.pow(2, event.target.value) * 55;
+        osc2.frequency.value = osc1.frequency.value/2;
+        console.log(event.target.value, osc1.frequency.value, osc2.frequency.value)
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         osc2.detune.value = event.target.value;
