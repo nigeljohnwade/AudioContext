@@ -23,6 +23,23 @@
             <option value='allpass'>All Pass</option>
         </select>
     </fieldset>
+    <fieldset id='oscillators'>
+        <legend>Oscillators</legend>
+        <input type='range' min='20' max='20000' id='oscillator1frequency'>
+        <input type='range' min='-100' max='100' id='oscillator2Detune'>
+        <select id='oscillator1Type'>
+            <option value='sine'>Sine</option>
+            <option value='square'>Square</option>
+            <option value='sawtooth'>Sawtooth</option>
+            <option value='triangle'>Triangle</option>
+        </select>
+        <select id='oscillator2Type'>
+            <option value='sine'>Sine</option>
+            <option value='square'>Square</option>
+            <option value='sawtooth'>Sawtooth</option>
+            <option value='triangle'>Triangle</option>
+        </select>
+    </fieldset>
     <button type='button' id='dualOscillatorsOn'>Start</button>
     <button type='button' id='dualOscillatorsOff'>Stop</button>
 </form>
@@ -40,6 +57,22 @@
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
     });
+    document.querySelector('#oscillator1frequency').addEventListener('change', function(event){
+        osc1.frequency.value = event.target.value;
+        osc2.frequency.value = event.target.value/2;
+    });
+    document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
+        osc2.detune.value = event.target.value;
+    });
+    document.querySelector('#oscillator1Type').addEventListener('change', function(event){
+        osc1.type = event.target.value;
+    });
+    document.querySelector('#oscillator2Type').addEventListener('change', function(event){
+        osc2.type = event.target.value;
+    });
+    document.querySelector('#filter1Type').addEventListener('change', function(event){
+        filter1.type = event.target.value;
+    });    
     document.querySelector('#dualOscillatorsOn').addEventListener('click', function(event){
         playOscillators(0);
     });
