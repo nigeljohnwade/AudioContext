@@ -38,7 +38,7 @@ requirejs(['audioContext'], function(audioContext){
         analyser.getByteTimeDomainData(dataArray);
         canvasCtx.fillStyle = 'rgb(0, 0, 0)';
         canvasCtx.fillRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
-        canvasCtx.lineWidth = 5;
+        canvasCtx.lineWidth = 1;
         canvasCtx.strokeStyle = 'rgb(0, 255, 0)';
         canvasCtx.beginPath();
         var sliceWidth = canvasCtx.canvas.width * 1.0 / bufferLength;
