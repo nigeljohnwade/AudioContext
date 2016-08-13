@@ -30,15 +30,35 @@ define({
         }
         return _filter;
     },
-    createAnalyserNode: function(source, context, destination){
+    createAnalyserNode: function(context, destination){
         var _analyser = context.createAnalyser();
-        source.connect(_analyser);
         _analyser.connect(destination);
         return _analyser;
     },
-    createGainNode: function(gain, source, context, destination){
+    createGainNode: function(gain, context, destination){
         var _gain = context.createGain();
         _gain.gain.value = gain;
+        _gain.connect(destination);
         return _gain;
+    },
+    createWaveShaperNode: function(amount, oversample, context, destination){
+        var _waveShaper = context.createWaveShaper();
+        //_waveShaper.curve = this.makeDistortionCurve(amount);
+        //_waveShaper.oversample = oversample;
+        _waveShaper.connect.destination;
+        return _waveShaper;
+    },
+    makeDistortionCurve: function(amount) {
+        var k = typeof amount === 'number' ? amount : 50,
+            n_samples = 44100,
+            curve = new Float32Array(n_samples),
+            deg = Math.PI / 180,
+            i = 0,
+            x;
+        for ( ; i < n_samples; ++i ) {
+            x = i * 2 / n_samples - 1;
+            curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+        }
+        return curve;
     }
 });
