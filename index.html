@@ -22,7 +22,7 @@
         <legend>Filter 1</legend>
         <div class='control-group'>
             <label for='filter1frequency'>Filter Frequency</label>
-            <input type='range' min='50' max='20000' id='filter1frequency'>
+            <input type='range' min='1' max='8' step='0.001' id='filter1frequency'>
         </div>
         <div class='control-group'>
             <label for='filter1Q'>Filter Q</label>
@@ -82,7 +82,7 @@
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
-        filter1.frequency.value = event.target.value;
+        filter1.frequency.value = Math.pow(2, event.target.value) * 55;
     });
     document.querySelector('#filter1Q').addEventListener('change', function(event){
         filter1.Q.value = event.target.value;
