@@ -2,7 +2,17 @@ requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(1, context, context.destination);
     window.analyser = audioContext.createAnalyserNode(context, masterVolume);
-    window.gainStage = audioContext.createGainNode(1, context, analyser);
+    window.compressor = audioContext.createDynamicsCompressorNode(
+        document.querySelector('#dynamicsThreshold').value,
+        document.querySelector('#dynamicsKnee').value,
+        document.querySelector('#dynamicsRatio').value,
+        document.querySelector('#dynamicsReduction').value,
+        document.querySelector('#dynamicsAttack').value,
+        document.querySelector('#dynamicsRelease').value,
+        context,
+        analyser
+        );
+    window.gainStage = audioContext.createGainNode(1, context, compressor);
     window.distortion = audioContext.createWaveShaperNode(400, '4x', context, gainStage);
     window.filter1 = audioContext.createBiquadFilterNode(
         document.querySelector('#filter1Type').value,

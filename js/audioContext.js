@@ -48,6 +48,17 @@ define({
         _waveShaper.connect.destination;
         return _waveShaper;
     },
+    createDynamicsCompressorNode: function(threshold, knee, ratio, reduction, attack, release, context, destination){
+        const _comp = context.createDynamicsCompressor();
+        _comp.threshold.value = threshold;
+        _comp.knee.value = knee;
+        _comp.ratio.value = ratio;
+        _comp.reduction.value = reduction;
+        _comp.attack.value = attack;
+        _comp.release.value = release;
+        _comp.connect(destination);
+        return _comp;
+    },
     createLfoNode: function(waveform, frequency, gain, context, destination){
         const _lfo ={};
         _lfo.gain = this.createGainNode(gain, context, destination);
