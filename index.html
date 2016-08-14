@@ -22,18 +22,26 @@
 
 <body>
 <form>
-    <fieldset id='gain'>
-        <legend>Volume</legend>
+    <fieldset id='masterVolume'>
+        <legend>Mater volume</legend>
         <div class='control-group'>
-            <label for='gain'>Gain</label>
-            <input type='range' min='0' max='2' step='0.001' value='1' id='gain'>
+            <label for='volume'>Volume</label>
+            <input type='range' min='0' max='1' step='0.1' value='1' id='volume'>
         </div>
     </fieldset>
-    <fieldset id='distortion'>
+    <fieldset id='vca'>
         <legend>VCA</legend>
         <div class='control-group'>
+            <label for='vcaGain'>Gain</label>
+            <input type='range' min='0' max='1' step='0.1' value='1' id='vcaGain'>
+        </div>
+        <div class='control-group'>
+            <label for='gain'>Gain scale</label>
+            <input type='number' min='1' step='1' value='1' id='vcaGainScale'>
+        </div>
+        <div class='control-group'>
             <label for='gain'>Distortion</label>
-            <input type='range' min='0' max='400' step='1' value='100' id='distortion'>
+            <input type='range' min='0' max='400' step='1' value='100' id='vcaDistortion'>
         </div>
     </fieldset>
     <fieldset id='filter1'>
@@ -103,57 +111,67 @@
     <button type='button' id='dualOscillatorsOn'>Start</button>
     <button type='button' id='dualOscillatorsOff'>Stop</button>
     <button type='button' id='captureWaveform'>Capture waveform</button>
+    <button type='button' id='animateWaveform'>Animate waveform</button>
 </form>
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
-    document.querySelector('#gain').addEventListener('change', function(event){
-        gainStage.gain.value = event.target.value;
-         setTimeout(drawWaveform, 500);
+    document.querySelector('#volume').addEventListener('change', function(event){
+        masterVolume.gain.value = event.target.value;
+        setTimeout(drawWaveform, 500);
     });
-    document.querySelector('#distortion').addEventListener('change', function(event){
+    document.querySelector('#vcaGain').addEventListener('change', function(event){
+        gainStage.gain.value = event.target.value;
+        setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#vcaGainScale').addEventListener('change', function(event){
+        document.querySelector('#vcaGain').setAttribute('max', event.target.value);
+        document.querySelector('#vcaGain').setAttribute('step', event.target.value/100);
+        setTimeout(drawWaveform, 500);
+    });  
+    document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.curve = audioContext.makeDistortionCurve(event.target.value);
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });    
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
         filter1.frequency.value = Math.pow(2, event.target.value) * 55;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Q').addEventListener('change', function(event){
         filter1.Q.value = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Gain').addEventListener('change', function(event){
         filter1.gain.value = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
         osc1.frequency.value = Math.pow(2, event.target.value) * 55;
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         osc2.detune.value = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
         osc1.type = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator2Type').addEventListener('change', function(event){
         osc2.type = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
-         setTimeout(drawWaveform, 500);
+        setTimeout(drawWaveform, 500);
     });    
     document.querySelector('#dualOscillatorsOn').addEventListener('click', function(event){
         playOscillators(0);
@@ -165,6 +183,9 @@
     });
     document.querySelector('#captureWaveform').addEventListener('click', function(event){
          setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#animateWaveform').addEventListener('click', function(event){
+         animateWaveform();
     });
     document.querySelector('form').addEventListener('submit', function(event){
         event && event.preventDefault()    

@@ -1,7 +1,7 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
-    console.log(context);
-    window.analyser = audioContext.createAnalyserNode(context, context.destination);
+    window.masterVolume = audioContext.createGainNode(1, context, context.destination);
+    window.analyser = audioContext.createAnalyserNode(context, masterVolume);
     window.gainStage = audioContext.createGainNode(1, context, analyser);
     window.distortion = audioContext.createWaveShaperNode(400, '4x', context, gainStage);
     window.filter1 = audioContext.createBiquadFilterNode(
@@ -58,5 +58,9 @@ requirejs(['audioContext'], function(audioContext){
         }
         canvasCtx.lineTo(canvas.width, canvas.height/2);
         canvasCtx.stroke();
+    }
+    window.animateWaveform = function(){
+        drawWaveform();
+        requestAnimationFrame(animateWaveform);
     }
 });
