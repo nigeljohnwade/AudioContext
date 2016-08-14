@@ -43,10 +43,17 @@ define({
     },
     createWaveShaperNode: function(amount, oversample, context, destination){
         var _waveShaper = context.createWaveShaper();
-        //_waveShaper.curve = this.makeDistortionCurve(amount);
-        //_waveShaper.oversample = oversample;
+        _waveShaper.curve = this.makeDistortionCurve(amount);
+        _waveShaper.oversample = oversample;
         _waveShaper.connect.destination;
         return _waveShaper;
+    },
+    createLfoNode: function(waveform, frequency, gain, context, destination){
+        var _lfo ={};
+        _lfo.gain = this.createGainNode(gain, context, destination);
+        _lfo.oscillator = this.createOscillatorNode(waveform, frequency, 0, context, _lfo.gain);
+        _lfo.oscillator.start(0);
+        return _lfo;
     },
     makeDistortionCurve: function(amount) {
         var k = typeof amount === 'number' ? amount : 50,

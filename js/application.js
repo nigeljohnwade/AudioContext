@@ -30,6 +30,7 @@ requirejs(['audioContext'], function(audioContext){
         osc1.start(time);
         osc2.start(time);
     };
+    window.lfo1 = audioContext.createLfoNode('sine', 0.1, 100, context, filter1.frequency);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");
