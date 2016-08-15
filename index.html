@@ -75,7 +75,7 @@
         </div>
         <div class='control-group'>
             <label for='gain'>Distortion</label>
-            <input type='range' min='0' max='400' step='1' value='100' id='vcaDistortion'>
+            <input type='range' min='0' max='8000' step='1' value='100' id='vcaDistortion'>
         </div>
     </fieldset>
     <fieldset id='filter1'>
@@ -180,7 +180,7 @@
         setTimeout(drawWaveform, 500);
     });  
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
-        distortion.curve = audioContext.makeDistortionCurve(event.target.value);
+        distortion.setCurve(Number(event.target.value));
         setTimeout(drawWaveform, 500);
     });    
     document.querySelector('#filter1frequency').addEventListener('change', function(event){

@@ -13,14 +13,19 @@ requirejs(['audioContext'], function(audioContext){
         analyser
         );
     window.gainStage = audioContext.createGainNode(1, context, compressor);
-    window.distortion = audioContext.createWaveShaperNode(400, '4x', context, gainStage);
+    window.distortion = audioContext.createWaveShaperNode(400, 'none', context, gainStage);
+    console.log(distortion.curve[100]);
+    distortion.setCurve = function(amount){
+        distortion.curve = audioContext.makeDistortionCurve(amount);
+        console.log(distortion.curve[100]);
+    }
     window.filter1 = audioContext.createBiquadFilterNode(
         document.querySelector('#filter1Type').value,
         Math.pow(2, document.querySelector('#filter1frequency').value) * 55,
         document.querySelector('#filter1Q').value,
         document.querySelector('#filter1Gain').value,
         context,
-        gainStage
+        distortion
         );
     window.playOscillators = function(time){
         window.osc1 = audioContext.createOscillatorNode(

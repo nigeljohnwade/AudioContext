@@ -41,13 +41,6 @@ define({
         _gain.connect(destination);
         return _gain;
     },
-    createWaveShaperNode: function(amount, oversample, context, destination){
-        const _waveShaper = context.createWaveShaper();
-        _waveShaper.curve = this.makeDistortionCurve(amount);
-        _waveShaper.oversample = oversample;
-        _waveShaper.connect.destination;
-        return _waveShaper;
-    },
     createDynamicsCompressorNode: function(threshold, knee, ratio, reduction, attack, release, context, destination){
         const _comp = context.createDynamicsCompressor();
         _comp.threshold.value = threshold;
@@ -59,12 +52,12 @@ define({
         _comp.connect(destination);
         return _comp;
     },
-    createLfoNode: function(waveform, frequency, gain, context, destination){
-        const _lfo ={};
-        _lfo.gain = this.createGainNode(gain, context, destination);
-        _lfo.oscillator = this.createOscillatorNode(waveform, frequency, 0, context, _lfo.gain);
-        _lfo.oscillator.start(0);
-        return _lfo;
+    createWaveShaperNode: function(amount, oversample, context, destination){
+        const _waveShaper = context.createWaveShaper();
+        _waveShaper.curve = this.makeDistortionCurve(amount);
+        _waveShaper.oversample = oversample;
+        _waveShaper.connect(destination);
+        return _waveShaper;
     },
     makeDistortionCurve: function(amount) {
         let k = typeof amount === 'number' ? amount : 50,
@@ -78,5 +71,12 @@ define({
             curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
         }
         return curve;
-    }
+    },
+    createLfoNode: function(waveform, frequency, gain, context, destination){
+        const _lfo ={};
+        _lfo.gain = this.createGainNode(gain, context, destination);
+        _lfo.oscillator = this.createOscillatorNode(waveform, frequency, 0, context, _lfo.gain);
+        _lfo.oscillator.start(0);
+        return _lfo;
+    },
 });
