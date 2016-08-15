@@ -14,10 +14,8 @@ requirejs(['audioContext'], function(audioContext){
         );
     window.gainStage = audioContext.createGainNode(1, context, compressor);
     window.distortion = audioContext.createWaveShaperNode(400, 'none', context, gainStage);
-    console.log(distortion.curve[100]);
     distortion.setCurve = function(amount){
         distortion.curve = audioContext.makeDistortionCurve(amount);
-        console.log(distortion.curve[100]);
     }
     window.filter1 = audioContext.createBiquadFilterNode(
         document.querySelector('#filter1Type').value,

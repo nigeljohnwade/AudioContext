@@ -13,23 +13,43 @@
         .control-group input[type=number]{
             width: 20%;
         }
-        canvas{
-            width: 500px;
-            height: 100px;
+        .fieldset-group{
+            clear: both;
+        }
+        [class*=span]{
+            float:left;
+            padding-right: 2%;
+        }
+        .span-12{
+            width: 100%;
+            padding-right: 0;
+        }
+        .span-9{
+            width: 73%;
+        }
+        .span-6{
+            width: 48%
+        }
+        .span-3{
+            width: 23%;
         }
     </style>
 </head>
 
 <body>
 <form>
-    <div id='oscilliscope'>
-        <canvas id='oscilliscopeVisualiser'></canvas>
+    <div class='fieldset-group'>
+        <div id='oscilliscope' class='span-6'>
+            <canvas id='oscilliscopeVisualiser'></canvas>
+        </div>
+        <div class='span-6'>
+            <button type='button' id='dualOscillatorsOn'>Start</button>
+            <button type='button' id='dualOscillatorsOff'>Stop</button>
+            <button type='button' id='captureWaveform'>Capture waveform</button>
+            <button type='button' id='animateWaveform'>Animate waveform</button>
+        </div>
     </div>
-    <button type='button' id='dualOscillatorsOn'>Start</button>
-    <button type='button' id='dualOscillatorsOff'>Stop</button>
-    <button type='button' id='captureWaveform'>Capture waveform</button>
-    <button type='button' id='animateWaveform'>Animate waveform</button>
-    <fieldset id='masterVolume'>
+    <fieldset id='masterVolume' class='fieldset-group'>
         <legend>Mater volume</legend>
         <div class='control-group'>
             <label for='volume'>Volume</label>
@@ -79,34 +99,55 @@
         </div>
     </fieldset>
     <fieldset id='filter1'>
-        <legend>Filter 1</legend>
-        <div class='control-group'>
-            <label for='filter1frequency'>Filter frequency</label>
-            <input type='range' min='1' max='8' step='0.001' value='8' id='filter1frequency'>
+        <legend>Filter</legend>
+        <div class='span-6'>
+            <div class='control-group'>
+                <label for='filter1frequency'>Filter frequency</label>
+                <input type='range' min='1' max='8' step='0.001' value='8' id='filter1frequency'>
+            </div>
+            <div class='control-group'>
+                <label for='filter1Q'>Filter Q</label>
+                <input type='number' min='0.0001' max='1000' step='0.0001' value='0.0001' id='filter1Q'>
+            </div>
+            <div class='control-group'>
+                <label for='filter1Gain'>Filter gain</label>
+                <input type='range' min='-40' max='40' value='0' id='filter1Gain'>
+            </div>
+            <div class='control-group'>
+                <label for='filter1Type'>Filter type</label>
+                <select id='filter1Type'>
+                    <option value='lowpass'>Low Pass</option>
+                    <option value='bandpass'>Band Pass</option>
+                    <option value='highpass'>High Pass</option>
+                    <option value='lowshelf'>Low Shelf</option>
+                    <option value='highshelf'>High Shelf</option>
+                    <option value='peaking'>Peaking</option>
+                    <option value='notch'>Notch</option>
+                    <option value='allpass'>All Pass</option>
+                </select>
+            </div>
         </div>
-        <div class='control-group'>
-            <label for='filter1Q'>Filter Q</label>
-            <input type='number' min='0.0001' max='1000' step='0.0001' value='0.0001' id='filter1Q'>
-        </div>
-        <div class='control-group'>
-            <label for='filter1Gain'>Filter gain</label>
-            <input type='range' min='-40' max='40' value='0' id='filter1Gain'>
-        </div>
-        <div class='control-group'>
-            <label for='filter1Type'>Filter type</label>
-            <select id='filter1Type'>
-                <option value='lowpass'>Low Pass</option>
-                <option value='bandpass'>Band Pass</option>
-                <option value='highpass'>High Pass</option>
-                <option value='lowshelf'>Low Shelf</option>
-                <option value='highshelf'>High Shelf</option>
-                <option value='peaking'>Peaking</option>
-                <option value='notch'>Notch</option>
-                <option value='allpass'>All Pass</option>
-            </select>
+        <div class='span-6'>
+            <div class='control-group'>
+                <label for='filter1LfoFrequency'>Filter LFO frequency</label>
+                <input type='range' min='0.01' max='8' step='0.01' value='0.01' id='filter1LfoFrequency'>
+            </div>
+            <div class='control-group'>
+                <label for='lfo1Type'>Filter LFO waveform</label>
+                <select id='lfo1Type'>
+                    <option value='sine'>Sine</option>
+                    <option value='square'>Square</option>
+                    <option value='sawtooth'>Sawtooth</option>
+                    <option value='triangle'>Triangle</option>
+                </select>
+            </div>
+            <div class='control-group'>
+                <label for='lfo1Gain'>Filter LFO gain</label>
+                <input type='range' min='0' max='100' step='0.1' value='100' id='filter1LfoGain'>
+            </div>
         </div>
     </fieldset>
-    <fieldset id='oscillators'>
+    <fieldset id='oscillators' class='fieldset-group'>
         <legend>Oscillators</legend>
         <div class='control-group'>
             <label for='oscillator1Octave'>Osc1 frequency</label>
@@ -142,6 +183,7 @@
 </form>
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
+    document.querySelector('#oscilliscopeVisualiser').setAttribute('width', document.querySelector('#oscilliscope').clientWidth)
     document.querySelector('#volume').addEventListener('change', function(event){
         masterVolume.gain.value = event.target.value;
         setTimeout(drawWaveform, 500);
@@ -182,7 +224,7 @@
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));
         setTimeout(drawWaveform, 500);
-    });    
+    });
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
         filter1.frequency.value = Math.pow(2, event.target.value) * 55;
         setTimeout(drawWaveform, 500);
@@ -197,6 +239,18 @@
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
+        setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#filter1LfoFrequency').addEventListener('change', function(event){
+        lfo1.oscillator.frequency.value = event.target.value;
+        setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#filter1LfoGain').addEventListener('change', function(event){
+        lfo1.gain.gain.value = event.target.value;
+        setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#lfo1Type').addEventListener('change', function(event){
+        lfo1.oscillator.type = event.target.value;
         setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
