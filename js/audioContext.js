@@ -59,6 +59,12 @@ define({
         _waveShaper.connect(destination);
         return _waveShaper;
     },
+    createDelayNode: function(delay, context, destination){
+        const _delay = context.createDelay();
+        _delay.delayTime.value = delay;
+        _delay.connect(destination);
+        return _delay;
+    },
     makeDistortionCurve: function(amount) {
         let k = typeof amount === 'number' ? amount : 50,
             n_samples = 44100,

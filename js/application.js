@@ -2,6 +2,9 @@ requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(1, context, context.destination);
     window.analyser = audioContext.createAnalyserNode(context, masterVolume);
+    window.delay = audioContext.createDelayNode(0.5, context, analyser);
+    window.delayFeedback = audioContext.createGainNode(0.8, context, delay);
+    delay.connect(delayFeedback);
     window.compressor = audioContext.createDynamicsCompressorNode(
         document.querySelector('#dynamicsThreshold').value,
         document.querySelector('#dynamicsKnee').value,
@@ -10,8 +13,9 @@ requirejs(['audioContext'], function(audioContext){
         document.querySelector('#dynamicsAttack').value,
         document.querySelector('#dynamicsRelease').value,
         context,
-        analyser
+        delay
         );
+    compressor.connect(analyser);
     window.gainStage = audioContext.createGainNode(1, context, compressor);
     window.distortion = audioContext.createWaveShaperNode(400, 'none', context, gainStage);
     distortion.setCurve = function(amount){
