@@ -1,48 +1,48 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
-    window.masterVolume = audioContext.createGainNode(1, context, context.destination);
+    window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
     window.analyser = audioContext.createAnalyserNode(context, masterVolume);
-    window.delay = audioContext.createDelayNode(0.5, context, analyser);
-    window.delayFeedback = audioContext.createGainNode(0.8, context, delay);
+    window.delay = audioContext.createDelayNode(context, analyser, 0.5);
+    window.delayFeedback = audioContext.createGainNode(context, delay, 0.8);
     delay.connect(delayFeedback);
     window.compressor = audioContext.createDynamicsCompressorNode(
+        context,
+        delay,
         document.querySelector('#dynamicsThreshold').value,
         document.querySelector('#dynamicsKnee').value,
         document.querySelector('#dynamicsRatio').value,
         document.querySelector('#dynamicsReduction').value,
         document.querySelector('#dynamicsAttack').value,
-        document.querySelector('#dynamicsRelease').value,
-        context,
-        delay
+        document.querySelector('#dynamicsRelease').value
         );
     compressor.connect(analyser);
-    window.gainStage = audioContext.createGainNode(1, context, compressor);
-    window.distortion = audioContext.createWaveShaperNode(400, 'none', context, gainStage);
+    window.gainStage = audioContext.createGainNode(context, compressor, 1);
+    window.distortion = audioContext.createWaveShaperNode(context, gainStage, 400, 'none' );
     distortion.setCurve = function(amount){
         distortion.curve = audioContext.makeDistortionCurve(amount);
     }
     window.filter1 = audioContext.createBiquadFilterNode(
+        context,
+        distortion,
         document.querySelector('#filter1Type').value,
         Math.pow(2, document.querySelector('#filter1frequency').value) * 55,
         document.querySelector('#filter1Q').value,
-        document.querySelector('#filter1Gain').value,
-        context,
-        distortion
+        document.querySelector('#filter1Gain').value
         );
     window.playOscillators = function(time){
         window.osc1 = audioContext.createOscillatorNode(
+            context,
+            filter1,
             document.querySelector('#oscillator1Type').value,
             Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55,
-            0,
-            context,
-            filter1
+            0
             );
         window.osc2 = audioContext.createOscillatorNode(
+            context,
+            filter1,
             document.querySelector('#oscillator2Type').value,
             (Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value),
-            document.querySelector('#oscillator2Detune').value,
-            context,
-            filter1
+            document.querySelector('#oscillator2Detune').value
             );
         osc1.start(time);
         osc2.start(time);
