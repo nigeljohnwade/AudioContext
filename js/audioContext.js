@@ -123,6 +123,16 @@ define({
         }
         return _delay;
     },
+    createStereoPannerNode: function createStereoPannerNode(context, destination) {
+        var pan = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+
+        var _pan = context.createStereoPanner();
+        _pan.pan.value = pan;
+        if (destination) {
+            _pan.connect(destination);
+        }
+        return _pan;
+    },
     //Utilities
     makeDistortionCurve: function makeDistortionCurve(amount) {
         var k = typeof amount === 'number' ? amount : 50,

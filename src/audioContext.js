@@ -94,6 +94,14 @@ define({
         }
         return _delay;
     },
+    createStereoPannerNode: function(context, destination, pan = 0){
+        const _pan = context.createStereoPanner();
+        _pan.pan.value = pan;
+        if (destination) {
+            _pan.connect(destination);
+        }
+        return _pan;
+    },
     //Utilities
     makeDistortionCurve: function(amount) {
         let k = typeof amount === 'number' ? amount : 50,
@@ -107,7 +115,7 @@ define({
             curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
         }
         return curve;
-    }
+    },
     //Compound Nodes
     createLfoNode: function(context, destination, waveform = 'sine', frequency = '0.1', gain = 1){
         const _lfo ={};
