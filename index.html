@@ -56,6 +56,17 @@
             <input type='range' min='0' max='1' step='0.1' value='1' id='volume'>
         </div>
     </fieldset>
+    <fieldset id='delay'>
+        <legend>Delay</legend>
+        <div class='control-group'>
+            <label for='delayTime'>Delay time</label>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTime'>
+        </div>
+        <div class='control-group'>
+            <label for='delayFeedback'>Feedback</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.8' id='delayFeedback'>
+        </div>
+    </fieldset>
     <fieldset id='dynamics'>
         <legend>Dynamics</legend>
         <div class='control-group'>
@@ -186,6 +197,14 @@
     document.querySelector('#oscilliscopeVisualiser').setAttribute('width', document.querySelector('#oscilliscope').clientWidth)
     document.querySelector('#volume').addEventListener('change', function(event){
         masterVolume.gain.value = event.target.value;
+        setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#delayTime').addEventListener('change', function(event){
+        delay.delayTime.value = event.target.value;
+        setTimeout(drawWaveform, 500);
+    });
+    document.querySelector('#delayFeedback').addEventListener('change', function(event){
+        delayFeedback.gain.value = event.target.value;
         setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
