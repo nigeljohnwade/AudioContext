@@ -17,7 +17,7 @@ requirejs(['audioContext'], function(audioContext){
         );
     compressor.connect(analyser);
     window.gainStage = audioContext.createGainNode(context, compressor, 1);
-    window.distortion = audioContext.createWaveShaperNode(context, gainStage, 400, 'none' );
+    window.distortion = audioContext.createWaveShaperNode(context, gainStage, audioContext.makeDistortionCurve(400), 'none' );
     distortion.setCurve = function(amount){
         distortion.curve = audioContext.makeDistortionCurve(amount);
     }
@@ -47,7 +47,7 @@ requirejs(['audioContext'], function(audioContext){
         osc1.start(time);
         osc2.start(time);
     };
-    window.lfo1 = audioContext.createLfoNode('sine', 0.1, 100, context, filter1.frequency);
+    window.lfo1 = audioContext.createLfoNode(context, filter1.frequency, 'sine', 0.1, 100);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");

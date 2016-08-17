@@ -95,19 +95,24 @@ define({
         }
         return _comp;
     },
-    createWaveShaperNode: function createWaveShaperNode(context, destination, amount, oversample) {
+    createWaveShaperNode: function createWaveShaperNode(context, destination) {
+        var curve = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var oversample = arguments.length <= 3 || arguments[3] === undefined ? 'none' : arguments[3];
+
         if (!context) {
             throw 'No context defined';
         }
         var _waveShaper = context.createWaveShaper();
-        _waveShaper.curve = this.makeDistortionCurve(amount);
+        _waveShaper.curve = curve;
         _waveShaper.oversample = oversample;
         if (destination) {
             _waveShaper.connect(destination);
         }
         return _waveShaper;
     },
-    createDelayNode: function createDelayNode(context, destination, delay) {
+    createDelayNode: function createDelayNode(context, destination) {
+        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+
         if (!context) {
             throw 'No context defined';
         }

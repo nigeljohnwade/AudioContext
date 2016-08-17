@@ -71,19 +71,19 @@ define({
         }
         return _comp;
     },
-    createWaveShaperNode: function(context, destination, amount, oversample){
+    createWaveShaperNode: function(context, destination, curve = null, oversample = 'none'){
         if (!context) {
             throw 'No context defined';
         }        
         const _waveShaper = context.createWaveShaper();
-        _waveShaper.curve = this.makeDistortionCurve(amount);
+        _waveShaper.curve = curve;
         _waveShaper.oversample = oversample;
         if (destination) {
             _waveShaper.connect(destination);
         }
         return _waveShaper;
     },
-    createDelayNode: function(context, destination, delay){
+    createDelayNode: function(context, destination, delay = 0){
         if (!context) {
             throw 'No context defined';
         }           
@@ -107,7 +107,7 @@ define({
             curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
         }
         return curve;
-    },
+    }
     //Compound Nodes
     createLfoNode: function(context, destination, waveform = 'sine', frequency = '0.1', gain = 1){
         const _lfo ={};
