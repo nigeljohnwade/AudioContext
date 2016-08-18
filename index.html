@@ -98,6 +98,34 @@
             <input type='range' min='0' max='1' step='0.001' value='0.25' id='dynamicsRelease'>
         </div>
     </fieldset>
+    <fieldset id='envelope'>
+        <legend>Envelope</legend>
+        <button id='envelopeTrigger'>Trigger</button>
+        <div class='control-group'>
+            <label for='envelopeLevel'>Peak level</label>
+            <input type='range' min='-1' max='1' step='0.01' value='0' id='envelopeLevel'>
+        </div>
+        <div class='control-group'>
+            <label for='envelopeAttack'>Attack time</label>
+            <input type='range' min='0' max='40' step='0.01' value='0' id='envelopeAttack'>
+        </div>
+        <div class='control-group'>
+            <label for='envelopeDecay'>Decay time</label>
+            <input type='range' min='0' max='40' step='0.01' value='0' id='envelopeDecay'>
+        </div>
+        <div class='control-group'>
+            <label for='envelopeSustain'>Sustain level</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='envelopeSustain'>
+        </div>
+        <div class='control-group'>
+            <label for='envelopeHold'>Hold time</label>
+            <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeHold'>
+        </div>
+        <div class='control-group'>
+            <label for='envelopeRelease'>Release time</label>
+            <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeRelease'>
+        </div>
+    </fieldset>    
     <fieldset id='vca'>
         <legend>VCA</legend>
         <div class='control-group'>
@@ -238,7 +266,20 @@
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
         compressor.release.value = event.target.value;
         setTimeout(drawWaveform, 500);
-    });    
+    });
+    document.querySelector('#envelopeTrigger').addEventListener('click', function(event){
+        envelope(
+            context,
+            gainStage.gain,
+            0.0,
+            parseFloat(document.querySelector('#envelopeLevel').value),
+            parseFloat(document.querySelector('#envelopeAttack').value),
+            parseFloat(document.querySelector('#envelopeDecay').value),
+            parseFloat(document.querySelector('#envelopeSustain').value * document.querySelector('#envelopeLevel').value),
+            parseFloat(document.querySelector('#envelopeHold').value),
+            parseFloat(document.querySelector('#envelopeRelease').value)
+            );
+    })
     document.querySelector('#vcaGain').addEventListener('change', function(event){
         gainStage.gain.value = event.target.value;
         setTimeout(drawWaveform, 500);
