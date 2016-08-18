@@ -110,7 +110,7 @@
         </div>
         <div class='control-group'>
             <label for='gain'>Distortion</label>
-            <input type='range' min='0' max='8000' step='1' value='100' id='vcaDistortion'>
+            <input type='range' min='0' max='8000' step='1' value='800' id='vcaDistortion'>
         </div>
     </fieldset>
     <fieldset id='filter1'>
@@ -118,11 +118,11 @@
         <div class='span-6'>
             <div class='control-group'>
                 <label for='filter1frequency'>Filter frequency</label>
-                <input type='range' min='1' max='8' step='0.001' value='8' id='filter1frequency'>
+                <input type='range' min='1' max='8' step='0.001' value='1.5' id='filter1frequency'>
             </div>
             <div class='control-group'>
                 <label for='filter1Q'>Filter Q</label>
-                <input type='number' min='0.0001' max='1000' step='0.0001' value='0.0001' id='filter1Q'>
+                <input type='number' min='0.0001' max='1000' step='0.0001' value='25' id='filter1Q'>
             </div>
             <div class='control-group'>
                 <label for='filter1Gain'>Filter gain</label>
@@ -132,7 +132,7 @@
                 <label for='filter1Type'>Filter type</label>
                 <select id='filter1Type'>
                     <option value='lowpass'>Low Pass</option>
-                    <option value='bandpass'>Band Pass</option>
+                    <option value='bandpass' selected>Band Pass</option>
                     <option value='highpass'>High Pass</option>
                     <option value='lowshelf'>Low Shelf</option>
                     <option value='highshelf'>High Shelf</option>
@@ -166,21 +166,21 @@
         <legend>Oscillators</legend>
         <div class='control-group'>
             <label for='oscillator1Octave'>Osc1 frequency</label>
-            <input type='range' min='1' max='8' step='0.001' value='2' id='oscillator1Octave'>
+            <input type='range' min='1' max='8' step='0.001' value='1.5' id='oscillator1Octave'>
         </div>
         <div class='control-group'>
             <label for='oscillator2Detune'>Osc2 detune</label>
-            <input type='range' min='-100' max='100' value='0' id='oscillator2Detune'>
+            <input type='range' min='-100' max='100' value='3' id='oscillator2Detune'>
         </div>
         <div class='control-group'>
             <label for='oscillator2Octave'>Osc2 octave</label>
-            <input type='range' min='-2' max='2' step='1' value='-1' id='oscillator2Octave'>
+            <input type='range' min='-2' max='2' step='1' value='-2' id='oscillator2Octave'>
         </div>
         <div class='control-group'>
             <label for='oscillator1Type'>Osc1 waveform</label>
             <select id='oscillator1Type'>
                 <option value='sine'>Sine</option>
-                <option value='square'>Square</option>
+                <option value='square' selected>Square</option>
                 <option value='sawtooth'>Sawtooth</option>
                 <option value='triangle'>Triangle</option>
             </select>
@@ -190,7 +190,7 @@
             <select id='oscillator2Type'>
                 <option value='sine'>Sine</option>
                 <option value='square'>Square</option>
-                <option value='sawtooth'>Sawtooth</option>
+                <option value='sawtooth' selected>Sawtooth</option>
                 <option value='triangle'>Triangle</option>
             </select>
         </div>

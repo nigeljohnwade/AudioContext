@@ -147,6 +147,15 @@ define({
         }
         return curve;
     },
+    linearEnvelopeADSR: function linearEnvelopeADSR(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime) {
+        var currentTime = context.currentTime;
+        audioParam.cancelScheduledValues(currentTime);
+        audioParam.setValueAtTime(startValue, currentTime);
+        audioParam.linearRampToValueAtTime(peakValue, currentTime + attackTime);
+        audioParam.linearRampToValueAtTime(sustainValue, currentTime + attackTime + decayTime);
+        audioParam.linearRampToValueAtTime(startValue, currentTime + attackTime + decayTime + holdTime + releaseTime);
+    },
+
     //Compound Nodes
     createLfoNode: function createLfoNode(context, destination) {
         var waveform = arguments.length <= 2 || arguments[2] === undefined ? 'sine' : arguments[2];

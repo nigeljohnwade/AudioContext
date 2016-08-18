@@ -116,6 +116,15 @@ define({
         }
         return curve;
     },
+    linearEnvelopeADSR: function(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime){
+        const currentTime = context.currentTime;
+        audioParam.cancelScheduledValues(currentTime);
+        audioParam.setValueAtTime(startValue, currentTime);
+        audioParam.linearRampToValueAtTime(peakValue, currentTime + attackTime);
+        audioParam.linearRampToValueAtTime(sustainValue, currentTime + attackTime + decayTime);
+        audioParam.linearRampToValueAtTime(startValue, currentTime + attackTime + decayTime + holdTime + releaseTime);
+    },
+    
     //Compound Nodes
     createLfoNode: function(context, destination, waveform = 'sine', frequency = '0.1', gain = 1){
         const _lfo ={};
