@@ -4,6 +4,9 @@
 <head>
     <title>AudioContext</title>
     <style>
+        *{
+            box-sizing: border-box;
+        }
         .control-group label{
             display: block
         }
@@ -13,54 +16,44 @@
         .control-group input[type=number]{
             width: 20%;
         }
-        .fieldset-group{
-            clear: both;
+        #oscilliscope{
+            width: 100%
+        }
+        canvas{
+            width: 0px;
         }
         [class*=span]{
             float:left;
-            padding-right: 2%;
+            margin-right:1%;
         }
-        .span-12{
-            width: 100%;
-            padding-right: 0;
-        }
-        .span-9{
-            width: 73%;
-        }
+        
         .span-6{
-            width: 48%
-        }
-        .span-3{
-            width: 23%;
+            width: 49%;
         }
     </style>
 </head>
 
 <body>
+    <h1>Simplethiser</h1>
 <form>
-    <div class='fieldset-group'>
-        <div id='oscilliscope' class='span-6'>
+    <fieldset>
+        <legend>Oscilliscope</legend>
+        <div id='oscilliscope'>
             <canvas id='oscilliscopeVisualiser'></canvas>
         </div>
-        <div class='span-6'>
-            <button type='button' id='dualOscillatorsOn'>Start</button>
-            <button type='button' id='dualOscillatorsOff'>Stop</button>
-            <button type='button' id='captureWaveform'>Capture waveform</button>
-            <button type='button' id='animateWaveform'>Animate waveform</button>
-        </div>
-    </div>
-    <fieldset id='masterVolume' class='fieldset-group'>
+    </fieldset>
+    <fieldset id='masterVolume'>
         <legend>Mater volume</legend>
         <div class='control-group'>
             <label for='volume'>Volume</label>
-            <input type='range' min='0' max='1' step='0.1' value='1' id='volume'>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='volume'>
         </div>
         <div class='control-group'>
             <label for='pan'>Pan</label>
             <input type='range' min='-1' max='1' step='0.01' value='0' id='pan'>
         </div>
     </fieldset>
-    <fieldset id='delay'>
+    <fieldset id='delay' class='fieldset-group'>
         <legend>Delay</legend>
         <div class='control-group'>
             <label for='delayTime'>Delay time</label>
@@ -97,13 +90,13 @@
             <label for='dynamicsRelease'>Release</label>
             <input type='range' min='0' max='1' step='0.001' value='0.25' id='dynamicsRelease'>
         </div>
-    </fieldset>
-    <fieldset id='envelope'>
-        <legend>Envelope</legend>
+    </fieldset>   
+    <fieldset id='vca'>
+        <legend>VCA</legend>
         <button id='envelopeTrigger'>Trigger</button>
         <div class='control-group'>
             <label for='envelopeLevel'>Peak level</label>
-            <input type='range' min='-1' max='1' step='0.01' value='0' id='envelopeLevel'>
+            <input type='range' min='-1' max='1' step='0.01' value='1.00' id='envelopeLevel'>
         </div>
         <div class='control-group'>
             <label for='envelopeAttack'>Attack time</label>
@@ -124,17 +117,6 @@
         <div class='control-group'>
             <label for='envelopeRelease'>Release time</label>
             <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeRelease'>
-        </div>
-    </fieldset>    
-    <fieldset id='vca'>
-        <legend>VCA</legend>
-        <div class='control-group'>
-            <label for='vcaGain'>Gain</label>
-            <input type='range' min='0' max='1' step='0.1' value='1' id='vcaGain'>
-        </div>
-        <div class='control-group'>
-            <label for='gain'>Gain scale</label>
-            <input type='number' min='1' step='1' value='1' id='vcaGainScale'>
         </div>
         <div class='control-group'>
             <label for='gain'>Distortion</label>
@@ -226,46 +208,36 @@
 </form>
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
-    document.querySelector('#oscilliscopeVisualiser').setAttribute('width', document.querySelector('#oscilliscope').clientWidth)
+    document.querySelector('#oscilliscopeVisualiser').style.width = document.querySelector('#oscilliscope').clientWidth + 'px';
     document.querySelector('#volume').addEventListener('change', function(event){
         masterVolume.gain.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#pan').addEventListener('change', function(event){
         panner.pan.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });    
     document.querySelector('#delayTime').addEventListener('change', function(event){
         delay.delayTime.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#delayFeedback').addEventListener('change', function(event){
         delayFeedback.gain.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
         compressor.threshold.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsKnee').addEventListener('change', function(event){
         compressor.knee.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
         compressor.ratio.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsReduction').addEventListener('change', function(event){
         compressor.reduction.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
         compressor.attack.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
         compressor.release.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#envelopeTrigger').addEventListener('click', function(event){
         envelope(
@@ -280,85 +252,49 @@
             parseFloat(document.querySelector('#envelopeRelease').value)
             );
     })
-    document.querySelector('#vcaGain').addEventListener('change', function(event){
-        gainStage.gain.value = event.target.value;
-        setTimeout(drawWaveform, 500);
-    });
-    document.querySelector('#vcaGainScale').addEventListener('change', function(event){
-        document.querySelector('#vcaGain').setAttribute('max', event.target.value);
-        document.querySelector('#vcaGain').setAttribute('step', event.target.value/100);
-        setTimeout(drawWaveform, 500);
-    });  
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));
         setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
         filter1.frequency.value = Math.pow(2, event.target.value) * 55;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Q').addEventListener('change', function(event){
         filter1.Q.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Gain').addEventListener('change', function(event){
         filter1.gain.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1LfoFrequency').addEventListener('change', function(event){
         lfo1.oscillator.frequency.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1LfoGain').addEventListener('change', function(event){
         lfo1.gain.gain.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#lfo1Type').addEventListener('change', function(event){
         lfo1.oscillator.type = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
         osc1.frequency.value = Math.pow(2, event.target.value) * 55;
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         osc2.detune.value = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
         osc1.type = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#oscillator2Type').addEventListener('change', function(event){
         osc2.type = event.target.value;
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
-        setTimeout(drawWaveform, 500);
-    });    
-    document.querySelector('#dualOscillatorsOn').addEventListener('click', function(event){
-        playOscillators(0);
-        setTimeout(drawWaveform, 500);
-    });
-    document.querySelector('#dualOscillatorsOff').addEventListener('click', function(event){
-        osc1.stop(0);
-        osc2.stop(0);
-    });
-    document.querySelector('#captureWaveform').addEventListener('click', function(event){
-         setTimeout(drawWaveform, 500);
-    });
-    document.querySelector('#animateWaveform').addEventListener('click', function(event){
-         animateWaveform();
     });
     document.querySelector('form').addEventListener('submit', function(event){
         event && event.preventDefault()    
