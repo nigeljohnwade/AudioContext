@@ -54,9 +54,8 @@ requirejs(['audioContext'], function(audioContext){
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");
     window.canvasCtx = canvas.getContext("2d");
-    canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
     window.drawWaveform = function(){
-        //drawVisual = requestAnimationFrame(draw);
+        canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
         analyser.getByteTimeDomainData(dataArray);
         canvasCtx.fillStyle = 'rgb(0, 0, 0)';
         canvasCtx.fillRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);

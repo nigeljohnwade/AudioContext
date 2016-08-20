@@ -4,8 +4,47 @@
 <head>
     <title>AudioContext</title>
     <style>
+        /*font-family:'Gill Sans W01 Light';
+        font-family:'GillSansW01-LightItalic';
+        font-family:'Gill Sans W01 Book';
+        font-family:'GillSansW01-BookItalic';
+        font-family:'Gill Sans W01 Medium';
+        font-family:'GillSansW01-MediumItali';
+        font-family:'Gill Sans W01 Bold';
+        font-family:'GillSansW01-BoldItalic';
+        font-family:'Gill Sans W01 Heavy';
+        font-family:'GillSansW01-HeavyItalic';
+        font-family:'GillSansW01-ExtraBold';
+        font-family:'GillSansW01-UltraBold';
+        font-family:'Gill Sans W01 Shadow';
+        font-family:'Gill Sans W01 Cond';
+        font-family:'GillSansW01-CondensedBd';
+        font-family:'GillSansW01-CondensedUl';
+        font-family:'GillSansW01-XCondensedB';
+        font-family:'GillSansW01-LightShadow';
+        font-family:'Gill Sans Infant W01';
+        font-family:'GillSansInfantW01-Itali';
+        font-family:'GillSansInfantW01-Bold';
+        font-family:'GillSansInfantW01-BoldI';
+        font-family:'GillSansW01-DisplayBold 709822';
+        font-family:'GillSansW01-DisplayXtra';
+        font-family:'GillSansW01-DisplayBold 709825';
+        font-family:'Gill Sans MT W10 Light';
+        font-family:'GillSansMTW10-LightIt';
+        font-family:'Gill Sans W10 Bold';
+        font-family:'GillSansW10-BoldIt';
+        font-family:'Gill Sans MT W15 Light';
+        font-family:'GillSansMTW15-LightIt';
+        font-family:'Gill Sans W10 Medium';
+        font-family:'Gill Sans W15 Medium';
+        font-family:'GillSansW15-MediumIt';
+        font-family:'GillSansW10-MediumIt';
+        font-family:'GillSansW15-BoldIt';
+        font-family:'Gill Sans W15 Bold';*/
+
         *{
             box-sizing: border-box;
+            font-family:'Gill Sans W01 Medium';
         }
         .control-group label{
             display: block
@@ -19,14 +58,11 @@
         #oscilliscope{
             width: 100%
         }
-        canvas{
-            width: 0px;
-        }
         [class*=span]{
             float:left;
             margin-right:1%;
-        }
-        
+            }
+            
         .span-6{
             width: 49%;
         }
@@ -208,7 +244,8 @@
 </form>
 <script src='js/require.js' data-main='js/application'></script>
 <script type='text/javascript'>
-    document.querySelector('#oscilliscopeVisualiser').style.width = document.querySelector('#oscilliscope').clientWidth + 'px';
+    document.querySelector('#oscilliscopeVisualiser').height = '200';
+    document.querySelector('#oscilliscopeVisualiser').width = document.querySelector('#oscilliscope').clientWidth;
     document.querySelector('#volume').addEventListener('change', function(event){
         masterVolume.gain.value = event.target.value;
     });
@@ -300,5 +337,6 @@
         event && event.preventDefault()    
     })
 </script>
+<script type="text/javascript" src="//fast.fonts.net/jsapi/de166da6-414b-41f1-a178-0108161506fe.js"></script>
 </body>
 </html>
