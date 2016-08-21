@@ -43,6 +43,9 @@ font-family:'Gill Sans W15 Bold';*/
 body{
     background-color: cadetblue;
 }
+h1 button{
+    font-size: 1em;
+}
 .control-group label{
     display: block
 }

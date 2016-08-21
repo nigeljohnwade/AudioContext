@@ -53,7 +53,7 @@ requirejs(['audioContext'], function(audioContext){
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");
-    window.canvasCtx = canvas.getContext("2d");
+    window.canvasCtx = canvas.getContext("2d"); 
     window.drawWaveform = function(){
         canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
         analyser.getByteTimeDomainData(dataArray);
