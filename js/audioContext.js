@@ -133,6 +133,18 @@ define({
         }
         return _pan;
     },
+    createConvolverNode: function createConvolverNode(context, destination) {
+        var buffer = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _convolver = context.createConvolver();
+        if (buffer) {
+            _convolver.buffer = buffer;
+        }
+        if (destination) {
+            _convolver.connect(destination);
+        }
+        return _convolver;
+    },
     //Utilities
     makeDistortionCurve: function makeDistortionCurve(amount) {
         var k = typeof amount === 'number' ? amount : 50,
@@ -155,7 +167,23 @@ define({
         audioParam.linearRampToValueAtTime(sustainValue, currentTime + attackTime + decayTime);
         audioParam.linearRampToValueAtTime(startValue, currentTime + attackTime + decayTime + holdTime + releaseTime);
     },
-
+    getAudioByXhr: function getAudioByXhr(url, reference) {
+        var ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open('GET', url, true);
+        ajaxRequest.responseType = 'arraybuffer';
+        ajaxRequest.onload = function () {
+            var audioData = ajaxRequest.response;
+            context.decodeAudioData(audioData, function (buffer) {
+                window.concertHallBuffer = buffer;
+                window.soundSource = context.createBufferSource();
+                window.soundSource.buffer = window.concertHallBuffer;
+                reference.buffer = buffer;
+            }, function (e) {
+                "Error with decoding audio data" + e.err;
+            });
+        };
+        ajaxRequest.send();
+    },
     //Compound Nodes
     createLfoNode: function createLfoNode(context, destination) {
         var waveform = arguments.length <= 2 || arguments[2] === undefined ? 'sine' : arguments[2];

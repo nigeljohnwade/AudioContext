@@ -1,7 +1,9 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
-    window.panner = audioContext.createStereoPannerNode(context, masterVolume, 0);
+    window.convolver = audioContext.createConvolverNode(context, masterVolume, null);
+    audioContext.getAudioByXhr('../audio/BathHouse.wav', window.convolver);
+    window.panner = audioContext.createStereoPannerNode(context, convolver, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.delay = audioContext.createDelayNode(context, analyser, 0.5);
     window.delayFeedback = audioContext.createGainNode(context, delay, 0.8);
