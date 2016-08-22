@@ -145,6 +145,18 @@ define({
         }
         return _convolver;
     },
+    createAudioBufferSourceNode: function createAudioBufferSourceNode(context, destination) {
+        var buffer = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _buffer = context.createBufferSource();
+        if (buffer) {
+            _buffer.buffer = buffer;
+        }
+        if (destination) {
+            _buffer.connect(destination);
+        }
+        return _buffer;
+    },
     //Utilities
     makeDistortionCurve: function makeDistortionCurve(amount) {
         var k = typeof amount === 'number' ? amount : 50,

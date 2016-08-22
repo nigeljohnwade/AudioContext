@@ -112,6 +112,16 @@ define({
         }
         return _convolver;
     },
+    createAudioBufferSourceNode: function(context, destination, buffer = null){
+        const _buffer = context.createBufferSource();
+        if (buffer) {
+            _buffer.buffer = buffer; 
+        }
+        if (destination) {
+            _buffer.connect(destination);
+        }
+        return _buffer;
+    },
     //Utilities
     makeDistortionCurve: function(amount) {
         let k = typeof amount === 'number' ? amount : 50,
