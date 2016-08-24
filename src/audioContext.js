@@ -181,22 +181,29 @@ define({
         ajaxRequest.send();
     },
     //Compound Nodes
-    createLfoNode: function(context, destination, waveform = 'sine', frequency = '0.1', gain = 1){
+    createLfoNode: function(context, destination, waveform = 'sine', frequency = 0.1, gain = 1){
         const _lfo = {};
         _lfo.gain = this.createGainNode(context, destination, gain);
         _lfo.oscillator = this.createOscillatorNode(context, _lfo.gain, waveform, frequency, 0);
         _lfo.oscillator.start(0);
         return _lfo;
     },
-    createFlanger: function(){
-        const _flanger = {};
-        _flanger.input = this.createGainNode;
-        _flanger.wetChannel = this.createGainNode;
-        _flanger.dryChannel = this.createGainNode;
-        _flanger.delay = this.createDelayNode;
-        _flanger.feedback = this.createGainNode;
-        _flanger.lfo = this.createLfoNode;
-        _flanger.output = this.createGainNode;
-        return _flanger;
+    createEchoUnit: function(context, destination){
+        const _echoUnit = {};
+        _echoUnit.input = this.createGainNode(context);
+        _echoUnit.wetChannel = this.createGainNode(context);
+        _echoUnit.dryChannel = this.createGainNode(context);
+        _echoUnit.delay = this.createDelayNode(context, null, 1);
+        _echoUnit.feedback = this.createGainNode(context, null, 0.6);
+        _echoUnit.output = this.createGainNode(context);
+        _echoUnit.input.connect(_echoUnit.wetChannel);
+        _echoUnit.input.connect(_echoUnit.dryChannel);
+        _echoUnit.dryChannel.connect(_echoUnit.output);
+        _echoUnit.wetChannel.connect(_echoUnit.delay);
+        _echoUnit.delay.connect(_echoUnit.feedback);
+        _echoUnit.feedback.connect(_echoUnit.delay);
+        _echoUnit.delay.connect(_echoUnit.output);
+        _echoUnit.output.connect(destination);
+        return _echoUnit;
     }
 });
