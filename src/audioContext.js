@@ -122,6 +122,27 @@ define({
         }
         return _buffer;
     },
+    createUserMediaNode: function(context, destination){
+        navigator.getUserMedia = (navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia);
+        var _source;
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(
+                {audio: true},
+                function(stream){
+                    _source = context.createMediaStreamSource(stream);
+                    if (destination) {
+                        _source.connect(destination)
+                    }
+                },
+                function(err){
+                    console.log(err);
+                }
+            );
+        }
+    },
     //Utilities
     makeDistortionCurve: function(amount) {
         let k = typeof amount === 'number' ? amount : 50,
@@ -161,10 +182,21 @@ define({
     },
     //Compound Nodes
     createLfoNode: function(context, destination, waveform = 'sine', frequency = '0.1', gain = 1){
-        const _lfo ={};
+        const _lfo = {};
         _lfo.gain = this.createGainNode(context, destination, gain);
         _lfo.oscillator = this.createOscillatorNode(context, _lfo.gain, waveform, frequency, 0);
         _lfo.oscillator.start(0);
         return _lfo;
     },
+    createFlanger: function(){
+        const _flanger = {};
+        _flanger.input = this.createGainNode;
+        _flanger.wetChannel = this.createGainNode;
+        _flanger.dryChannel = this.createGainNode;
+        _flanger.delay = this.createDelayNode;
+        _flanger.feedback = this.createGainNode;
+        _flanger.lfo = this.createLfoNode;
+        _flanger.output = this.createGainNode;
+        return _flanger;
+    }
 });

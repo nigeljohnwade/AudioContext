@@ -32,6 +32,7 @@ requirejs(['audioContext'], function(audioContext){
         document.querySelector('#filter1Q').value,
         document.querySelector('#filter1Gain').value
         );
+    window.input = audioContext.createUserMediaNode(context, compressor);
     window.osc1 = audioContext.createOscillatorNode(
         context,
         filter1,
@@ -52,7 +53,9 @@ requirejs(['audioContext'], function(audioContext){
     window.envelope = function(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime){
         audioContext.linearEnvelopeADSR(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime);
     };
+    window.flanger = audioContext.createFlanger();
     window.bufferLength = analyser.frequencyBinCount;
+    
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");
     window.canvasCtx = canvas.getContext("2d"); 
