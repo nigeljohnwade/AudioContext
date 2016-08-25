@@ -6,7 +6,33 @@ requirejs(['audioContext'], function(audioContext){
     window.panner = audioContext.createStereoPannerNode(context, convolver, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.echoUnit = audioContext.createEchoUnit(context, analyser);
-    window.input = audioContext.createUserMediaNode(context, echoUnit.input);
+    window.compressor = audioContext.createDynamicsCompressorNode(
+        context,
+        echoUnit.input,
+        document.querySelector('#dynamicsThreshold').value,
+        document.querySelector('#dynamicsKnee').value,
+        document.querySelector('#dynamicsRatio').value,
+        document.querySelector('#dynamicsReduction').value,
+        document.querySelector('#dynamicsAttack').value,
+        document.querySelector('#dynamicsRelease').value
+        );
+    compressor.connect(analyser);
+    window.filter1 = audioContext.createBiquadFilterNode(
+        context,
+        compressor,
+        document.querySelector('#filter1Type').value,
+        Math.pow(2, document.querySelector('#filter1frequency').value) * 55,
+        document.querySelector('#filter1Q').value,
+        document.querySelector('#filter1Gain').value
+        );
+    
+    window.lfo1 = audioContext.createLfoNode(context, filter1.frequency, 'sine', 0.1, 100);
+    window.gainStage = audioContext.createGainNode(context, filter1, 1);
+    window.distortion = audioContext.createWaveShaperNode(context, gainStage, audioContext.makeDistortionCurve(400), 'none' );
+    distortion.setCurve = function(amount){
+        distortion.curve = audioContext.makeDistortionCurve(amount);
+    }
+    window.input = audioContext.createUserMediaNode(context, gainStage);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");

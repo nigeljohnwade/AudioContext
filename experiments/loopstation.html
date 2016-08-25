@@ -2,12 +2,12 @@
 
 <html>
 <head>
-    <title>Simplethiser</title>
+    <title>Loopstation</title>
     <link rel='stylesheet' href='/css/style.css'
 </head>
 
 <body>
-    <h1>Simplethiser <button id='envelopeTrigger'>Trigger</button></h1>
+    <h1>Loopstation</h1>
 <form>
     <fieldset>
         <legend>Oscilliscope</legend>
@@ -67,30 +67,6 @@
     <fieldset id='vca'>
         <legend>VCA</legend>
         <div class='control-group'>
-            <label for='envelopeLevel'>Peak level</label>
-            <input type='range' min='-1' max='1' step='0.01' value='1.00' id='envelopeLevel'>
-        </div>
-        <div class='control-group'>
-            <label for='envelopeAttack'>Attack time</label>
-            <input type='range' min='0' max='40' step='0.01' value='0' id='envelopeAttack'>
-        </div>
-        <div class='control-group'>
-            <label for='envelopeDecay'>Decay time</label>
-            <input type='range' min='0' max='40' step='0.01' value='0' id='envelopeDecay'>
-        </div>
-        <div class='control-group'>
-            <label for='envelopeSustain'>Sustain level</label>
-            <input type='range' min='0' max='1' step='0.01' value='1' id='envelopeSustain'>
-        </div>
-        <div class='control-group'>
-            <label for='envelopeHold'>Hold time</label>
-            <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeHold'>
-        </div>
-        <div class='control-group'>
-            <label for='envelopeRelease'>Release time</label>
-            <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeRelease'>
-        </div>
-        <div class='control-group'>
             <label for='gain'>Distortion</label>
             <input type='range' min='0' max='8000' step='1' value='800' id='vcaDistortion'>
         </div>
@@ -144,39 +120,6 @@
             </div>
         </div>
     </fieldset>
-    <fieldset id='oscillators' class='fieldset-group'>
-        <legend>Oscillators</legend>
-        <div class='control-group'>
-            <label for='oscillator1Octave'>Osc1 frequency</label>
-            <input type='range' min='1' max='8' step='0.001' value='1.5' id='oscillator1Octave'>
-        </div>
-        <div class='control-group'>
-            <label for='oscillator2Detune'>Osc2 detune</label>
-            <input type='range' min='-100' max='100' value='3' id='oscillator2Detune'>
-        </div>
-        <div class='control-group'>
-            <label for='oscillator2Octave'>Osc2 octave</label>
-            <input type='range' min='-2' max='2' step='1' value='-2' id='oscillator2Octave'>
-        </div>
-        <div class='control-group'>
-            <label for='oscillator1Type'>Osc1 waveform</label>
-            <select id='oscillator1Type'>
-                <option value='sine'>Sine</option>
-                <option value='square' selected>Square</option>
-                <option value='sawtooth'>Sawtooth</option>
-                <option value='triangle'>Triangle</option>
-            </select>
-        </div>
-        <div class='control-group'>
-            <label for='oscillator2Type'>Osc2 waveform</label>
-            <select id='oscillator2Type'>
-                <option value='sine'>Sine</option>
-                <option value='square'>Square</option>
-                <option value='sawtooth' selected>Sawtooth</option>
-                <option value='triangle'>Triangle</option>
-            </select>
-        </div>
-    </fieldset>
 </form>
 <script src='/js/require.js' data-main='/js/loopstation'></script>
 <script type='text/javascript'>
@@ -189,10 +132,10 @@
         panner.pan.value = event.target.value;
     });    
     document.querySelector('#delayTime').addEventListener('change', function(event){
-        delay.delayTime.value = event.target.value;
+        echoUnit.delay.delayTime.value = event.target.value;
     });
     document.querySelector('#delayFeedback').addEventListener('change', function(event){
-        delayFeedback.gain.value = event.target.value;
+        echoUnit.feedback.gain.value = event.target.value;
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
         compressor.threshold.value = event.target.value;
@@ -212,19 +155,6 @@
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
         compressor.release.value = event.target.value;
     });
-    document.querySelector('#envelopeTrigger').addEventListener('click', function(event){
-        envelope(
-            context,
-            gainStage.gain,
-            0.0,
-            parseFloat(document.querySelector('#envelopeLevel').value),
-            parseFloat(document.querySelector('#envelopeAttack').value),
-            parseFloat(document.querySelector('#envelopeDecay').value),
-            parseFloat(document.querySelector('#envelopeSustain').value * document.querySelector('#envelopeLevel').value),
-            parseFloat(document.querySelector('#envelopeHold').value),
-            parseFloat(document.querySelector('#envelopeRelease').value)
-            );
-    })
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));
         setTimeout(drawWaveform, 500);
@@ -249,25 +179,6 @@
     });
     document.querySelector('#lfo1Type').addEventListener('change', function(event){
         lfo1.oscillator.type = event.target.value;
-    });
-    document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
-        osc1.frequency.value = Math.pow(2, event.target.value) * 55;
-        osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
-    });
-    document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
-        osc2.detune.value = event.target.value;
-    });
-    document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
-        osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
-    });
-    document.querySelector('#oscillator1Type').addEventListener('change', function(event){
-        osc1.type = event.target.value;
-    });
-    document.querySelector('#oscillator2Type').addEventListener('change', function(event){
-        osc2.type = event.target.value;
-    });
-    document.querySelector('#filter1Type').addEventListener('change', function(event){
-        filter1.type = event.target.value;
     });
     document.querySelector('form').addEventListener('submit', function(event){
         event && event.preventDefault()    
