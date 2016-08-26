@@ -188,13 +188,13 @@ define({
         _lfo.oscillator.start(0);
         return _lfo;
     },
-    createEchoUnit: function(context, destination){
+    createEchoUnit: function(context, destination, delay = 1, feedback = 0.6, wetSignal = 1){
         const _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannel = this.createGainNode(context);
-        _echoUnit.dryChannel = this.createGainNode(context);
-        _echoUnit.delay = this.createDelayNode(context, null, 1);
-        _echoUnit.feedback = this.createGainNode(context, null, 0.6);
+        _echoUnit.dryChannel = this.createGainNode(context, null, wetSignal);
+        _echoUnit.delay = this.createDelayNode(context, null, delay);
+        _echoUnit.feedback = this.createGainNode(context, null, feedback);
         _echoUnit.output = this.createGainNode(context);
         _echoUnit.input.connect(_echoUnit.wetChannel);
         _echoUnit.input.connect(_echoUnit.dryChannel);
@@ -205,5 +205,6 @@ define({
         _echoUnit.delay.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
         return _echoUnit;
-    }
+    },
+    createReverbUnit: function(context, destination)
 });

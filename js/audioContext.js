@@ -223,12 +223,15 @@ define({
         return _lfo;
     },
     createEchoUnit: function createEchoUnit(context, destination) {
+        var delay = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
+
         var _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannel = this.createGainNode(context);
         _echoUnit.dryChannel = this.createGainNode(context);
-        _echoUnit.delay = this.createDelayNode(context, null, 1);
-        _echoUnit.feedback = this.createGainNode(context, null, 0.6);
+        _echoUnit.delay = this.createDelayNode(context, null, delay);
+        _echoUnit.feedback = this.createGainNode(context, null, feedback);
         _echoUnit.output = this.createGainNode(context);
         _echoUnit.input.connect(_echoUnit.wetChannel);
         _echoUnit.input.connect(_echoUnit.dryChannel);

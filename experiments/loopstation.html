@@ -34,7 +34,11 @@
         </div>
         <div class='control-group'>
             <label for='delayFeedback'>Feedback</label>
-            <input type='range' min='0' max='1' step='0.001' value='0.8' id='delayFeedback'>
+            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedback'>
+        </div>
+        <div class='control-group'>
+            <label for='delayWetGain'>Wet signal gain</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='delayWetLevel'>
         </div>
     </fieldset>
     <fieldset id='dynamics'>
@@ -136,6 +140,9 @@
     });
     document.querySelector('#delayFeedback').addEventListener('change', function(event){
         echoUnit.feedback.gain.value = event.target.value;
+    });
+    document.querySelector('#delayWetLevel').addEventListener('change', function(event){
+        echoUnit.wetChannel.gain.value = event.target.value;
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
         compressor.threshold.value = event.target.value;
