@@ -206,5 +206,19 @@ define({
         _echoUnit.output.connect(destination);
         return _echoUnit;
     },
-    createReverbUnit: function(context, destination)
+    createReverbUnit: function(context, destination, wetSignal = 1){
+        const _reverb = {};
+        _reverb.input = this.createGainNode(context);
+        _reverb.wetChannel = this.createGainNode(context, null, wetSignal);
+        _reverb.dryChannel = this.createGainNode(context);
+        _reverb.convolver = this.createConvolverNode(context);
+        _reverb.output = this.createGainNode(context, null, 1);
+        _reverb.input.connect(_reverb.dryChannel);
+        _reverb.input.connect(_reverb.wetChannel);
+        _reverb.dryChannel.connect(_reverb.output);
+        _reverb.wetChannel.connect(_reverb.convolver);
+        _reverb.convolver.connect(_reverb.output);
+        _reverb.output.connect(destination);
+        return _reverb;
+    }
 });

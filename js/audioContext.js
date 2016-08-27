@@ -225,11 +225,12 @@ define({
     createEchoUnit: function createEchoUnit(context, destination) {
         var delay = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
         var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
+        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
         var _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannel = this.createGainNode(context);
-        _echoUnit.dryChannel = this.createGainNode(context);
+        _echoUnit.dryChannel = this.createGainNode(context, null, wetSignal);
         _echoUnit.delay = this.createDelayNode(context, null, delay);
         _echoUnit.feedback = this.createGainNode(context, null, feedback);
         _echoUnit.output = this.createGainNode(context);
@@ -242,5 +243,22 @@ define({
         _echoUnit.delay.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
         return _echoUnit;
+    },
+    createReverbUnit: function createReverbUnit(context, destination) {
+        var wetSignal = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+
+        var _reverb = {};
+        _reverb.input = this.createGainNode(context);
+        _reverb.wetChannel = this.createGainNode(context, null, wetSignal);
+        _reverb.dryChannel = this.createGainNode(context);
+        _reverb.convolver = this.createConvolverNode(context);
+        _reverb.output = this.createGainNode(context, null, 1);
+        _reverb.input.connect(_reverb.dryChannel);
+        _reverb.input.connect(_reverb.wetChannel);
+        _reverb.dryChannel.connect(_reverb.output);
+        _reverb.wetChannel.connect(_reverb.convolver);
+        _reverb.convolver.connect(_reverb.output);
+        _reverb.output.connect(destination);
+        return _reverb;
     }
 });
