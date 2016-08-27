@@ -5,7 +5,7 @@ requirejs(['audioContext'], function(audioContext){
     audioContext.getAudioByXhr('../audio/BathHouse.wav', window.reverb.convolver);
     window.panner = audioContext.createStereoPannerNode(context, window.reverb.input, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
-    window.echoUnit = audioContext.createEchoUnit(context, analyser);
+    window.echoUnit = audioContext.createDualEchoUnit(context, analyser);
     window.compressor = audioContext.createDynamicsCompressorNode(
         context,
         echoUnit.input,

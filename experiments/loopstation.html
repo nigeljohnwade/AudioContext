@@ -34,18 +34,30 @@
         </div>
     </fieldset>
     <fieldset id='delay' class='fieldset-group'>
-        <legend>Delay</legend>
+        <legend>Dual delay</legend>
         <div class='control-group'>
-            <label for='delayTime'>Delay time</label>
-            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTime'>
+            <label for='delayTimeLeft'>Delay time left</label>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeLeft'>
         </div>
         <div class='control-group'>
-            <label for='delayFeedback'>Feedback</label>
-            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedback'>
+            <label for='delayFeedbackLeft'>Feedback left</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackLeft'>
         </div>
         <div class='control-group'>
-            <label for='delayWetGain'>Wet signal gain</label>
-            <input type='range' min='0' max='1' step='0.01' value='1' id='delayWetLevel'>
+            <label for='delayTimeRight'>Delay time right</label>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeRight'>
+        </div>
+        <div class='control-group'>
+            <label for='delayFeedbackLeft'>Feedback</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackRight'>
+        </div>
+        <div class='control-group'>
+            <label for='delayLeftWetLevel'>Wet signal left gain</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='delayLeftWetLevel'>
+        </div>
+        <div class='control-group'>
+            <label for='delayRightWetLevel'>Wet signal right gain</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='delayRightWetLevel'>
         </div>
     </fieldset>
     <fieldset id='dynamics'>
@@ -145,14 +157,23 @@
     document.querySelector('#reverbWetChannel').addEventListener('change', function(event){
         reverb.wetChannel.gain.value = event.target.value;
     }); 
-    document.querySelector('#delayTime').addEventListener('change', function(event){
-        echoUnit.delay.delayTime.value = event.target.value;
+    document.querySelector('#delayTimeLeft').addEventListener('change', function(event){
+        echoUnit.delayLeft.delayTime.value = event.target.value;
     });
-    document.querySelector('#delayFeedback').addEventListener('change', function(event){
-        echoUnit.feedback.gain.value = event.target.value;
+    document.querySelector('#delayTimeRight').addEventListener('change', function(event){
+        echoUnit.delayRight.delayTime.value = event.target.value;
     });
-    document.querySelector('#delayWetLevel').addEventListener('change', function(event){
-        echoUnit.wetChannel.gain.value = event.target.value;
+    document.querySelector('#delayFeedbackLeft').addEventListener('change', function(event){
+        echoUnit.feedbackLeft.gain.value = event.target.value;
+    });
+    document.querySelector('#delayFeedbackRight').addEventListener('change', function(event){
+        echoUnit.feedbackRight.gain.value = event.target.value;
+    });
+    document.querySelector('#delayRightWetLevel').addEventListener('change', function(event){
+        echoUnit.wetChannelRight.gain.value = event.target.value;
+    });
+    document.querySelector('#delayLeftWetLevel').addEventListener('change', function(event){
+        echoUnit.wetChannelLeft.gain.value = event.target.value;
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
         compressor.threshold.value = event.target.value;

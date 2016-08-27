@@ -244,6 +244,40 @@ define({
         _echoUnit.output.connect(destination);
         return _echoUnit;
     },
+    createDualEchoUnit: function createDualEchoUnit(context, destination) {
+        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.4 : arguments[2];
+        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
+        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+
+        var _echoUnit = {};
+        _echoUnit.input = this.createGainNode(context);
+        _echoUnit.wetChannelLeft = this.createGainNode(context, null, wetSignal);
+        _echoUnit.wetChannelRight = this.createGainNode(context, null, wetSignal);
+        _echoUnit.dryChannel = this.createGainNode(context);
+        _echoUnit.delayLeft = this.createDelayNode(context, null, delay);
+        _echoUnit.delayRight = this.createDelayNode(context, null, delay * 1.5);
+        _echoUnit.feedbackLeft = this.createGainNode(context, null, feedback);
+        _echoUnit.feedbackRight = this.createGainNode(context, null, feedback * 1.5);
+        _echoUnit.panLeft = this.createStereoPannerNode(context, null, -1);
+        _echoUnit.panRight = this.createStereoPannerNode(context, null, 1);
+        _echoUnit.output = this.createGainNode(context);
+        _echoUnit.input.connect(_echoUnit.wetChannelLeft);
+        _echoUnit.input.connect(_echoUnit.wetChannelRight);
+        _echoUnit.input.connect(_echoUnit.dryChannel);
+        _echoUnit.dryChannel.connect(_echoUnit.output);
+        _echoUnit.wetChannelLeft.connect(_echoUnit.delayLeft);
+        _echoUnit.wetChannelRight.connect(_echoUnit.delayRight);
+        _echoUnit.delayLeft.connect(_echoUnit.feedbackLeft);
+        _echoUnit.feedbackLeft.connect(_echoUnit.delayLeft);
+        _echoUnit.delayLeft.connect(_echoUnit.panLeft);
+        _echoUnit.delayRight.connect(_echoUnit.feedbackRight);
+        _echoUnit.feedbackRight.connect(_echoUnit.delayRight);
+        _echoUnit.delayRight.connect(_echoUnit.panRight);
+        _echoUnit.panRight.connect(_echoUnit.output);
+        _echoUnit.panLeft.connect(_echoUnit.output);
+        _echoUnit.output.connect(destination);
+        return _echoUnit;
+    },
     createReverbUnit: function createReverbUnit(context, destination) {
         var wetSignal = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
