@@ -26,6 +26,13 @@
             <input type='range' min='-1' max='1' step='0.01' value='0' id='pan'>
         </div>
     </fieldset>
+    <fieldset id='reverb' class='fieldset-group'>
+        <legend>Convolver reverb</legend>
+        <div class='control-group'>
+            <label for='reverbWetChannel'>Wet channel level</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='reverbWetChannel'>
+        </div>
+    </fieldset>
     <fieldset id='delay' class='fieldset-group'>
         <legend>Delay</legend>
         <div class='control-group'>
@@ -134,7 +141,10 @@
     });
     document.querySelector('#pan').addEventListener('change', function(event){
         panner.pan.value = event.target.value;
-    });    
+    });
+    document.querySelector('#reverbWetChannel').addEventListener('change', function(event){
+        reverb.wetChannel.gain.value = event.target.value;
+    }); 
     document.querySelector('#delayTime').addEventListener('change', function(event){
         echoUnit.delay.delayTime.value = event.target.value;
     });
