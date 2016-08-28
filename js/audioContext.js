@@ -76,9 +76,8 @@ define({
         var threshold = arguments.length <= 2 || arguments[2] === undefined ? -24 : arguments[2];
         var knee = arguments.length <= 3 || arguments[3] === undefined ? 30 : arguments[3];
         var ratio = arguments.length <= 4 || arguments[4] === undefined ? 12 : arguments[4];
-        var reduction = arguments.length <= 5 || arguments[5] === undefined ? 0 : arguments[5];
-        var attack = arguments.length <= 6 || arguments[6] === undefined ? 0.003 : arguments[6];
-        var release = arguments.length <= 7 || arguments[7] === undefined ? 0.25 : arguments[7];
+        var attack = arguments.length <= 5 || arguments[5] === undefined ? 0.003 : arguments[5];
+        var release = arguments.length <= 6 || arguments[6] === undefined ? 0.25 : arguments[6];
 
         if (!context) {
             throw 'No context defined';
@@ -87,7 +86,6 @@ define({
         _comp.threshold.value = threshold;
         _comp.knee.value = knee;
         _comp.ratio.value = ratio;
-        _comp.reduction.value = reduction;
         _comp.attack.value = attack;
         _comp.release.value = release;
         if (destination) {

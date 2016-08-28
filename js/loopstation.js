@@ -12,7 +12,6 @@ requirejs(['audioContext'], function(audioContext){
         document.querySelector('#dynamicsThreshold').value,
         document.querySelector('#dynamicsKnee').value,
         document.querySelector('#dynamicsRatio').value,
-        document.querySelector('#dynamicsReduction').value,
         document.querySelector('#dynamicsAttack').value,
         document.querySelector('#dynamicsRelease').value
         );
@@ -39,22 +38,16 @@ requirejs(['audioContext'], function(audioContext){
     window.canvasCtx = canvas.getContext("2d"); 
     window.drawWaveform = function(){
         canvasCtx.clearRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
-        analyser.getByteTimeDomainData(dataArray);
+        analyser.getByteFrequencyData(dataArray);
         canvasCtx.fillStyle = 'rgb(0, 0, 0)';
         canvasCtx.fillRect(0, 0, canvasCtx.canvas.width, canvasCtx.canvas.height);
-        canvasCtx.lineWidth = 1;
-        canvasCtx.strokeStyle = 'rgb(0, 255, 0)';
-        canvasCtx.beginPath();
+        canvasCtx.fillStyle = 'rgb(0, 200, 0)';
         var sliceWidth = canvasCtx.canvas.width * 1.0 / bufferLength;
         var x = 0;
         for(var i = 0; i < bufferLength; i++) {
             var v = dataArray[i] / 128.0;
-            var y = v * canvasCtx.canvas.height/2;
-            if(i === 0) {
-              canvasCtx.moveTo(x, y);
-            } else {
-              canvasCtx.lineTo(x, y);
-            }
+            var y = v * canvasCtx.canvas.height;
+            canvasCtx.fillRect(x, 0, sliceWidth, y);
             x += sliceWidth;
         }
         canvasCtx.lineTo(canvas.width, canvas.height/2);

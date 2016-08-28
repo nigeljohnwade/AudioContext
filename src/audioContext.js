@@ -55,7 +55,7 @@ define({
         }
         return _gain;
     },
-    createDynamicsCompressorNode: function(context, destination, threshold = -24, knee = 30, ratio =12, reduction = 0, attack = 0.003, release = 0.25){
+    createDynamicsCompressorNode: function(context, destination, threshold = -24, knee = 30, ratio =12, attack = 0.003, release = 0.25){
         if (!context) {
             throw 'No context defined';
         }
@@ -63,7 +63,6 @@ define({
         _comp.threshold.value = threshold;
         _comp.knee.value = knee;
         _comp.ratio.value = ratio;
-        _comp.reduction.value = reduction;
         _comp.attack.value = attack;
         _comp.release.value = release;
         if (destination) {
