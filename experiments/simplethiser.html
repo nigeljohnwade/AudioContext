@@ -244,8 +244,8 @@
         lfo1.oscillator.type = event.target.value;
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
-        osc1.frequency.value = Math.pow(2, event.target.value) * 55;
-        osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
+        osc1.frequency.exponentialRampToValueAtTime(Math.pow(2, event.target.value) * 55, 0.002);
+        osc2.frequency.exponentialRampToValueAtTime(osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value), 0.02);
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         osc2.detune.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
