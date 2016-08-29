@@ -75,10 +75,6 @@
             <input type='range' min='1' max='20' step='0.1' value='12' id='dynamicsRatio'>
         </div>
         <div class='control-group'>
-            <label for='dynamicsReduction'>Reduction</label>
-            <input type='range' min='-20' max='0' step='0.1' value='0' id='dynamicsReduction'>
-        </div>
-        <div class='control-group'>
             <label for='dynamicsAttack'>Attack</label>
             <input type='range' min='0' max='1' step='0.001' value='0.003' id='dynamicsAttack'>
         </div>
@@ -183,9 +179,6 @@
     });
     document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
         compressor.ratio.value = event.target.value;
-    });
-    document.querySelector('#dynamicsReduction').addEventListener('change', function(event){
-        compressor.reduction.value = event.target.value;
     });
     document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
         compressor.attack.value = event.target.value;

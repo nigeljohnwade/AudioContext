@@ -52,10 +52,6 @@
             <input type='range' min='1' max='20' step='0.1' value='12' id='dynamicsRatio'>
         </div>
         <div class='control-group'>
-            <label for='dynamicsReduction'>Reduction</label>
-            <input type='range' min='-20' max='0' step='0.1' value='0' id='dynamicsReduction'>
-        </div>
-        <div class='control-group'>
             <label for='dynamicsAttack'>Attack</label>
             <input type='range' min='0' max='1' step='0.001' value='0.003' id='dynamicsAttack'>
         </div>
@@ -76,7 +72,7 @@
         </div>
         <div class='control-group'>
             <label for='envelopeDecay'>Decay time</label>
-            <input type='range' min='0' max='40' step='0.01' value='0' id='envelopeDecay'>
+            <input type='range' min='0.1' max='40' step='0.01' value='0' id='envelopeDecay'>
         </div>
         <div class='control-group'>
             <label for='envelopeSustain'>Sustain level</label>
@@ -183,34 +179,31 @@
     document.querySelector('#oscilliscopeVisualiser').height = '200';
     document.querySelector('#oscilliscopeVisualiser').width = document.querySelector('#oscilliscope').clientWidth;
     document.querySelector('#volume').addEventListener('change', function(event){
-        masterVolume.gain.value = event.target.value;
+        masterVolume.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#pan').addEventListener('change', function(event){
-        panner.pan.value = event.target.value;
+        panner.pan.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });    
     document.querySelector('#delayTime').addEventListener('change', function(event){
-        delay.delayTime.value = event.target.value;
+        delay.delayTime.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#delayFeedback').addEventListener('change', function(event){
-        delayFeedback.gain.value = event.target.value;
+        delayFeedback.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
-        compressor.threshold.value = event.target.value;
+        compressor.threshold.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsKnee').addEventListener('change', function(event){
-        compressor.knee.value = event.target.value;
+        compressor.knee.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
-        compressor.ratio.value = event.target.value;
-    });
-    document.querySelector('#dynamicsReduction').addEventListener('change', function(event){
-        compressor.reduction.value = event.target.value;
+        compressor.ratio.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
-        compressor.attack.value = event.target.value;
+        compressor.attack.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
-        compressor.release.value = event.target.value;
+        compressor.release.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#envelopeTrigger').addEventListener('click', function(event){
         envelope(
@@ -230,22 +223,22 @@
         setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
-        filter1.frequency.value = Math.pow(2, event.target.value) * 55;
+        filter1.frequency.exponentialRampToValueAtTime(Math.pow(2, event.target.value) * 55, context.currentTime + 0.02);
     });
     document.querySelector('#filter1Q').addEventListener('change', function(event){
-        filter1.Q.value = event.target.value;
+        filter1.Q.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#filter1Gain').addEventListener('change', function(event){
-        filter1.gain.value = event.target.value;
+        filter1.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
     });
     document.querySelector('#filter1LfoFrequency').addEventListener('change', function(event){
-        lfo1.oscillator.frequency.value = event.target.value;
+        lfo1.oscillator.frequency.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#filter1LfoGain').addEventListener('change', function(event){
-        lfo1.gain.gain.value = event.target.value;
+        lfo1.gain.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#lfo1Type').addEventListener('change', function(event){
         lfo1.oscillator.type = event.target.value;
@@ -255,7 +248,7 @@
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value);
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
-        osc2.detune.value = event.target.value;
+        osc2.detune.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
