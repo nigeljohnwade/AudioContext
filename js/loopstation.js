@@ -1,9 +1,9 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
-    window.reverb = audioContext.createReverbUnit(context, masterVolume, 1);
-    audioContext.getAudioByXhr('../audio/BathHouse.wav', window.reverb.convolver);
-    window.panner = audioContext.createStereoPannerNode(context, window.reverb.input, 0);
+    window.convolver = audioContext.createConvolverNode(context, masterVolume, null);
+    audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
+    window.panner = audioContext.createStereoPannerNode(context, window.masterVolume, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.echoUnit = audioContext.createDualEchoUnit(context, analyser);
     window.compressor = audioContext.createDynamicsCompressorNode(

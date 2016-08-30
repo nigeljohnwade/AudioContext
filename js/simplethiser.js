@@ -2,7 +2,7 @@ requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
     window.convolver = audioContext.createConvolverNode(context, masterVolume, null);
-    audioContext.getAudioByXhr('../audio/BathHouse.wav', window.convolver);
+    audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
     window.panner = audioContext.createStereoPannerNode(context, convolver, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.delay = audioContext.createDelayNode(context, analyser, 0.5);
@@ -85,7 +85,7 @@ requirejs(['audioContext'], function(audioContext){
         var x = 0;
         for(var i = 0; i < bufferLength; i++) {
             var v = dataArray[i] / 128.0;
-            var y = v * canvasCtx.canvas.height;
+            var y = v * canvasCtx.canvas.height/2.5;
             canvasCtx.fillRect(x, canvasCtx.canvas.height - y, sliceWidth, y);
             x += sliceWidth;
         }
