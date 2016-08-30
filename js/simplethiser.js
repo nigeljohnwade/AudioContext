@@ -51,6 +51,12 @@ requirejs(['audioContext'], function(audioContext){
     window.envelope = function(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime){
         audioContext.linearEnvelopeADSR(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime);
     };
+    window.runRandomValueSequencer = function(context, interval, objects){
+        const now = context.currentTime;
+        for(var i = 0, t = 1; i < objects.length; i++, t++){
+            objects[0].target.exponentialRampToValueAtTime((Math.random() * (objects[0].max - objects[0].min)) + objects[0].min, now + (t * interval));
+        }
+    }
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");

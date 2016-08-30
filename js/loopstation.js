@@ -24,7 +24,6 @@ requirejs(['audioContext'], function(audioContext){
         document.querySelector('#filter1Q').value,
         document.querySelector('#filter1Gain').value
         );
-    
     window.lfo1 = audioContext.createLfoNode(context, filter1.frequency, 'sine', 0.1, 100);
     window.gainStage = audioContext.createGainNode(context, filter1, 1);
     window.distortion = audioContext.createWaveShaperNode(context, gainStage, audioContext.makeDistortionCurve(400), 'none' );
