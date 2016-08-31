@@ -30,11 +30,11 @@
         <legend>Delay</legend>
         <div class='control-group'>
             <label for='delayTime'>Delay time</label>
-            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTime'>
+            <input type='range' min='0' max='10' step='0.01' value='0.01' id='delayTime'>
         </div>
         <div class='control-group'>
             <label for='delayFeedback'>Feedback</label>
-            <input type='range' min='0' max='1' step='0.001' value='0.8' id='delayFeedback'>
+            <input type='range' min='0' max='1' step='0.001' value='0.98' id='delayFeedback'>
         </div>
     </fieldset>
     <fieldset id='dynamics'>
@@ -68,23 +68,23 @@
         </div>
         <div class='control-group'>
             <label for='envelopeAttack'>Attack time</label>
-            <input type='range' min='0' max='40' step='0.01' value='0' id='envelopeAttack'>
+            <input type='range' min='0' max='40' step='0.01' value='4.00' id='envelopeAttack'>
         </div>
         <div class='control-group'>
             <label for='envelopeDecay'>Decay time</label>
-            <input type='range' min='0.1' max='40' step='0.01' value='0' id='envelopeDecay'>
+            <input type='range' min='0.1' max='40' step='0.01' value='4.00' id='envelopeDecay'>
         </div>
         <div class='control-group'>
             <label for='envelopeSustain'>Sustain level</label>
-            <input type='range' min='0' max='1' step='0.01' value='1' id='envelopeSustain'>
+            <input type='range' min='0' max='1' step='0.01' value='0.50' id='envelopeSustain'>
         </div>
         <div class='control-group'>
             <label for='envelopeHold'>Hold time</label>
-            <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeHold'>
+            <input type='range' min='0' max='40' step='0.01' value='10.0' id='envelopeHold'>
         </div>
         <div class='control-group'>
             <label for='envelopeRelease'>Release time</label>
-            <input type='range' min='0' max='40' step='0.01' value='1' id='envelopeRelease'>
+            <input type='range' min='0' max='40' step='0.01' value='5.0' id='envelopeRelease'>
         </div>
         <div class='control-group'>
             <label for='gain'>Distortion</label>
@@ -217,36 +217,24 @@
             parseFloat(document.querySelector('#envelopeHold').value),
             parseFloat(document.querySelector('#envelopeRelease').value)
             );
-        runRandomValueSequencer(context, 0.4, [
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400},
-            {target: filter1.frequency, min: 50, max: 1400}])
+        runRandomValueSequencer(context, 2, [
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}],
+            [{target: filter1.frequency, min: 50, max: 800},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50},{target: osc1.frequency, min: 220, max: 440}],
+            [{target: filter1.frequency, min: 250, max: 1400},{target: filter1.Q, min: 10, max: (Math.random() * 95) + 30},{target: osc2.detune, min: 0, max: 50}]
+            ])
     })
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));

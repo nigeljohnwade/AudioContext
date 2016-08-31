@@ -54,8 +54,20 @@ requirejs(['audioContext'], function(audioContext){
     window.runRandomValueSequencer = function(context, interval, objects){
         const now = context.currentTime;
         for(var i = 0, t = 1; i < objects.length; i++, t++){
-            objects[0].target.exponentialRampToValueAtTime((Math.random() * (objects[0].max - objects[0].min)) + objects[0].min, now + (t * interval));
-        }
+            objects[i].forEach(function(element, index, array){
+                setTimeout(
+                    setValue,
+                    (t * 1000 * interval)-20,
+                    element.target,
+                    (Math.random() * (element.max - element.min)) + element.min,
+                    now + (t * interval)
+                );
+            }
+        )}
+    }
+    window.setValue = function(param, value, time){
+        param.exponentialRampToValueAtTime(value, time);
+        console.log(window.context.currentTime, time);
     }
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
