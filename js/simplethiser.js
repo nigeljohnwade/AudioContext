@@ -67,7 +67,6 @@ requirejs(['audioContext'], function(audioContext){
     }
     window.setValue = function(param, value, time){
         param.exponentialRampToValueAtTime(value, time);
-        console.log(window.context.currentTime, time);
     }
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
