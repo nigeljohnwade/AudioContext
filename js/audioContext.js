@@ -315,5 +315,39 @@ define({
         _flangerUnit.delay.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         return _flangerUnit;
+    },
+    createDualFlangerUnit: function createDualFlangerUnit(context, destination) {
+        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.013 : arguments[2];
+        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.9 : arguments[3];
+        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+
+        var _flangerUnit = {};
+        _flangerUnit.input = this.createGainNode(context);
+        _flangerUnit.wetChannelLeft = this.createGainNode(context);
+        _flangerUnit.wetChannelRight = this.createGainNode(context);
+        _flangerUnit.dryChannel = this.createGainNode(context, null, wetSignal);
+        _flangerUnit.delayLeft = this.createDelayNode(context, null, delay);
+        _flangerUnit.feedbackLeft = this.createGainNode(context, null, feedback);
+        _flangerUnit.delayRight = this.createDelayNode(context, null, delay);
+        _flangerUnit.feedbackRight = this.createGainNode(context, null, feedback);
+        _flangerUnit.panLeft = this.createStereoPannerNode(context, null, -1);
+        _flangerUnit.panRight = this.createStereoPannerNode(context, null, 1);
+        _flangerUnit.output = this.createGainNode(context);
+        _flangerUnit.lfo1 = this.createLfoNode(context, _flangerUnit.delayLeft.delayTime, 'triangle', 0.1, 0.004);
+        _flangerUnit.lfo2 = this.createLfoNode(context, _flangerUnit.delayRight.delayTime, 'triangle', 0.1, 0.004);
+        _flangerUnit.input.connect(_flangerUnit.wetChannelLeft);
+        _flangerUnit.input.connect(_flangerUnit.wetChannelRight);
+        _flangerUnit.input.connect(_flangerUnit.dryChannel);
+        _flangerUnit.dryChannel.connect(_flangerUnit.output);
+        _flangerUnit.wetChannelLeft.connect(_flangerUnit.delayLeft);
+        _flangerUnit.wetChannelRight.connect(_flangerUnit.delayRight);
+        _flangerUnit.delayLeft.connect(_flangerUnit.feedbackLeft);
+        _flangerUnit.feedbackLeft.connect(_flangerUnit.delayLeft);
+        _flangerUnit.delayRight.connect(_flangerUnit.feedbackRight);
+        _flangerUnit.feedbackRight.connect(_flangerUnit.delayRight);
+        _flangerUnit.delayLeft.connect(_flangerUnit.output);
+        _flangerUnit.delayRight.connect(_flangerUnit.output);
+        _flangerUnit.output.connect(destination);
+        return _flangerUnit;
     }
 });

@@ -3,7 +3,7 @@ requirejs(['audioContext'], function(audioContext){
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
     window.panner = audioContext.createStereoPannerNode(context, window.masterVolume, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
-    window.flangerUnit = audioContext.createFlangerUnit(context, analyser);
+    window.flangerUnit = audioContext.createDualFlangerUnit(context, analyser);
     window.compressor = audioContext.createDynamicsCompressorNode(
         context,
         flangerUnit.input,
