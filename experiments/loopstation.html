@@ -86,7 +86,7 @@
     <fieldset id='vca'>
         <legend>VCA</legend>
         <div class='control-group'>
-            <label for='gain'>Distortion</label>
+            <label for='vcaDistortion'>Distortion</label>
             <input type='range' min='0' max='8000' step='1' value='800' id='vcaDistortion'>
         </div>
     </fieldset>
@@ -95,11 +95,11 @@
         <div class='span-6'>
             <div class='control-group'>
                 <label for='filter1frequency'>Filter frequency</label>
-                <input type='range' min='1' max='8' step='0.001' value='1.5' id='filter1frequency'>
+                <input type='range' min='1' max='5' step='0.001' value='3' id='filter1frequency'>
             </div>
             <div class='control-group'>
                 <label for='filter1Q'>Filter Q</label>
-                <input type='number' min='0.0001' max='1000' step='0.0001' value='10' id='filter1Q'>
+                <input type='number' min='0.0001' max='1000' step='0.0001' value='1' id='filter1Q'>
             </div>
             <div class='control-group'>
                 <label for='filter1Gain'>Filter gain</label>
@@ -108,8 +108,8 @@
             <div class='control-group'>
                 <label for='filter1Type'>Filter type</label>
                 <select id='filter1Type'>
-                    <option value='lowpass'>Low Pass</option>
-                    <option value='bandpass' selected>Band Pass</option>
+                    <option value='lowpass' selected>Low Pass</option>
+                    <option value='bandpass'>Band Pass</option>
                     <option value='highpass'>High Pass</option>
                     <option value='lowshelf'>Low Shelf</option>
                     <option value='highshelf'>High Shelf</option>
@@ -135,7 +135,7 @@
             </div>
             <div class='control-group'>
                 <label for='lfo1Gain'>Filter LFO gain</label>
-                <input type='range' min='0' max='100' step='0.1' value='100' id='filter1LfoGain'>
+                <input type='range' min='0' max='100' step='0.1' value='0' id='filter1LfoGain'>
             </div>
         </div>
     </fieldset>
@@ -151,7 +151,7 @@
         panner.pan.value = event.target.value;
     });
     document.querySelector('#reverbWetChannel').addEventListener('change', function(event){
-        reverb.wetChannel.gain.value = event.target.value;
+        reverbUnit.wetChannel.gain.value = event.target.value;
     }); 
     document.querySelector('#delayTimeLeft').addEventListener('change', function(event){
         echoUnit.delayLeft.delayTime.value = event.target.value;
@@ -188,7 +188,6 @@
     });
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));
-        setTimeout(drawWaveform, 500);
     });
     document.querySelector('#filter1frequency').addEventListener('change', function(event){
         filter1.frequency.value = Math.pow(2, event.target.value) * 55;

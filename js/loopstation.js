@@ -1,9 +1,9 @@
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
-    window.convolver = audioContext.createConvolverNode(context, masterVolume, null);
-    audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
-    window.panner = audioContext.createStereoPannerNode(context, window.masterVolume, 0);
+    window.reverbUnit = audioContext.createReverbUnit(context, masterVolume);
+    audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.reverbUnit.convolver);
+    window.panner = audioContext.createStereoPannerNode(context, window.reverbUnit.input, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.echoUnit = audioContext.createDualEchoUnit(context, analyser);
     window.compressor = audioContext.createDynamicsCompressorNode(
@@ -30,7 +30,7 @@ requirejs(['audioContext'], function(audioContext){
     distortion.setCurve = function(amount){
         distortion.curve = audioContext.makeDistortionCurve(amount);
     }
-    window.input = audioContext.createUserMediaNode(context, gainStage);
+    window.input = audioContext.createUserMediaNode(context, distortion);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
     var canvas = document.querySelector("#oscilliscope canvas");

@@ -292,5 +292,28 @@ define({
         _reverb.convolver.connect(_reverb.output);
         _reverb.output.connect(destination);
         return _reverb;
+    },
+    createFlangerUnit: function createFlangerUnit(context, destination) {
+        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.013 : arguments[2];
+        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.9 : arguments[3];
+        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+
+        var _flangerUnit = {};
+        _flangerUnit.input = this.createGainNode(context);
+        _flangerUnit.wetChannel = this.createGainNode(context);
+        _flangerUnit.dryChannel = this.createGainNode(context, null, wetSignal);
+        _flangerUnit.delay = this.createDelayNode(context, null, delay);
+        _flangerUnit.feedback = this.createGainNode(context, null, feedback);
+        _flangerUnit.output = this.createGainNode(context);
+        _flangerUnit.lfo = this.createLfoNode(context, _flangerUnit.delay.delayTime, 'triangle', 0.1, 0.004);
+        _flangerUnit.input.connect(_flangerUnit.wetChannel);
+        _flangerUnit.input.connect(_flangerUnit.dryChannel);
+        _flangerUnit.dryChannel.connect(_flangerUnit.output);
+        _flangerUnit.wetChannel.connect(_flangerUnit.delay);
+        _flangerUnit.delay.connect(_flangerUnit.feedback);
+        _flangerUnit.feedback.connect(_flangerUnit.delay);
+        _flangerUnit.delay.connect(_flangerUnit.output);
+        _flangerUnit.output.connect(destination);
+        return _flangerUnit;
     }
 });
