@@ -217,24 +217,24 @@
             parseFloat(document.querySelector('#envelopeHold').value),
             parseFloat(document.querySelector('#envelopeRelease').value)
             );
-        runRandomValueSequencer(context, 2, [
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}]
-            ])
+        //runRandomValueSequencer(context, 2, [
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}]
+        //    ])
     })
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));
