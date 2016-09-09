@@ -9,26 +9,69 @@
 <body>
     <h1>Experiments</h1>
     <p>These things are all built with the web audio API</p>
+    <div class='flex-root'>
     <article>
+        <div>
         <a href="experiments/simplethiser.html">
             <h2>Simplethiser</h2>
+            <p>
+                A very basic synthesiser. Signal chain is from the bottom of the page upwards through the devices.
+                Control via the sliders currently has no feedback with regard to actual values and you will probably
+                need to be quite familiar with sound engineering or the web audio api to work out the useful ranges
+                for values of the sliders.
+            </p>
+            <p>
+                The unit itself has no keyboard, only a trigger button. The pitch must be set with the oscillator
+                frequency slider. It is not possible to disable any of the modules completely, it is a very basic
+                proof of concept implementation of a synthesiser.
+            </p>
         </a>
+        </div>
     </article>
     <article>
+        <div>
         <a href="https://hashtagdayjob.co.uk/AudioContext/experiments/effectstation.html">
             <h2>Effectstation</h2>
+            <p>
+                An experiment in implementing a number of common effects in their most basic web audio graph.
+                Control via the sliders currently has no feedback with regard to actual values and you will probably
+                need to be quite familiar with sound engineering or the web audio api to work out the useful ranges
+                for values of the sliders.
+            </p>
+            <p>
+                It is not possible to disable any of the modules completely, it is a very basic
+                proof of concept implementation of the effects.
+            </p>
         </a>
+        </div>
     </article>
     <article>
+        <div>
         <a href="https://hashtagdayjob.co.uk/AudioContext/experiments/flanger.html">
             <h2>Flanger</h2>
+            <p>
+                An experiment in implementing a flanger effect in a complex web audio graph.
+                Control via the sliders currently has no feedback but the controls have sensible
+                limits for values of the sliders to make the efect usable.
+            </p>
+            <p>
+                It is possible to disable any of the modules completely so that the effects can be
+                muted.
+            </p>
         </a>
+        </div>
     </article>
     <article>
+        <div>
         <a href="https://hashtagdayjob.co.uk/AudioContext/experiments/chorus.html">
             <h2>Chorus</h2>
+            <p>
+                The chorus unit is not a useful implementation yet, I am still working out how to implement it
+            </p>
         </a>
+        </div>
     </article>
+    </div>
 <script type="text/javascript" src="http://fast.fonts.net/jsapi/de166da6-414b-41f1-a178-0108161506fe.js"></script>
 </body>
 </html>

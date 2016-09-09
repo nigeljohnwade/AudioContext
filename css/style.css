@@ -69,7 +69,7 @@ h1 button{
 .span-6 + .span-6{
     margin-right: 0;
 }
-legend, fieldset{
+legend, fieldset, article > div{
     border: 1px solid steelblue;
     border-radius: 5px;
 }
@@ -77,10 +77,24 @@ fieldset{
     margin-top: 1em;
     background-color: lightgrey;
 }
-
+article{
+    flex-grow:  1;
+    width: 25%;
+    padding: 0.3em;
+}
+article > div{
+    margin-top: 0;
+    padding: 0.5em;
+    background-color: lightgrey;
+    min-height: 33vh;
+}
 legend {
     background-color: steelblue;
     padding: 0.25em 0.5em;
     color: white;
     font-family: 'GillSansW01-CondensedBd';
+}
+.flex-root{
+    display: flex;
+    justify-content: space-around;
 }
