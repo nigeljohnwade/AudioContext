@@ -28,6 +28,11 @@
     </fieldset>
     <fieldset id='delay' class='fieldset-group'>
         <legend>Flanger</legend>
+        <div class='control-group'>
+            <label for='flangerBypass'>
+                <input type='checkbox' id='flangerBypass'>Bypass
+            </label>
+        </div>
         <div class='span-6'>
             <div class='control-group'>
                 <label for='delayTimeLeft'>Delay time</label>
@@ -124,7 +129,11 @@
     });
     document.querySelector('#pan').addEventListener('change', function(event){
         panner.pan.value = event.target.value;
-    }); 
+    });
+    document.querySelector('#flangerBypass').addEventListener('change', function(event){
+        const bypass = event.target.checked;
+        flangerUnit.bypass(bypass);
+    });
     document.querySelector('#delayTimeLeft').addEventListener('change', function(event){
         flangerUnit.delayLeft.delayTime.linearRampToValueAtTime(event.target.value/1000, context.currentTime = 0.5);
     });

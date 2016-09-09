@@ -323,6 +323,15 @@ define({
         _flangerUnit.feedback.connect(_flangerUnit.delay);
         _flangerUnit.delay.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
+        _flangerUnit.bypass = function () {
+            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+            if (state) {
+                this.wetChannel.disconnect(this.delay);
+            } else {
+                this.wetChannel.connect(this.delay);
+            }
+        };
         return _flangerUnit;
     },
     createDualFlangerUnit: function createDualFlangerUnit(context, destination) {
@@ -357,6 +366,17 @@ define({
         _flangerUnit.delayLeft.connect(_flangerUnit.output);
         _flangerUnit.delayRight.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
+        _flangerUnit.bypass = function () {
+            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+            if (state) {
+                this.wetChannelLeft.disconnect(this.delayLeft);
+                this.wetChannelRight.disconnect(this.delayRight);
+            } else {
+                this.wetChannelLeft.connect(this.delayLeft);
+                this.wetChannelRight.connect(this.delayRight);
+            }
+        };
         return _flangerUnit;
     },
     createDualChorusUnit: function createDualChorusUnit(context, destination) {
