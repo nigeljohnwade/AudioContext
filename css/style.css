@@ -64,7 +64,10 @@ h1 button{
     }
     
 .span-6{
-    width: 49%;
+    width: 49.5%;
+}
+.span-6 + .span-6{
+    margin-right: 0;
 }
 legend, fieldset{
     border: 1px solid steelblue;
