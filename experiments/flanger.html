@@ -33,6 +33,10 @@
                 <input type='checkbox' id='flangerBypass'>Bypass
             </label>
         </div>
+        <div class='control-group'>
+            <label for='flangerWetFilter'>Wet filter frequency</label>
+            <input type='range' min='50' max='15000' value='1000' id='flangerWetFilter'>
+        </div>
         <div class='span-6'>
             <div class='control-group'>
                 <label for='delayTimeLeft'>Delay time</label>
@@ -61,7 +65,7 @@
             </div>
             <div class='control-group'>
                 <label for='lfo1Gain'>LFO 1 gain</label>
-                <input type='range' min='0.001' max='0.006' step='0.001' value='100' id='lfo1Gain'>
+                <input type='range' min='0.001' max='0.006' step='0.0001' value='100' id='lfo1Gain'>
             </div>
         </div>
         <div class='span-6'>
@@ -92,7 +96,7 @@
             </div>
             <div class='control-group'>
                 <label for='lfo2Gain'>LFO 2 gain</label>
-                <input type='range' min='0.001' max='0.006' step='0.001' value='100' id='lfo2Gain'>
+                <input type='range' min='0.001' max='0.006' step='0.0001' value='100' id='lfo2Gain'>
             </div>
         </div>
     </fieldset>
@@ -133,6 +137,9 @@
     document.querySelector('#flangerBypass').addEventListener('change', function(event){
         const bypass = event.target.checked;
         flangerUnit.bypass(bypass);
+    });
+    document.querySelector('#flangerWetFilter').addEventListener('change', function(event){
+        flangerUnit.wetFilter.frequency.linearRampToValueAtTime(event.target.value, context.currentTime = 0.5);
     });
     document.querySelector('#delayTimeLeft').addEventListener('change', function(event){
         flangerUnit.delayLeft.delayTime.linearRampToValueAtTime(event.target.value/1000, context.currentTime = 0.5);

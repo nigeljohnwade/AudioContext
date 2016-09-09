@@ -295,6 +295,7 @@ define({
         _flangerUnit.feedbackRight = this.createGainNode(context, null, feedback);
         _flangerUnit.panLeft = this.createStereoPannerNode(context, null, -1);
         _flangerUnit.panRight = this.createStereoPannerNode(context, null, 1);
+        _flangerUnit.wetFilter = this.createBiquadFilterNode(context, null, 'lowpass', 1350, 0, 0);
         _flangerUnit.output = this.createGainNode(context);
         _flangerUnit.lfo1 = this.createLfoNode(context, _flangerUnit.delayLeft.delayTime, 'triangle', 0.1, 0.004);
         _flangerUnit.lfo2 = this.createLfoNode(context, _flangerUnit.delayRight.delayTime, 'triangle', 0.1, 0.004);
@@ -308,8 +309,9 @@ define({
         _flangerUnit.feedbackLeft.connect(_flangerUnit.delayLeft);
         _flangerUnit.delayRight.connect(_flangerUnit.feedbackRight);
         _flangerUnit.feedbackRight.connect(_flangerUnit.delayRight);
-        _flangerUnit.delayLeft.connect(_flangerUnit.output);
-        _flangerUnit.delayRight.connect(_flangerUnit.output);
+        _flangerUnit.delayLeft.connect(_flangerUnit.wetFilter);
+        _flangerUnit.delayRight.connect(_flangerUnit.wetFilter);
+        _flangerUnit.wetFilter.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         _flangerUnit.bypass = function(state = false){
             if (state) {
