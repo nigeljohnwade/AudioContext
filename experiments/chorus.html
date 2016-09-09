@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Loopstation</title>
+    <link rel='stylesheet' href='../css/style.css'>
+</head>
+
+<body>
+    <h1>Chorus</h1>
+<form>
+    <fieldset>
+        <legend>Oscilliscope</legend>
+        <div id='oscilliscope'>
+            <canvas id='oscilliscopeVisualiser'></canvas>
+        </div>
+    </fieldset>
+    <fieldset id='masterVolume'>
+        <legend>Master volume</legend>
+        <div class='control-group'>
+            <label for='volume'>Volume</label>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='volume'>
+        </div>
+        <div class='control-group'>
+            <label for='pan'>Pan</label>
+            <input type='range' min='-1' max='1' step='0.01' value='0' id='pan'>
+        </div>
+    </fieldset>
+    <fieldset id='delay' class='fieldset-group'>
+        <legend>Chorus</legend>
+        <div class='span-6'>
+            <div class='control-group'>
+                <label for='delayTimeLeft'>Delay time</label>
+                <input type='range' min='20' max='100' step='0.1' value='13' id='delayTimeLeft'>
+            </div>
+            <div class='control-group'>
+                <label for='delayFeedbackLeft'>Feedback</label>
+                <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackLeft'>
+            </div>
+            <div class='control-group'>
+                <label for='delayLeftWetLevel'>Wet signal gain</label>
+                <input type='range' min='0' max='1' step='0.01' value='1' id='delayLeftWetLevel'>
+            </div>
+            <div class='control-group'>
+                <label for='lfo1Frequency'>LFO 1 frequency</label>
+                <input type='range' min='0.01' max='8' step='0.01' value='0.01' id='lfo1Frequency'>
+            </div>
+            <div class='control-group'>
+                <label for='lfo1Type'>LFO 1 waveform</label>
+                <select id='lfo1Type'>
+                    <option value='sine'>Sine</option>
+                    <option value='square'>Square</option>
+                    <option value='sawtooth'>Sawtooth</option>
+                    <option value='triangle'>Triangle</option>
+                </select>
+            </div>
+            <div class='control-group'>
+                <label for='lfo1Gain'>LFO 1 gain</label>
+                <input type='range' min='0.001' max='0.006' step='0.001' value='100' id='lfo1Gain'>
+            </div>
+        </div>
+        <div class='span-6'>
+            <div class='control-group'>
+                <label for='delayTimeRight'>Delay time</label>
+                <input type='range' min='5' max='20' step='0.1' value='13' id='delayTimeRight'>
+            </div>
+            <div class='control-group'>
+                <label for='delayFeedbackRight'>Feedback</label>
+                <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackRight'>
+            </div>
+            <div class='control-group'>
+                <label for='delayRightWetLevel'>Wet signal gain</label>
+                <input type='range' min='0' max='1' step='0.01' value='1' id='delayRightWetLevel'>
+            </div>
+            <div class='control-group'>
+                <label for='lfo2Frequency'>LFO 2 frequency</label>
+                <input type='range' min='0.01' max='8' step='0.01' value='0.01' id='lfo2Frequency'>
+            </div>
+            <div class='control-group'>
+                <label for='lfo2Type'>LFO 2 waveform</label>
+                <select id='lfo2Type'>
+                    <option value='sine'>Sine</option>
+                    <option value='square'>Square</option>
+                    <option value='sawtooth'>Sawtooth</option>
+                    <option value='triangle'>Triangle</option>
+                </select>
+            </div>
+            <div class='control-group'>
+                <label for='lfo2Gain'>LFO 2 gain</label>
+                <input type='range' min='0.001' max='0.006' step='0.001' value='100' id='lfo2Gain'>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset id='dynamics'>
+        <legend>Dynamics</legend>
+        <div class='control-group'>
+            <label for='dynamicsThreshold'>Threshold</label>
+            <input type='range' min='-100' max='0' step='0.1' value='-24' id='dynamicsThreshold'>
+        </div>
+        <div class='control-group'>
+            <label for='dynamicsKnee'>Knee</label>
+            <input type='range' min='0' max='40' step='1' value='30' id='dynamicsKnee'>
+        </div>
+        <div class='control-group'>
+            <label for='dynamicsRatio'>Ratio</label>
+            <input type='range' min='1' max='20' step='0.1' value='12' id='dynamicsRatio'>
+        </div>
+        <div class='control-group'>
+            <label for='dynamicsAttack'>Attack</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.003' id='dynamicsAttack'>
+        </div>
+        <div class='control-group'>
+            <label for='dynamicsRelease'>Release</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.25' id='dynamicsRelease'>
+        </div>
+    </fieldset>
+</form>
+<script src='../js/require.js' data-main='../js/chorus'></script>
+<script type='text/javascript'>
+    document.querySelector('#oscilliscopeVisualiser').height = '200';
+    document.querySelector('#oscilliscopeVisualiser').width = document.querySelector('#oscilliscope').clientWidth;
+    document.querySelector('#volume').addEventListener('change', function(event){
+        masterVolume.gain.value = event.target.value;
+    });
+    document.querySelector('#pan').addEventListener('change', function(event){
+        panner.pan.value = event.target.value;
+    }); 
+    document.querySelector('#delayTimeLeft').addEventListener('change', function(event){
+        chorusUnit.delayLeft.delayTime.linearRampToValueAtTime(event.target.value/1000, context.currentTime = 0.5);
+    });
+    document.querySelector('#delayFeedbackLeft').addEventListener('change', function(event){
+        chorusUnit.feedbackLeft.gain.value = event.target.value;
+    });
+    document.querySelector('#delayLeftWetLevel').addEventListener('change', function(event){
+        chorusUnit.wetChannelLeft.gain.value = event.target.value;
+    });
+    document.querySelector('#delayTimeRight').addEventListener('change', function(event){
+        chorusUnit.delayRight.delayTime.linearRampToValueAtTime(event.target.value/1000, context.currentTime = 0.5);
+    });
+    document.querySelector('#delayFeedbackRight').addEventListener('change', function(event){
+        chorusUnit.feedbackRight.gain.value = event.target.value;
+    });
+    document.querySelector('#delayRightWetLevel').addEventListener('change', function(event){
+        chorusUnit.wetChannelRight.gain.value = event.target.value;
+    });
+    document.querySelector('#lfo1Frequency').addEventListener('change', function(event){
+        chorusUnit.lfo1.oscillator.frequency.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
+    });
+    document.querySelector('#lfo1Gain').addEventListener('change', function(event){
+        chorusUnit.lfo1.gain.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
+    });
+    document.querySelector('#lfo1Type').addEventListener('change', function(event){
+        chorusUnit.lfo1.oscillator.type = event.target.value;
+    });
+    document.querySelector('#lfo2Frequency').addEventListener('change', function(event){
+        chorusUnit.lfo2.oscillator.frequency.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
+    });
+    document.querySelector('#lfo2Gain').addEventListener('change', function(event){
+        chorusUnit.lfo2.gain.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
+    });
+    document.querySelector('#lfo2Type').addEventListener('change', function(event){
+        chorusUnit.lfo2.oscillator.type = event.target.value;
+    });        
+    document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
+        compressor.threshold.value = event.target.value;
+    });
+    document.querySelector('#dynamicsKnee').addEventListener('change', function(event){
+        compressor.knee.value = event.target.value;
+    });
+    document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
+        compressor.ratio.value = event.target.value;
+    });
+    document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
+        compressor.attack.value = event.target.value;
+    });
+    document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
+        compressor.release.value = event.target.value;
+    });
+    document.querySelector('form').addEventListener('submit', function(event){
+        event && event.preventDefault()    
+    })
+</script>
+<script type="text/javascript" src="https://fast.fonts.net/jsapi/de166da6-414b-41f1-a178-0108161506fe.js"></script>
+</body>
+</html>

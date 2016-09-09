@@ -248,6 +248,13 @@ define({
         _reverb.wetChannel.connect(_reverb.convolver);
         _reverb.convolver.connect(_reverb.output);
         _reverb.output.connect(destination);
+        _reverb.bypass = function(state = false){
+            if (state) {
+                this.wetChannel.disconnect(this.convolver);
+            }else{
+                this.wetChannel.connect(this.convolver);
+            }
+        }
         return _reverb;
     },
     createFlangerUnit: function(context, destination, delay = 0.013, feedback = 0.9, wetSignal = 1){
@@ -298,5 +305,35 @@ define({
         _flangerUnit.delayRight.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         return _flangerUnit;
+    },
+    createDualChorusUnit: function(context, destination, delay = 0.13, feedback = 0.2, wetSignal = 1){
+        const _chorusUnit = {};
+        _chorusUnit.input = this.createGainNode(context);
+        _chorusUnit.wetChannelLeft = this.createGainNode(context);
+        _chorusUnit.wetChannelRight = this.createGainNode(context);
+        _chorusUnit.dryChannel = this.createGainNode(context, null, wetSignal);
+        _chorusUnit.delayLeft = this.createDelayNode(context, null, delay);
+        _chorusUnit.feedbackLeft = this.createGainNode(context, null, feedback);
+        _chorusUnit.delayRight = this.createDelayNode(context, null, delay);
+        _chorusUnit.feedbackRight = this.createGainNode(context, null, feedback);
+        _chorusUnit.panLeft = this.createStereoPannerNode(context, null, -1);
+        _chorusUnit.panRight = this.createStereoPannerNode(context, null, 1);
+        _chorusUnit.output = this.createGainNode(context);
+        _chorusUnit.lfo1 = this.createLfoNode(context, _chorusUnit.delayLeft.delayTime, 'triangle', 0.1, 0.04);
+        _chorusUnit.lfo2 = this.createLfoNode(context, _chorusUnit.delayRight.delayTime, 'triangle', 0.1, 0.04);
+        _chorusUnit.input.connect(_chorusUnit.wetChannelLeft);
+        _chorusUnit.input.connect(_chorusUnit.wetChannelRight);
+        _chorusUnit.input.connect(_chorusUnit.dryChannel);
+        _chorusUnit.dryChannel.connect(_chorusUnit.output);
+        _chorusUnit.wetChannelLeft.connect(_chorusUnit.delayLeft);
+        _chorusUnit.wetChannelRight.connect(_chorusUnit.delayRight);
+        _chorusUnit.delayLeft.connect(_chorusUnit.feedbackLeft);
+        _chorusUnit.feedbackLeft.connect(_chorusUnit.delayLeft);
+        _chorusUnit.delayRight.connect(_chorusUnit.feedbackRight);
+        _chorusUnit.feedbackRight.connect(_chorusUnit.delayRight);
+        _chorusUnit.delayLeft.connect(_chorusUnit.output);
+        _chorusUnit.delayRight.connect(_chorusUnit.output);
+        _chorusUnit.output.connect(destination);
+        return _chorusUnit;
     },
 });
