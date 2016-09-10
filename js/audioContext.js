@@ -414,5 +414,26 @@ define({
         _chorusUnit.delayRight.connect(_chorusUnit.output);
         _chorusUnit.output.connect(destination);
         return _chorusUnit;
+    },
+    createCompressorUnit: function createCompressorUnit(context, destination) {
+        var _compressorUnit = {};
+        _compressorUnit.input = this.createGainNode(context);
+        _compressorUnit.compressor = this.createDynamicsCompressorNode(context);
+        _compressorUnit.output = this.createGainNode(context);
+        _compressorUnit.input.connect(_compressorUnit.compressor);
+        _compressorUnit.compressor.connect(_compressorUnit.output);
+        _compressorUnit.output.connect(destination);
+        _compressorUnit.bypass = function () {
+            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+            if (state) {
+                this.input.disconnect(this.compressor);
+                this.input.connect(this.output);
+            } else {
+                this.input.connect(this.compressor);
+                this.input.disconnect(this.output);
+            }
+        };
+        return _compressorUnit;
     }
 });

@@ -103,6 +103,11 @@
     <fieldset id='dynamics'>
         <legend>Dynamics</legend>
         <div class='control-group'>
+            <label for='compressorBypass'>
+                <input type='checkbox' id='compressorBypass'>Bypass
+            </label>
+        </div>
+        <div class='control-group'>
             <label for='dynamicsThreshold'>Threshold</label>
             <input type='range' min='-100' max='0' step='0.1' value='-24' id='dynamicsThreshold'>
         </div>
@@ -176,21 +181,25 @@
     });
     document.querySelector('#lfo2Type').addEventListener('change', function(event){
         flangerUnit.lfo2.oscillator.type = event.target.value;
-    });        
+    });
+    document.querySelector('#compressorBypass').addEventListener('change', function(event){
+        const bypass = event.target.checked;
+        compressor.bypass(bypass);
+    });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
-        compressor.threshold.value = event.target.value;
+        compressor.compressor.threshold.value = event.target.value;
     });
     document.querySelector('#dynamicsKnee').addEventListener('change', function(event){
-        compressor.knee.value = event.target.value;
+        compressor.compressor.knee.value = event.target.value;
     });
     document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
-        compressor.ratio.value = event.target.value;
+        compressor.compressor.ratio.value = event.target.value;
     });
     document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
-        compressor.attack.value = event.target.value;
+        compressor.compressor.attack.value = event.target.value;
     });
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
-        compressor.release.value = event.target.value;
+        compressor.compressor.release.value = event.target.value;
     });
     document.querySelector('form').addEventListener('submit', function(event){
         event && event.preventDefault()    

@@ -4,16 +4,8 @@ requirejs(['audioContext'], function(audioContext){
     window.panner = audioContext.createStereoPannerNode(context, window.masterVolume, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.flangerUnit = audioContext.createDualFlangerUnit(context, analyser);
-    window.compressor = audioContext.createDynamicsCompressorNode(
-        context,
-        flangerUnit.input,
-        document.querySelector('#dynamicsThreshold').value,
-        document.querySelector('#dynamicsKnee').value,
-        document.querySelector('#dynamicsRatio').value,
-        document.querySelector('#dynamicsAttack').value,
-        document.querySelector('#dynamicsRelease').value
-        );
-    window.gainStage = audioContext.createGainNode(context, compressor, 1);
+    window.compressor = audioContext.createCompressorUnit(context, flangerUnit.input);
+    window.gainStage = audioContext.createGainNode(context, compressor.input, 1);
     window.input = audioContext.createUserMediaNode(context, gainStage);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);

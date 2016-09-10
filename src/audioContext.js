@@ -354,4 +354,24 @@ define({
         _chorusUnit.output.connect(destination);
         return _chorusUnit;
     },
+    createCompressorUnit: function(context, destination){
+        const _compressorUnit = {};
+        _compressorUnit.input = this.createGainNode(context);
+        _compressorUnit.compressor = this.createDynamicsCompressorNode(context);
+        _compressorUnit.output = this.createGainNode(context);
+        _compressorUnit.input.connect(_compressorUnit.compressor);
+        _compressorUnit.compressor.connect(_compressorUnit.output);
+        _compressorUnit.output.connect(destination);
+        _compressorUnit.bypass = function(state = false){
+            if (state) {
+                this.input.disconnect(this.compressor);
+                this.input.connect(this.output);
+            }else{
+                this.input.connect(this.compressor);
+                this.input.disconnect(this.output);
+            }
+        }
+        return _compressorUnit;
+    
+    }
 });
