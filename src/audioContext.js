@@ -203,6 +203,14 @@ define({
         _echoUnit.feedback.connect(_echoUnit.delay);
         _echoUnit.delay.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
+        _echoUnit.bypass = function(state = false){
+            if (state) {
+                this.wetChannel.disconnect(this.delay);
+            }else{
+                this.wetChannel.connect(this.delay);
+            }
+        }
+        return _reverb;
         return _echoUnit;
     },
     createDualEchoUnit: function(context, destination, delay = 0.4, feedback = 0.6, wetSignal = 1){
@@ -233,6 +241,15 @@ define({
         _echoUnit.panRight.connect(_echoUnit.output);
         _echoUnit.panLeft.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
+        _echoUnit.bypass = function(state = false){
+            if (state) {
+                this.wetChannelLeft.disconnect(this.delayLeft);
+                this.wetChannelRight.disconnect(this.delayRight);
+            }else{
+                this.wetChannelLeft.connect(this.delayLeft);
+                this.wetChannelRight.connect(this.delayRight);
+            }
+        }   
         return _echoUnit;
     },
     createReverbUnit: function(context, destination, wetSignal = 1){
@@ -352,6 +369,15 @@ define({
         _chorusUnit.delayLeft.connect(_chorusUnit.output);
         _chorusUnit.delayRight.connect(_chorusUnit.output);
         _chorusUnit.output.connect(destination);
+        _chorusUnit.bypass = function(state = false){
+            if (state) {
+                this.wetChannelLeft.disconnect(this.delayLeft);
+                this.wetChannelRight.disconnect(this.delayRight);
+            }else{
+                this.wetChannelLeft.connect(this.delayLeft);
+                this.wetChannelRight.connect(this.delayRight);
+            }
+        }   
         return _chorusUnit;
     },
     createCompressorUnit: function(context, destination){

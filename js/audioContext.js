@@ -240,6 +240,16 @@ define({
         _echoUnit.feedback.connect(_echoUnit.delay);
         _echoUnit.delay.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
+        _echoUnit.bypass = function () {
+            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+            if (state) {
+                this.wetChannel.disconnect(this.delay);
+            } else {
+                this.wetChannel.connect(this.delay);
+            }
+        };
+        return _reverb;
         return _echoUnit;
     },
     createDualEchoUnit: function createDualEchoUnit(context, destination) {
@@ -274,6 +284,17 @@ define({
         _echoUnit.panRight.connect(_echoUnit.output);
         _echoUnit.panLeft.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
+        _echoUnit.bypass = function () {
+            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+            if (state) {
+                this.wetChannelLeft.disconnect(this.delayLeft);
+                this.wetChannelRight.disconnect(this.delayRight);
+            } else {
+                this.wetChannelLeft.connect(this.delayLeft);
+                this.wetChannelRight.connect(this.delayRight);
+            }
+        };
         return _echoUnit;
     },
     createReverbUnit: function createReverbUnit(context, destination) {
@@ -413,6 +434,17 @@ define({
         _chorusUnit.delayLeft.connect(_chorusUnit.output);
         _chorusUnit.delayRight.connect(_chorusUnit.output);
         _chorusUnit.output.connect(destination);
+        _chorusUnit.bypass = function () {
+            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+            if (state) {
+                this.wetChannelLeft.disconnect(this.delayLeft);
+                this.wetChannelRight.disconnect(this.delayRight);
+            } else {
+                this.wetChannelLeft.connect(this.delayLeft);
+                this.wetChannelRight.connect(this.delayRight);
+            }
+        };
         return _chorusUnit;
     },
     createCompressorUnit: function createCompressorUnit(context, destination) {
