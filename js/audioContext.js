@@ -124,6 +124,9 @@ define({
     createStereoPannerNode: function createStereoPannerNode(context, destination) {
         var pan = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _pan = context.createStereoPanner();
         _pan.pan.value = pan;
         if (destination) {
@@ -134,6 +137,9 @@ define({
     createConvolverNode: function createConvolverNode(context, destination) {
         var buffer = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _convolver = context.createConvolver();
         if (buffer) {
             _convolver.buffer = buffer;
@@ -146,6 +152,9 @@ define({
     createAudioBufferSourceNode: function createAudioBufferSourceNode(context, destination) {
         var buffer = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _buffer = context.createBufferSource();
         if (buffer) {
             _buffer.buffer = buffer;
@@ -156,6 +165,9 @@ define({
         return _buffer;
     },
     createUserMediaNode: function createUserMediaNode(context, destination) {
+        if (!context) {
+            throw 'No context defined';
+        }
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         var _source;
         if (navigator.getUserMedia) {
@@ -184,6 +196,9 @@ define({
         return curve;
     },
     linearEnvelopeADSR: function linearEnvelopeADSR(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime) {
+        if (!context) {
+            throw 'No context defined';
+        }
         var currentTime = context.currentTime;
         audioParam.cancelScheduledValues(currentTime);
         audioParam.setValueAtTime(startValue, currentTime);
@@ -192,6 +207,9 @@ define({
         audioParam.linearRampToValueAtTime(startValue, currentTime + attackTime + decayTime + holdTime + releaseTime);
     },
     getAudioByXhr: function getAudioByXhr(url, reference) {
+        if (!reference) {
+            throw 'No reference defined';
+        }
         var ajaxRequest = new XMLHttpRequest();
         ajaxRequest.open('GET', url, true);
         ajaxRequest.responseType = 'arraybuffer';
@@ -214,17 +232,24 @@ define({
         var frequency = arguments.length <= 3 || arguments[3] === undefined ? 0.1 : arguments[3];
         var gain = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _lfo = {};
         _lfo.gain = this.createGainNode(context, destination, gain);
         _lfo.oscillator = this.createOscillatorNode(context, _lfo.gain, waveform, frequency, 0);
         _lfo.oscillator.start(0);
         return _lfo;
     },
+    //Effects Units
     createEchoUnit: function createEchoUnit(context, destination) {
         var delay = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
         var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
         var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannel = this.createGainNode(context);
@@ -257,6 +282,9 @@ define({
         var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
         var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannelLeft = this.createGainNode(context, null, wetSignal);
@@ -300,6 +328,9 @@ define({
     createReverbUnit: function createReverbUnit(context, destination) {
         var wetSignal = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _reverb = {};
         _reverb.input = this.createGainNode(context);
         _reverb.wetChannel = this.createGainNode(context, null, wetSignal);
@@ -328,6 +359,9 @@ define({
         var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.9 : arguments[3];
         var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _flangerUnit = {};
         _flangerUnit.input = this.createGainNode(context);
         _flangerUnit.wetChannel = this.createGainNode(context);
@@ -360,6 +394,9 @@ define({
         var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.9 : arguments[3];
         var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _flangerUnit = {};
         _flangerUnit.input = this.createGainNode(context);
         _flangerUnit.wetChannelLeft = this.createGainNode(context);
@@ -407,6 +444,9 @@ define({
         var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.2 : arguments[3];
         var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
 
+        if (!context) {
+            throw 'No context defined';
+        }
         var _chorusUnit = {};
         _chorusUnit.input = this.createGainNode(context);
         _chorusUnit.wetChannelLeft = this.createGainNode(context);
@@ -448,6 +488,9 @@ define({
         return _chorusUnit;
     },
     createCompressorUnit: function createCompressorUnit(context, destination) {
+        if (!context) {
+            throw 'No context defined';
+        }
         var _compressorUnit = {};
         _compressorUnit.input = this.createGainNode(context);
         _compressorUnit.compressor = this.createDynamicsCompressorNode(context);
