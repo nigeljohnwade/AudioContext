@@ -38,22 +38,22 @@
             </select>
         </div>
         <div class='control-group'>
-            <input type='text' data-stepid='1' value='0' length='4' id='parameterValue1'>
-            <input type='text' data-stepid='2' value='0' length='4' id='parameterValue2'>
-            <input type='text' data-stepid='3' value='0' length='4' id='parameterValue3'>
-            <input type='text' data-stepid='4' value='0' length='4' id='parameterValue4'>
-            <input type='text' data-stepid='5' value='0' length='4' id='parameterValue5'>
-            <input type='text' data-stepid='6' value='0' length='4' id='parameterValue6'>
-            <input type='text' data-stepid='7' value='0' length='4' id='parameterValue7'>
-            <input type='text' data-stepid='8' value='0' length='4' id='parameterValue8'>
-            <input type='text' data-stepid='9' value='0' length='4' id='parameterValue9'>
-            <input type='text' data-stepid='10' value='0' length='4' id='parameterValue10'>
-            <input type='text' data-stepid='11' value='0' length='4' id='parameterValue11'>
-            <input type='text' data-stepid='12' value='0' length='4' id='parameterValue12'>
-            <input type='text' data-stepid='13' value='0' length='4' id='parameterValue13'>
-            <input type='text' data-stepid='14' value='0' length='4' id='parameterValue14'>
-            <input type='text' data-stepid='15' value='0' length='4' id='parameterValue15'>
-            <input type='text' data-stepid='16' value='0' length='4' id='parameterValue16'>
+            <input type='text' data-stepid='1' value='200' length='4' id='parameterValue1'>
+            <input type='text' data-stepid='2' value='400' length='4' id='parameterValue2'>
+            <input type='text' data-stepid='3' value='200' length='4' id='parameterValue3'>
+            <input type='text' data-stepid='4' value='500' length='4' id='parameterValue4'>
+            <input type='text' data-stepid='5' value='50' length='4' id='parameterValue5'>
+            <input type='text' data-stepid='6' value='800' length='4' id='parameterValue6'>
+            <input type='text' data-stepid='7' value='60' length='4' id='parameterValue7'>
+            <input type='text' data-stepid='8' value='20' length='4' id='parameterValue8'>
+            <input type='text' data-stepid='9' value='80' length='4' id='parameterValue9'>
+            <input type='text' data-stepid='10' value='990' length='4' id='parameterValue10'>
+            <input type='text' data-stepid='11' value='440' length='4' id='parameterValue11'>
+            <input type='text' data-stepid='12' value='330' length='4' id='parameterValue12'>
+            <input type='text' data-stepid='13' value='150' length='4' id='parameterValue13'>
+            <input type='text' data-stepid='14' value='65' length='4' id='parameterValue14'>
+            <input type='text' data-stepid='15' value='500' length='4' id='parameterValue15'>
+            <input type='text' data-stepid='16' value='750' length='4' id='parameterValue16'>
         </div>
     </fieldset>
     <fieldset id='delay' class='fieldset-group'>
@@ -210,7 +210,7 @@
         const inputs = Array.prototype.slice.call(document.querySelectorAll('[id*=parameterValue]'));
         const stepsArray = [];
         inputs.map(function(element, index, array){
-            stepsArray[parseInt(element.dataset.stepid)] = parseFloat(element.value);    
+            stepsArray[parseInt(element.dataset.stepid)] = [{target: filter1.frequency, value: parseFloat(element.value)}];    
         });
         return stepsArray;
     } 
@@ -255,24 +255,25 @@
             parseFloat(document.querySelector('#envelopeHold').value),
             parseFloat(document.querySelector('#envelopeRelease').value)
             );
-        runRandomValueSequencer(context, 2, [
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}],
-            [{target: filter1.frequency, min: 50, max: 800}],
-            [{target: filter1.frequency, min: 250, max: 1400}]
-            ])
+        runValueSequencer(context, 2, getStepsArray())
+        //runRandomValueSequencer(context, 2, [
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}],
+        //    [{target: filter1.frequency, min: 50, max: 800}],
+        //    [{target: filter1.frequency, min: 250, max: 1400}]
+        //    ])
     })
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));

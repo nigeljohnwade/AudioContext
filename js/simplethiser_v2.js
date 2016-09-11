@@ -65,6 +65,20 @@ requirejs(['audioContext'], function(audioContext){
             }
         )}
     }
+    window.runValueSequencer = function(context, interval, objects){
+        const now = context.currentTime;
+        for(var i = 1, t = 1; i < objects.length; i++, t++){
+            objects[i].forEach(function(element, index, array){
+                setTimeout(
+                    setValue,
+                    (t * 1000 * interval)-20,
+                    element.target,
+                    element.value,
+                    now + (t * interval)
+                );
+            }
+        )}
+    }
     window.setValue = function(param, value, time){
         param.exponentialRampToValueAtTime(value, time);
     }
