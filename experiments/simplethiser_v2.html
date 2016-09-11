@@ -32,10 +32,14 @@
         <div class='control-group'></div>
             <label for='parameterSelector'>Select parameter</label>
             <select id='parameterSelector'>
-                <option value='filter1Frequency'>Filter cutoff</option>
-                <option value='filter1Q'>Filter cutoff</option>
-                <option value='osc2Detune'>Filter cutoff</option>
+                <option value='filter1.frequency'>Filter cutoff</option>
+                <option value='filter1.Q'>Filter cutoff</option>
+                <option value='osc2.detune'>Filter cutoff</option>
             </select>
+        </div>
+        <div class='control-group'>
+            <label for='sequencerIntervalDuration'>Sequencer interval duration</label>
+            <input type='number' id='sequencerIntervalDuration' value='1'>
         </div>
         <div class='control-group'>
             <input type='text' data-stepid='1' value='200' length='4' id='parameterValue1'>
@@ -208,9 +212,10 @@
 <script type='text/javascript'>
     const getStepsArray = function(){
         const inputs = Array.prototype.slice.call(document.querySelectorAll('[id*=parameterValue]'));
+        const parameter = window[document.querySelector('#parameterSelector').value.split('.')[0]][document.querySelector('#parameterSelector').value.split('.')[1]];
         const stepsArray = [];
         inputs.map(function(element, index, array){
-            stepsArray[parseInt(element.dataset.stepid)] = [{target: filter1.frequency, value: parseFloat(element.value)}];    
+            stepsArray[parseInt(element.dataset.stepid) - 1] = [{target: parameter, value: parseFloat(element.value)}];    
         });
         return stepsArray;
     } 
@@ -255,7 +260,13 @@
             parseFloat(document.querySelector('#envelopeHold').value),
             parseFloat(document.querySelector('#envelopeRelease').value)
             );
-        runValueSequencer(context, 2, getStepsArray())
+        const envelopeDuration = parseFloat(document.querySelector('#envelopeLevel').value) + 
+            parseFloat(document.querySelector('#envelopeAttack').value)+ 
+            parseFloat(document.querySelector('#envelopeDecay').value)+
+            parseFloat(document.querySelector('#envelopeHold').value)+
+            parseFloat(document.querySelector('#envelopeRelease').value);
+        console.log(envelopeDuration);
+        runValueSequencer(context, document.querySelector('#sequencerIntervalDuration').value, envelopeDuration, getStepsArray())
         //runRandomValueSequencer(context, 2, [
         //    [{target: filter1.frequency, min: 50, max: 800}],
         //    [{target: filter1.frequency, min: 250, max: 1400}],
