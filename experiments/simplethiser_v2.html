@@ -42,6 +42,10 @@
             <input type='number' id='sequencerIntervalDuration' value='1'>
         </div>
         <div class='control-group'>
+            <label for='sequencerStepLength'>Sequencer step length</label>
+            <input type='number' id='sequencerStepLength' value='16'>
+        </div>
+        <div class='control-group'>
             <input type='text' data-stepid='1' value='200' length='4' id='parameterValue1'>
             <input type='text' data-stepid='2' value='400' length='4' id='parameterValue2'>
             <input type='text' data-stepid='3' value='200' length='4' id='parameterValue3'>
@@ -226,7 +230,15 @@
     });
     document.querySelector('#pan').addEventListener('change', function(event){
         panner.pan.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
-    });    
+    });
+    document.querySelector('#sequencerStepLength').addEventListener('change', function(event){
+        const inputs = Array.prototype.slice.call(document.querySelectorAll('[id*=parameterValue]'));
+        inputs.map(function(element, index, array){
+            if (Number(element.dataset.stepid) > Number(event.target.value)) {
+                element.disabled = 'disable';
+            }  
+        });
+    });
     document.querySelector('#delayTime').addEventListener('change', function(event){
         delay.delayTime.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
