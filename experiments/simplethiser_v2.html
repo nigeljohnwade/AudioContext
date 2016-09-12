@@ -65,14 +65,35 @@
         </div>
     </fieldset>
     <fieldset id='delay' class='fieldset-group'>
-        <legend>Delay</legend>
+        <legend>Dual delay</legend>
         <div class='control-group'>
-            <label for='delayTime'>Delay time</label>
-            <input type='range' min='0' max='10' step='0.01' value='0.01' id='delayTime'>
+            <label for='dualEchoUnitBypass'>
+                <input type='checkbox' id='dualEchoUnitBypass'>Bypass
+            </label>
         </div>
         <div class='control-group'>
-            <label for='delayFeedback'>Feedback</label>
-            <input type='range' min='0' max='1' step='0.001' value='0.98' id='delayFeedback'>
+            <label for='delayTimeLeft'>Delay time left</label>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeLeft'>
+        </div>
+        <div class='control-group'>
+            <label for='delayFeedbackLeft'>Feedback left</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackLeft'>
+        </div>
+        <div class='control-group'>
+            <label for='delayTimeRight'>Delay time right</label>
+            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeRight'>
+        </div>
+        <div class='control-group'>
+            <label for='delayFeedbackLeft'>Feedback</label>
+            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackRight'>
+        </div>
+        <div class='control-group'>
+            <label for='delayLeftWetLevel'>Wet signal left gain</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='delayLeftWetLevel'>
+        </div>
+        <div class='control-group'>
+            <label for='delayRightWetLevel'>Wet signal right gain</label>
+            <input type='range' min='0' max='1' step='0.01' value='1' id='delayRightWetLevel'>
         </div>
     </fieldset>
     <fieldset id='dynamics'>
@@ -239,11 +260,27 @@
             }  
         });
     });
-    document.querySelector('#delayTime').addEventListener('change', function(event){
-        delay.delayTime.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+    document.querySelector('#dualEchoUnitBypass').addEventListener('change', function(event){
+        const bypass = event.target.checked;
+        dualEchoUnit.bypass(bypass);
     });
-    document.querySelector('#delayFeedback').addEventListener('change', function(event){
-        delayFeedback.gain.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+    document.querySelector('#delayTimeLeft').addEventListener('change', function(event){
+        dualEchoUnit.delayLeft.delayTime.value = event.target.value;
+    });
+    document.querySelector('#delayTimeRight').addEventListener('change', function(event){
+        dualEchoUnit.delayRight.delayTime.value = event.target.value;
+    });
+    document.querySelector('#delayFeedbackLeft').addEventListener('change', function(event){
+        dualEchoUnit.feedbackLeft.gain.value = event.target.value;
+    });
+    document.querySelector('#delayFeedbackRight').addEventListener('change', function(event){
+        dualEchoUnit.feedbackRight.gain.value = event.target.value;
+    });
+    document.querySelector('#delayRightWetLevel').addEventListener('change', function(event){
+        dualEchoUnit.wetChannelRight.gain.value = event.target.value;
+    });
+    document.querySelector('#delayLeftWetLevel').addEventListener('change', function(event){
+        dualEchoUnit.wetChannelLeft.gain.value = event.target.value;
     });
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
         compressor.threshold.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
@@ -277,26 +314,7 @@
             parseFloat(document.querySelector('#envelopeDecay').value)+
             parseFloat(document.querySelector('#envelopeHold').value)+
             parseFloat(document.querySelector('#envelopeRelease').value);
-        console.log(envelopeDuration);
         runValueSequencer(context, document.querySelector('#sequencerIntervalDuration').value, envelopeDuration, getStepsArray())
-        //runRandomValueSequencer(context, 2, [
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}],
-        //    [{target: filter1.frequency, min: 50, max: 800}],
-        //    [{target: filter1.frequency, min: 250, max: 1400}]
-        //    ])
     })
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));

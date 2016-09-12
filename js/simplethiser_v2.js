@@ -5,12 +5,10 @@ requirejs(['audioContext'], function(audioContext){
     audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
     window.panner = audioContext.createStereoPannerNode(context, convolver, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
-    window.delay = audioContext.createDelayNode(context, analyser, 0.5);
-    window.delayFeedback = audioContext.createGainNode(context, delay, 0.8);
-    delay.connect(delayFeedback);
+    window.dualEchoUnit = audioContext.createDualEchoUnit(context, analyser, 0.5, 0.6, 1);
     window.compressor = audioContext.createDynamicsCompressorNode(
         context,
-        delay,
+        dualEchoUnit.input,
         document.querySelector('#dynamicsThreshold').value,
         document.querySelector('#dynamicsKnee').value,
         document.querySelector('#dynamicsRatio').value,
