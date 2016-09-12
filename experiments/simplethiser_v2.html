@@ -71,29 +71,33 @@
                 <input type='checkbox' id='dualEchoUnitBypass'>Bypass
             </label>
         </div>
-        <div class='control-group'>
-            <label for='delayTimeLeft'>Delay time left</label>
-            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeLeft'>
+        <div class='span-6'>
+            <div class='control-group'>
+                <label for='delayTimeLeft'>Delay time left</label>
+                <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeLeft'>
+            </div>
+            <div class='control-group'>
+                <label for='delayFeedbackLeft'>Feedback left</label>
+                <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackLeft'>
+            </div>
+            <div class='control-group'>
+                <label for='delayLeftWetLevel'>Wet signal left gain</label>
+                <input type='range' min='0' max='1' step='0.01' value='1' id='delayLeftWetLevel'>
+            </div>
         </div>
-        <div class='control-group'>
-            <label for='delayFeedbackLeft'>Feedback left</label>
-            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackLeft'>
-        </div>
-        <div class='control-group'>
-            <label for='delayTimeRight'>Delay time right</label>
-            <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeRight'>
-        </div>
-        <div class='control-group'>
-            <label for='delayFeedbackLeft'>Feedback</label>
-            <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackRight'>
-        </div>
-        <div class='control-group'>
-            <label for='delayLeftWetLevel'>Wet signal left gain</label>
-            <input type='range' min='0' max='1' step='0.01' value='1' id='delayLeftWetLevel'>
-        </div>
-        <div class='control-group'>
-            <label for='delayRightWetLevel'>Wet signal right gain</label>
-            <input type='range' min='0' max='1' step='0.01' value='1' id='delayRightWetLevel'>
+        <div class='span-6'>
+            <div class='control-group'>
+                <label for='delayTimeRight'>Delay time right</label>
+                <input type='range' min='0' max='10' step='0.1' value='1' id='delayTimeRight'>
+            </div>
+            <div class='control-group'>
+                <label for='delayFeedbackLeft'>Feedback</label>
+                <input type='range' min='0' max='1' step='0.001' value='0.6' id='delayFeedbackRight'>
+            </div>
+            <div class='control-group'>
+                <label for='delayRightWetLevel'>Wet signal right gain</label>
+                <input type='range' min='0' max='1' step='0.01' value='1' id='delayRightWetLevel'>
+            </div>
         </div>
     </fieldset>
     <fieldset id='dynamics'>
