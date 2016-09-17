@@ -1,22 +1,71 @@
-requirejs(['audioContext'], function(audioContext){
+requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
+    const SAVE_PATCH = 'SAVE_PATCH';
+    const UPDATE_OSC_1_TYPE = 'UPDATE_OSC_1_TYPE';
+    const UPDATE_PROPERTY = 'UPDATE_PROPERTY';
+    function createSavePatch(patch){
+        return {type: SAVE_PATCH, patch};
+    }
+    function updateOscillator1Type(osc1Type){
+        return {type: UPDATE_OSC_1_TYPE, osc1Type};
+    }
+    function createUpdateProperty(optionsObject){
+        return {type: UPDATE_PROPERTY, optionsObject};
+    }    
+    const initialState ={ 
+        patch:{
+            oscillator: {
+                oscillator1Type: document.querySelector('#oscillator1Type').value,
+                oscillator2Type: document.querySelector('#oscillator2Type').value
+            }
+        }
+    }
+    console.log(initialState);
+    function patchApp(state, action){
+        if (typeof state === 'undefined') {
+            return initialState;
+        }
+        let newState = Object.assign({}, state);
+        switch(action.type){
+            case SAVE_PATCH:
+                return Object.assign({}, state, {patch: action.patch});
+            case UPDATE_OSC_1_TYPE:
+                newState.patch.oscillator.oscillator1Type = action.osc1Type;
+                console.log(newState);
+                return newState;
+            case UPDATE_PROPERTY:
+                newState.patch[action.optionsObject.key.split('.')[0]][action.optionsObject.key.split('.')[1]] = action.optionsObject.value;
+                console.log(newState);
+                return newState;                
+            default:
+                return state;
+        }
+        return state;
+    }
+    let store = redux.createStore(patchApp);
+    debugger;
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
-    window.convolver = audioContext.createConvolverNode(context, masterVolume, null);
-    audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
-    window.panner = audioContext.createStereoPannerNode(context, convolver, 0);
+    window.panner = audioContext.createStereoPannerNode(context, masterVolume, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
-    window.dualEchoUnit = audioContext.createDualEchoUnit(context, analyser, 0.5, 0.6, 1);
-    window.compressor = audioContext.createDynamicsCompressorNode(
-        context,
-        dualEchoUnit.input,
-        document.querySelector('#dynamicsThreshold').value,
-        document.querySelector('#dynamicsKnee').value,
-        document.querySelector('#dynamicsRatio').value,
-        document.querySelector('#dynamicsAttack').value,
-        document.querySelector('#dynamicsRelease').value
-        );
-    compressor.connect(analyser);
-    window.gainStage = audioContext.createGainNode(context, compressor, 0);
+    window.convolver = audioContext.createConvolverNode(context, analyser, null);
+    //audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
+    audioContext.getAudioByXhr('../audio/Inchdown.wav', window.convolver);
+    //audioContext.getAudioByXhr('../audio/BathHouse.wav', window.convolver);
+    //audioContext.getAudioByXhr('../audio/MesaBoogieStudio22.wav', window.convolver);
+    //audioContext.getAudioByXhr('../audio/French 18th Century Salon.wav', window.convolver);
+    window.dualEchoUnit = audioContext.createDualEchoUnit(context, convolver, 0.5, 0.6, 1);
+    window.compressor = audioContext.createCompressorUnit(context, dualEchoUnit.input);
+    //window.compressor = audioContext.createDynamicsCompressorNode(
+    //    context,
+    //    dualEchoUnit.input  ,
+    //    document.querySelector('#dynamicsThreshold').value,
+    //    document.querySelector('#dynamicsKnee').value,
+    //    document.querySelector('#dynamicsRatio').value,
+    //    document.querySelector('#dynamicsAttack').value,
+    //    document.querySelector('#dynamicsRelease').value
+    //    );
+    compressor.output.connect(analyser);
+    window.gainStage = audioContext.createGainNode(context, compressor.input, 0);
     window.distortion = audioContext.createWaveShaperNode(context, gainStage, audioContext.makeDistortionCurve(400), 'none' );
     distortion.setCurve = function(amount){
         distortion.curve = audioContext.makeDistortionCurve(amount);

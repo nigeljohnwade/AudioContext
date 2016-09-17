@@ -27,8 +27,7 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend>Parameter sequencer</legend>
-        </div>
+        <legend>Parameter sequencer</legend>    
         <div class='span-4'>
             <div class='control-group'>
                 <label for='parameterSelector'>Select parameter</label>
@@ -58,14 +57,14 @@
             <input type='text' data-stepid='4' value='500' length='4' id='parameterValue4'>
             <input type='text' data-stepid='5' value='50' length='4' id='parameterValue5'>
             <input type='text' data-stepid='6' value='800' length='4' id='parameterValue6'>
-            <input type='text' data-stepid='7' value='60' length='4' id='parameterValue7'>
-            <input type='text' data-stepid='8' value='20' length='4' id='parameterValue8'>
-            <input type='text' data-stepid='9' value='80' length='4' id='parameterValue9'>
+            <input type='text' data-stepid='7' value='1060' length='4' id='parameterValue7'>
+            <input type='text' data-stepid='8' value='200' length='4' id='parameterValue8'>
+            <input type='text' data-stepid='9' value='480' length='4' id='parameterValue9'>
             <input type='text' data-stepid='10' value='990' length='4' id='parameterValue10'>
             <input type='text' data-stepid='11' value='440' length='4' id='parameterValue11'>
             <input type='text' data-stepid='12' value='330' length='4' id='parameterValue12'>
             <input type='text' data-stepid='13' value='150' length='4' id='parameterValue13'>
-            <input type='text' data-stepid='14' value='65' length='4' id='parameterValue14'>
+            <input type='text' data-stepid='14' value='650' length='4' id='parameterValue14'>
             <input type='text' data-stepid='15' value='500' length='4' id='parameterValue15'>
             <input type='text' data-stepid='16' value='750' length='4' id='parameterValue16'>
         </div>
@@ -108,6 +107,11 @@
     </fieldset>
     <fieldset id='dynamics'>
         <legend>Dynamics</legend>
+        <div class='control-group'>
+            <label for='compressorBypass'>
+                <input type='checkbox' id='compressorBypass'>Bypass
+            </label>
+        </div>
         <div class='control-group'>
             <label for='dynamicsThreshold'>Threshold</label>
             <input type='range' min='-100' max='0' step='0.1' value='-24' id='dynamicsThreshold'>
@@ -252,7 +256,7 @@
         inputs.map(function(element, index, array){
             stepsArray[parseInt(element.dataset.stepid) - 1] = [{target: parameter, value: parseFloat(element.value)}];    
         });
-        return stepsArray;
+        return stepsArray.slice(0,document.querySelector('#sequencerStepLength').value);
     } 
     document.querySelector('#oscilliscopeVisualiser').height = '200';
     document.querySelector('#oscilliscopeVisualiser').width = document.querySelector('#oscilliscope').clientWidth;
@@ -267,7 +271,9 @@
         inputs.map(function(element, index, array){
             if (Number(element.dataset.stepid) > Number(event.target.value)) {
                 element.disabled = 'disable';
-            }  
+            }else{
+                element.removeAttribute('disabled');
+            }
         });
     });
     document.querySelector('#dualEchoUnitBypass').addEventListener('change', function(event){
@@ -292,20 +298,24 @@
     document.querySelector('#delayLeftWetLevel').addEventListener('change', function(event){
         dualEchoUnit.wetChannelLeft.gain.value = event.target.value;
     });
+    document.querySelector('#compressorBypass').addEventListener('change', function(event){
+        const bypass = event.target.checked;
+        compressor.bypass(bypass);
+    });    
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
-        compressor.threshold.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+        compressor.compressor.threshold.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsKnee').addEventListener('change', function(event){
-        compressor.knee.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+        compressor.compressor.knee.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
-        compressor.ratio.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+        compressor.compressor.ratio.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
-        compressor.attack.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+        compressor.compressor.attack.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
-        compressor.release.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
+        compressor.compressor.release.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#envelopeTrigger').addEventListener('click', function(event){
         envelope(
