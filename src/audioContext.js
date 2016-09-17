@@ -235,7 +235,6 @@ define({
                 this.wetChannel.connect(this.delay);
             }
         }
-        return _reverb;
         return _echoUnit;
     },
     createDualEchoUnit: function(context, destination, delay = 0.4, feedback = 0.6, wetSignal = 1){
