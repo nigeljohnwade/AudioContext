@@ -19,7 +19,6 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
             }
         }
     }
-    console.log(initialState);
     function patchApp(state, action){
         if (typeof state === 'undefined') {
             return initialState;
@@ -30,7 +29,6 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
                 return Object.assign({}, state, {patch: action.patch});
             case UPDATE_PROPERTY:
                 newState.patch[action.optionsObject.key.split('.')[0]][action.optionsObject.key.split('.')[1]] = action.optionsObject.value;
-                console.log(newState);
                 return newState;                
             default:
                 return state;
@@ -38,7 +36,10 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
         return state;
     }
     window.store = redux.createStore(patchApp);
-    debugger;
+    let unsubscribe = window.store.subscribe(() =>
+        console.log(window.store.getState())
+    )
+    //debugger;
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
     window.panner = audioContext.createStereoPannerNode(context, masterVolume, 0);

@@ -10,6 +10,11 @@
     <h1>Simplethiser <button id='envelopeTrigger'>Trigger</button></h1>
 <form>
     <fieldset>
+        <legend>Disk operations</legend>
+        <button id="savePatch">Save patch</button>
+        <input type='text' name='patchName' id='patchName'>
+    </fieldset>
+    <fieldset>
         <legend>Oscilliscope</legend>
         <div id='oscilliscope'>
             <canvas id='oscilliscopeVisualiser'></canvas>
@@ -249,6 +254,9 @@
 </form>
 <script src='../js/require.js' data-main='../js/simplethiser_v2'></script>
 <script type='text/javascript'>
+    document.querySelector('#savePatch').addEventListener('click', function(event){
+        window.localStorage.setItem(document.querySelector('#patchName').value + '_patch', JSON.stringify(window.store.getState()));
+    });
     const getStepsArray = function(){
         const inputs = Array.prototype.slice.call(document.querySelectorAll('[id*=parameterValue]'));
         const parameter = window[document.querySelector('#parameterSelector').value.split('.')[0]][document.querySelector('#parameterSelector').value.split('.')[1]];
@@ -373,6 +381,7 @@
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
         window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
+        window.store.dispatch(window.createUpdateProperty({key: 'oscillator.oscillator2Frequency', value: (Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value)}));
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
