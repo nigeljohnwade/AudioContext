@@ -217,19 +217,19 @@
         <legend>Oscillators</legend>
         <div class='control-group'>
             <label for='oscillator1Octave'>Osc1 frequency</label>
-            <input type='range' min='1' max='8' step='0.001' value='1.5' id='oscillator1Octave'>
+            <input type='range' min='1' max='8' step='0.001' value='1.5' id='oscillator1Octave' data-maptostore='oscillator.oscillator1Frequency'>
         </div>
         <div class='control-group'>
             <label for='oscillator2Detune'>Osc2 detune</label>
-            <input type='range' min='-100' max='100' value='3' id='oscillator2Detune'>
+            <input type='range' min='-100' max='100' value='3' id='oscillator2Detune' data-maptostore='oscillator.oscillator2Detune'>
         </div>
         <div class='control-group'>
             <label for='oscillator2Octave'>Osc2 octave</label>
-            <input type='range' min='-2' max='2' step='1' value='-2' id='oscillator2Octave'>
+            <input type='range' min='-2' max='2' step='1' value='-2' id='oscillator2Octave' data-maptostore='oscillator.oscillator2Octave'>
         </div>
         <div class='control-group'>
             <label for='oscillator1Type'>Osc1 waveform</label>
-            <select id='oscillator1Type'>
+            <select id='oscillator1Type' data-maptostore='oscillator.oscillator1Type'>
                 <option value='sine'>Sine</option>
                 <option value='square' selected>Square</option>
                 <option value='sawtooth'>Sawtooth</option>
@@ -238,7 +238,7 @@
         </div>
         <div class='control-group'>
             <label for='oscillator2Type'>Osc2 waveform</label>
-            <select id='oscillator2Type'>
+            <select id='oscillator2Type' data-maptostore='oscillator.oscillator2Type'>
                 <option value='sine'>Sine</option>
                 <option value='square'>Square</option>
                 <option value='sawtooth' selected>Sawtooth</option>
@@ -362,19 +362,25 @@
         lfo1.oscillator.type = event.target.value;
     });
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
+        window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: Math.pow(2, event.target.value) * 55}));
+        window.store.dispatch(window.createUpdateProperty({key: 'oscillator.oscillator2Frequency', value: (Math.pow(2, event.target.value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value)}));
         osc1.frequency.exponentialRampToValueAtTime(Math.pow(2, event.target.value) * 55, 0.002);
         osc2.frequency.exponentialRampToValueAtTime(osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value), 0.02);
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
+        window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
         osc2.detune.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
+        window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
         osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
+        window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
         osc1.type = event.target.value;
     });
     document.querySelector('#oscillator2Type').addEventListener('change', function(event){
+        window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
         osc2.type = event.target.value;
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){

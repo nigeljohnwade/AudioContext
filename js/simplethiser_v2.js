@@ -1,21 +1,21 @@
 requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
     const SAVE_PATCH = 'SAVE_PATCH';
-    const UPDATE_OSC_1_TYPE = 'UPDATE_OSC_1_TYPE';
     const UPDATE_PROPERTY = 'UPDATE_PROPERTY';
     function createSavePatch(patch){
         return {type: SAVE_PATCH, patch};
     }
-    function updateOscillator1Type(osc1Type){
-        return {type: UPDATE_OSC_1_TYPE, osc1Type};
-    }
-    function createUpdateProperty(optionsObject){
+    window.createUpdateProperty = function(optionsObject){
         return {type: UPDATE_PROPERTY, optionsObject};
     }    
     const initialState ={ 
         patch:{
             oscillator: {
                 oscillator1Type: document.querySelector('#oscillator1Type').value,
-                oscillator2Type: document.querySelector('#oscillator2Type').value
+                oscillator1Frequency: Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55,
+                oscillator2Type: document.querySelector('#oscillator2Type').value,
+                oscillator2Frequency: (Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value),
+                oscillator2Detune: document.querySelector('#oscillator2Detune').value,
+                oscillator2Octave: document.querySelector('#oscillator2Octave').value
             }
         }
     }
@@ -28,10 +28,6 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
         switch(action.type){
             case SAVE_PATCH:
                 return Object.assign({}, state, {patch: action.patch});
-            case UPDATE_OSC_1_TYPE:
-                newState.patch.oscillator.oscillator1Type = action.osc1Type;
-                console.log(newState);
-                return newState;
             case UPDATE_PROPERTY:
                 newState.patch[action.optionsObject.key.split('.')[0]][action.optionsObject.key.split('.')[1]] = action.optionsObject.value;
                 console.log(newState);
@@ -41,7 +37,7 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
         }
         return state;
     }
-    let store = redux.createStore(patchApp);
+    window.store = redux.createStore(patchApp);
     debugger;
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
