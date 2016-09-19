@@ -36,8 +36,15 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
         return state;
     }
     window.store = redux.createStore(patchApp);
-    let unsubscribe = window.store.subscribe(() =>
-        console.log(window.store.getState())
+    let unsubscribe = window.store.subscribe(function(){
+        var state = window.store.getState();
+        window.osc1.type = state.patch.oscillator.oscillator1Type;
+        window.osc2.type = state.patch.oscillator.oscillator2Type;
+        window.osc1.frequency,value = parseFloat(state.patch.oscillator.oscillator1Frequency);
+        window.osc2.frequency.value = parseFloat(state.patch.oscillator.oscillator2Frequency);
+        window.osc2.detune.value = parseFloat(state.patch.oscillator.oscillator2Detune);
+        console.log(state);
+        }
     )
     //debugger;
     window.context = audioContext.init();
@@ -45,8 +52,8 @@ requirejs(['audioContext', 'redux.min'], function(audioContext, redux){
     window.panner = audioContext.createStereoPannerNode(context, masterVolume, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.convolver = audioContext.createConvolverNode(context, analyser, null);
-    //audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
-    audioContext.getAudioByXhr('../audio/Inchdown.wav', window.convolver);
+    audioContext.getAudioByXhr('../audio/In The Silo Revised.wav', window.convolver);
+    //audioContext.getAudioByXhr('../audio/Inchdown.wav', window.convolver);
     //audioContext.getAudioByXhr('../audio/BathHouse.wav', window.convolver);
     //audioContext.getAudioByXhr('../audio/MesaBoogieStudio22.wav', window.convolver);
     //audioContext.getAudioByXhr('../audio/French 18th Century Salon.wav', window.convolver);

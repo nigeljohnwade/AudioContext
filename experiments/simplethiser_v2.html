@@ -372,25 +372,19 @@
     document.querySelector('#oscillator1Octave').addEventListener('change', function(event){
         window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: Math.pow(2, event.target.value) * 55}));
         window.store.dispatch(window.createUpdateProperty({key: 'oscillator.oscillator2Frequency', value: (Math.pow(2, event.target.value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value)}));
-        osc1.frequency.exponentialRampToValueAtTime(Math.pow(2, event.target.value) * 55, 0.002);
-        osc2.frequency.exponentialRampToValueAtTime(osc1.frequency.value * Math.pow(2, document.querySelector('#oscillator2Octave').value), 0.02);
     });
     document.querySelector('#oscillator2Detune').addEventListener('change', function(event){
         window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
-        osc2.detune.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02);
     });
     document.querySelector('#oscillator2Octave').addEventListener('change', function(event){
         window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
         window.store.dispatch(window.createUpdateProperty({key: 'oscillator.oscillator2Frequency', value: (Math.pow(2, document.querySelector('#oscillator1Octave').value) * 55) * Math.pow(2, document.querySelector('#oscillator2Octave').value)}));
-        osc2.frequency.value = osc1.frequency.value * Math.pow(2, event.target.value);
     });
     document.querySelector('#oscillator1Type').addEventListener('change', function(event){
         window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
-        osc1.type = event.target.value;
     });
     document.querySelector('#oscillator2Type').addEventListener('change', function(event){
         window.store.dispatch(window.createUpdateProperty({key: event.target.dataset.maptostore, value: event.target.value}));
-        osc2.type = event.target.value;
     });
     document.querySelector('#filter1Type').addEventListener('change', function(event){
         filter1.type = event.target.value;
