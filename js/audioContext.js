@@ -336,11 +336,13 @@ define({
         _reverb.dryChannel = this.createGainNode(context);
         _reverb.convolver = this.createConvolverNode(context);
         _reverb.output = this.createGainNode(context, null, 1);
+        _reverb.wetFilter = this.createBiquadFilterNode(context, null, 'lowpass', 1350, 0, 0);
         _reverb.input.connect(_reverb.dryChannel);
         _reverb.input.connect(_reverb.wetChannel);
         _reverb.dryChannel.connect(_reverb.output);
         _reverb.wetChannel.connect(_reverb.convolver);
-        _reverb.convolver.connect(_reverb.output);
+        _reverb.convolver.connect(_reverb.wetFilter);
+        _reverb.wetFilter.connect(_reverb.output);
         _reverb.output.connect(destination);
         _reverb.bypass = function () {
             var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];

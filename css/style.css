@@ -55,6 +55,9 @@ h1 button{
 .control-group input[type=number]{
     width: 20%;
 }
+.control-group input[type=checkbox]{
+    width: auto;
+}
 .control-group input[id*=parameter]{
     width: 12.5%;
     float: left;
