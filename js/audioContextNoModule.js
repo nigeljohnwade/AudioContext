@@ -206,7 +206,7 @@ window.audioContext = {
         audioParam.linearRampToValueAtTime(sustainValue, currentTime + attackTime + decayTime);
         audioParam.linearRampToValueAtTime(startValue, currentTime + attackTime + decayTime + holdTime + releaseTime);
     },
-    getAudioByXhr: function getAudioByXhr(url, reference) {
+    getAudioByXhr: function getAudioByXhr(url, reference, callback) {
         if (!reference) {
             throw 'No reference defined';
         }
@@ -220,6 +220,7 @@ window.audioContext = {
                 window.soundSource = context.createBufferSource();
                 window.soundSource.buffer = window.concertHallBuffer;
                 reference.buffer = buffer;
+                callback();
             }, function (e) {
                 "Error with decoding audio data" + e.err;
             });
