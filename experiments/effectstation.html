@@ -181,19 +181,19 @@
         compressor.bypass(bypass);
     });    
     document.querySelector('#dynamicsThreshold').addEventListener('change', function(event){
-        compressor.threshold.value = event.target.value;
+        compressor.compressor.threshold.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsKnee').addEventListener('change', function(event){
-        compressor.knee.value = event.target.value;
+        compressor.compressor.knee.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsRatio').addEventListener('change', function(event){
-        compressor.ratio.value = event.target.value;
+        compressor.compressor.ratio.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsAttack').addEventListener('change', function(event){
-        compressor.attack.value = event.target.value;
+        compressor.compressor.attack.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#dynamicsRelease').addEventListener('change', function(event){
-        compressor.release.value = event.target.value;
+        compressor.compressor.release.exponentialRampToValueAtTime(event.target.value, context.currentTime + 0.02)
     });
     document.querySelector('#vcaDistortion').addEventListener('change', function(event){
         distortion.setCurve(Number(event.target.value));

@@ -6,19 +6,10 @@ requirejs(['audioContext'], function(audioContext){
     window.panner = audioContext.createStereoPannerNode(context, window.reverbUnit.input, 0);
     window.analyser = audioContext.createAnalyserNode(context, panner);
     window.echoUnit = audioContext.createDualEchoUnit(context, analyser);
-    window.compressor = audioContext.createDynamicsCompressorNode(
-        context,
-        echoUnit.input,
-        document.querySelector('#dynamicsThreshold').value,
-        document.querySelector('#dynamicsKnee').value,
-        document.querySelector('#dynamicsRatio').value,
-        document.querySelector('#dynamicsAttack').value,
-        document.querySelector('#dynamicsRelease').value
-        );
-    compressor.connect(analyser);
+    window.compressor = audioContext.createCompressorUnit(context, echoUnit.input);
     window.filter1 = audioContext.createBiquadFilterNode(
         context,
-        compressor,
+        compressor.input,
         document.querySelector('#filter1Type').value,
         Math.pow(2, document.querySelector('#filter1frequency').value) * 55,
         document.querySelector('#filter1Q').value,

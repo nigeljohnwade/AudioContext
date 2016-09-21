@@ -314,7 +314,7 @@ define({
         _echoUnit.bypass = function () {
             var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
-            if (state !== false) {
+            if (state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
                 this.wetChannelRight.disconnect(this.delayRight);
             } else {
@@ -347,12 +347,10 @@ define({
         _reverb.bypass = function () {
             var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
-            switch (state) {
-                case 'false':case false:
-                    this.wetChannel.connect(_reverb.convolver);
-                    break;
-                default:
-                    this.wetChannel.disconnect(_reverb.convolver);
+            if (state) {
+                this.wetChannel.disconnect(_reverb.convolver);
+            } else {
+                this.wetChannel.connect(_reverb.convolver);
             }
         };
         return _reverb;
@@ -384,11 +382,10 @@ define({
         _flangerUnit.bypass = function () {
             var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
-            switch (state) {
-                case 'false':case false:
-                    this.wetChannel.connect(this.delay);
-                default:
-                    this.wetChannel.disconnect(this.delay);
+            if (state) {
+                this.wetChannel.disconnect(this.delay);
+            } else {
+                this.wetChannel.connect(this.delay);
             }
         };
         return _flangerUnit;
@@ -433,13 +430,12 @@ define({
         _flangerUnit.bypass = function () {
             var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
-            switch (state) {
-                case 'false':case false:
-                    this.wetChannelLeft.connect(this.delayLeft);
-                    this.wetChannelRight.connect(this.delayRight);
-                default:
-                    this.wetChannelLeft.disconnect(this.delayLeft);
-                    this.wetChannelRight.disconnect(this.delayRight);
+            if (state) {
+                this.wetChannelLeft.disconnect(this.delayLeft);
+                this.wetChannelRight.disconnect(this.delayRight);
+            } else {
+                this.wetChannelLeft.connect(this.delayLeft);
+                this.wetChannelRight.connect(this.delayRight);
             }
         };
         return _flangerUnit;
@@ -483,7 +479,6 @@ define({
             var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
             if (state) {
-
                 this.wetChannelLeft.disconnect(this.delayLeft);
                 this.wetChannelRight.disconnect(this.delayRight);
             } else {

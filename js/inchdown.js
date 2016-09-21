@@ -1,8 +1,11 @@
+'use strict';
 requirejs(['audioContext'], function(audioContext){
     window.context = audioContext.init();
     window.masterVolume = audioContext.createGainNode(context, context.destination, 1);
     window.panner = audioContext.createStereoPannerNode(context, window.masterVolume, 0);
     window.analyser = audioContext.createAnalyserNode(context, window.panner);
+
+
     window.reverbUnit = audioContext.createReverbUnit(context, window.analyser);
     audioContext.getAudioByXhr('../audio/BathHouse.wav', window.reverbUnit.convolver);
     var tmpl = document.querySelector('.reverbUnit');
@@ -12,7 +15,11 @@ requirejs(['audioContext'], function(audioContext){
         root.appendChild(document.importNode(tmpl.content, true));
         root.querySelector('#reverbUnitBypass').addEventListener('change', function(event){
             const bypass = event.target.checked;
-            root.host.setAttribute('bypass', bypass);
+            if(bypass){
+                root.host.setAttribute('bypass', 'bypass');
+            }else{
+                root.host.removeAttribute('bypass');
+            }
         });
         root.querySelector('#reverbUnitWetFilter').addEventListener('change', function(event){
             const wetFilter = event.target.value;
@@ -34,6 +41,8 @@ requirejs(['audioContext'], function(audioContext){
     var ReverbUnit = document.registerElement('reverb-unit', {
         prototype: ReverbUnitProto
     });
+
+    
     window.input = audioContext.createUserMediaNode(context, reverbUnit.input);
     window.bufferLength = analyser.frequencyBinCount;
     window.dataArray = new Uint8Array(bufferLength);
