@@ -269,7 +269,7 @@ define({
         _echoUnit.panLeft.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
         _echoUnit.bypass = function(state = false){
-            if (state) {
+            if (state !== false) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
                 this.wetChannelRight.disconnect(this.delayRight);
             }else{
@@ -298,10 +298,12 @@ define({
         _reverb.wetFilter.connect(_reverb.output);
         _reverb.output.connect(destination);
         _reverb.bypass = function(state = false){
-            if (state) {
-                this.wetChannel.disconnect(this.convolver);
-            }else{
-                this.wetChannel.connect(this.convolver);
+            switch(state) {
+                case 'false': case false:
+                    this.wetChannel.connect(_reverb.convolver);
+                    break;
+                default:
+                     this.wetChannel.disconnect(_reverb.convolver);
             }
         }
         return _reverb;
@@ -327,10 +329,11 @@ define({
         _flangerUnit.delay.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         _flangerUnit.bypass = function(state = false){
-            if (state) {
-                this.wetChannel.disconnect(this.delay);
-            }else{
-                this.wetChannel.connect(this.delay);
+            switch(state) {
+                case 'false': case false:
+                    this.wetChannel.connect(this.delay);
+                default:
+                     this.wetChannel.disconnect(this.delay);
             }
         }
         return _flangerUnit;
@@ -369,12 +372,13 @@ define({
         _flangerUnit.wetFilter.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         _flangerUnit.bypass = function(state = false){
-            if (state) {
-                this.wetChannelLeft.disconnect(this.delayLeft);
-                this.wetChannelRight.disconnect(this.delayRight);
-            }else{
-                this.wetChannelLeft.connect(this.delayLeft);
-                this.wetChannelRight.connect(this.delayRight);
+            switch(state) {
+                case 'false': case false:
+                    this.wetChannelLeft.connect(this.delayLeft);
+                    this.wetChannelRight.connect(this.delayRight);
+                default:
+                    this.wetChannelLeft.disconnect(this.delayLeft);
+                    this.wetChannelRight.disconnect(this.delayRight);                
             }
         }        
         return _flangerUnit;
@@ -412,6 +416,7 @@ define({
         _chorusUnit.output.connect(destination);
         _chorusUnit.bypass = function(state = false){
             if (state) {
+                
                 this.wetChannelLeft.disconnect(this.delayLeft);
                 this.wetChannelRight.disconnect(this.delayRight);
             }else{
