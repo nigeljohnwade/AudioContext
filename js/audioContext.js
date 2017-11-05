@@ -7,9 +7,9 @@ define({
     },
     //Primitive Nodes
     createOscillatorNode: function createOscillatorNode(context, destination) {
-        var waveform = arguments.length <= 2 || arguments[2] === undefined ? 'sine' : arguments[2];
-        var frequency = arguments.length <= 3 || arguments[3] === undefined ? 440 : arguments[3];
-        var detune = arguments.length <= 4 || arguments[4] === undefined ? 0 : arguments[4];
+        var waveform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sine';
+        var frequency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 440;
+        var detune = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
 
         if (!context) {
             throw 'No context defined';
@@ -24,10 +24,10 @@ define({
         return _osc;
     },
     createBiquadFilterNode: function createBiquadFilterNode(context, destination) {
-        var type = arguments.length <= 2 || arguments[2] === undefined ? 'lowpass' : arguments[2];
-        var frequency = arguments.length <= 3 || arguments[3] === undefined ? 350 : arguments[3];
-        var q = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
-        var gain = arguments.length <= 5 || arguments[5] === undefined ? 0 : arguments[5];
+        var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'lowpass';
+        var frequency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 350;
+        var q = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
+        var gain = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
 
         if (!context) {
             throw 'No context defined';
@@ -43,9 +43,9 @@ define({
         return _filter;
     },
     createAnalyserNode: function createAnalyserNode(context, destination) {
-        var fftSize = arguments.length <= 2 || arguments[2] === undefined ? 2048 : arguments[2];
-        var minDecibels = arguments.length <= 3 || arguments[3] === undefined ? -100 : arguments[3];
-        var maxDecibels = arguments.length <= 4 || arguments[4] === undefined ? -30 : arguments[4];
+        var fftSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 2048;
+        var minDecibels = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : -100;
+        var maxDecibels = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : -30;
 
         if (!context) {
             throw 'No context defined';
@@ -60,7 +60,7 @@ define({
         return _analyser;
     },
     createGainNode: function createGainNode(context, destination) {
-        var gain = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+        var gain = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -73,11 +73,11 @@ define({
         return _gain;
     },
     createDynamicsCompressorNode: function createDynamicsCompressorNode(context, destination) {
-        var threshold = arguments.length <= 2 || arguments[2] === undefined ? -24 : arguments[2];
-        var knee = arguments.length <= 3 || arguments[3] === undefined ? 30 : arguments[3];
-        var ratio = arguments.length <= 4 || arguments[4] === undefined ? 12 : arguments[4];
-        var attack = arguments.length <= 5 || arguments[5] === undefined ? 0.003 : arguments[5];
-        var release = arguments.length <= 6 || arguments[6] === undefined ? 0.25 : arguments[6];
+        var threshold = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -24;
+        var knee = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 30;
+        var ratio = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 12;
+        var attack = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0.003;
+        var release = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0.25;
 
         if (!context) {
             throw 'No context defined';
@@ -94,8 +94,8 @@ define({
         return _comp;
     },
     createWaveShaperNode: function createWaveShaperNode(context, destination) {
-        var curve = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-        var oversample = arguments.length <= 3 || arguments[3] === undefined ? 'none' : arguments[3];
+        var curve = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+        var oversample = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'none';
 
         if (!context) {
             throw 'No context defined';
@@ -109,7 +109,7 @@ define({
         return _waveShaper;
     },
     createDelayNode: function createDelayNode(context, destination) {
-        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
         if (!context) {
             throw 'No context defined';
@@ -122,7 +122,7 @@ define({
         return _delay;
     },
     createStereoPannerNode: function createStereoPannerNode(context, destination) {
-        var pan = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+        var pan = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
         if (!context) {
             throw 'No context defined';
@@ -135,7 +135,7 @@ define({
         return _pan;
     },
     createConvolverNode: function createConvolverNode(context, destination) {
-        var buffer = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var buffer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
         if (!context) {
             throw 'No context defined';
@@ -150,7 +150,7 @@ define({
         return _convolver;
     },
     createAudioBufferSourceNode: function createAudioBufferSourceNode(context, destination) {
-        var buffer = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var buffer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
         if (!context) {
             throw 'No context defined';
@@ -228,9 +228,9 @@ define({
     },
     //Compound Nodes
     createLfoNode: function createLfoNode(context, destination) {
-        var waveform = arguments.length <= 2 || arguments[2] === undefined ? 'sine' : arguments[2];
-        var frequency = arguments.length <= 3 || arguments[3] === undefined ? 0.1 : arguments[3];
-        var gain = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+        var waveform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sine';
+        var frequency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.1;
+        var gain = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -243,9 +243,9 @@ define({
     },
     //Effects Units
     createEchoUnit: function createEchoUnit(context, destination) {
-        var delay = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
-        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
-        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.6;
+        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -266,7 +266,7 @@ define({
         _echoUnit.delay.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
         _echoUnit.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.wetChannel.disconnect(this.delay);
@@ -277,9 +277,9 @@ define({
         return _echoUnit;
     },
     createDualEchoUnit: function createDualEchoUnit(context, destination) {
-        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.4 : arguments[2];
-        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.6 : arguments[3];
-        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.4;
+        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.6;
+        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -312,7 +312,7 @@ define({
         _echoUnit.panLeft.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
         _echoUnit.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
@@ -325,7 +325,7 @@ define({
         return _echoUnit;
     },
     createReverbUnit: function createReverbUnit(context, destination) {
-        var wetSignal = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+        var wetSignal = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -345,7 +345,7 @@ define({
         _reverb.wetFilter.connect(_reverb.output);
         _reverb.output.connect(destination);
         _reverb.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.wetChannel.disconnect(_reverb.convolver);
@@ -356,9 +356,9 @@ define({
         return _reverb;
     },
     createFlangerUnit: function createFlangerUnit(context, destination) {
-        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.013 : arguments[2];
-        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.9 : arguments[3];
-        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.013;
+        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.9;
+        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -380,7 +380,7 @@ define({
         _flangerUnit.delay.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         _flangerUnit.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.wetChannel.disconnect(this.delay);
@@ -391,9 +391,9 @@ define({
         return _flangerUnit;
     },
     createDualFlangerUnit: function createDualFlangerUnit(context, destination) {
-        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.013 : arguments[2];
-        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.9 : arguments[3];
-        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.013;
+        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.9;
+        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -428,7 +428,7 @@ define({
         _flangerUnit.wetFilter.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
         _flangerUnit.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
@@ -441,9 +441,9 @@ define({
         return _flangerUnit;
     },
     createDualChorusUnit: function createDualChorusUnit(context, destination) {
-        var delay = arguments.length <= 2 || arguments[2] === undefined ? 0.13 : arguments[2];
-        var feedback = arguments.length <= 3 || arguments[3] === undefined ? 0.2 : arguments[3];
-        var wetSignal = arguments.length <= 4 || arguments[4] === undefined ? 1 : arguments[4];
+        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.13;
+        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.2;
+        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
         if (!context) {
             throw 'No context defined';
@@ -476,7 +476,7 @@ define({
         _chorusUnit.delayRight.connect(_chorusUnit.output);
         _chorusUnit.output.connect(destination);
         _chorusUnit.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
@@ -500,7 +500,7 @@ define({
         _compressorUnit.compressor.connect(_compressorUnit.output);
         _compressorUnit.output.connect(destination);
         _compressorUnit.bypass = function () {
-            var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             if (state) {
                 this.input.disconnect(this.compressor);

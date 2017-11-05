@@ -1,59 +1,41 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    init: function init() {
+export default {
+    init: function(){
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         return new AudioContext();
     },
     //Primitive Nodes
-    createOscillatorNode: function createOscillatorNode(context, destination) {
-        var waveform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sine';
-        var frequency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 440;
-        var detune = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-
+    createOscillatorNode: function(context, destination, waveform = 'sine', frequency = 440, detune = 0){
         if (!context) {
             throw 'No context defined';
         }
-        var _osc = context.createOscillator();
+        const _osc = context.createOscillator()
         _osc.type = waveform;
         _osc.frequency.value = frequency;
         _osc.detune.value = detune;
-        if (destination) {
+        if(destination){
             _osc.connect(destination);
         }
         return _osc;
     },
-    createBiquadFilterNode: function createBiquadFilterNode(context, destination) {
-        var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'lowpass';
-        var frequency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 350;
-        var q = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-        var gain = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
-
+    createBiquadFilterNode: function(context, destination, type = 'lowpass', frequency = 350, q = 1, gain = 0){
         if (!context) {
             throw 'No context defined';
         }
-        var _filter = context.createBiquadFilter();
+        const _filter = context.createBiquadFilter();
         _filter.type = type;
         _filter.frequency.value = frequency;
         _filter.Q.value = q;
         _filter.gain.value = gain;
         if (destination) {
-            _filter.connect(destination);
+            _filter.connect(destination)
         }
         return _filter;
     },
-    createAnalyserNode: function createAnalyserNode(context, destination) {
-        var fftSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 2048;
-        var minDecibels = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : -100;
-        var maxDecibels = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : -30;
-
+    createAnalyserNode: function(context, destination, fftSize = 2048, minDecibels = -100, maxDecibels = -30){
         if (!context) {
             throw 'No context defined';
         }
-        var _analyser = context.createAnalyser();
+        const _analyser = context.createAnalyser();
         _analyser.fftSize = fftSize;
         _analyser.minDecibels = minDecibels;
         _analyser.maxDecibels = maxDecibels;
@@ -62,30 +44,22 @@ exports.default = {
         }
         return _analyser;
     },
-    createGainNode: function createGainNode(context, destination) {
-        var gain = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-
+    createGainNode: function(context, destination, gain = 1){
         if (!context) {
             throw 'No context defined';
         }
-        var _gain = context.createGain();
+        const _gain = context.createGain();
         _gain.gain.value = gain;
         if (destination) {
             _gain.connect(destination);
         }
         return _gain;
     },
-    createDynamicsCompressorNode: function createDynamicsCompressorNode(context, destination) {
-        var threshold = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -24;
-        var knee = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 30;
-        var ratio = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 12;
-        var attack = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0.003;
-        var release = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0.25;
-
+    createDynamicsCompressorNode: function(context, destination, threshold = -24, knee = 30, ratio =12, attack = 0.003, release = 0.25){
         if (!context) {
             throw 'No context defined';
         }
-        var _comp = context.createDynamicsCompressor();
+        const _comp = context.createDynamicsCompressor();
         _comp.threshold.value = threshold;
         _comp.knee.value = knee;
         _comp.ratio.value = ratio;
@@ -96,14 +70,11 @@ exports.default = {
         }
         return _comp;
     },
-    createWaveShaperNode: function createWaveShaperNode(context, destination) {
-        var curve = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-        var oversample = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'none';
-
+    createWaveShaperNode: function(context, destination, curve = null, oversample = 'none'){
         if (!context) {
             throw 'No context defined';
-        }
-        var _waveShaper = context.createWaveShaper();
+        }        
+        const _waveShaper = context.createWaveShaper();
         _waveShaper.curve = curve;
         _waveShaper.oversample = oversample;
         if (destination) {
@@ -111,39 +82,33 @@ exports.default = {
         }
         return _waveShaper;
     },
-    createDelayNode: function createDelayNode(context, destination) {
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
+    createDelayNode: function(context, destination, delay = 0){
         if (!context) {
             throw 'No context defined';
-        }
-        var _delay = context.createDelay();
+        }           
+        const _delay = context.createDelay();
         _delay.delayTime.value = delay;
         if (destination) {
             _delay.connect(destination);
         }
         return _delay;
     },
-    createStereoPannerNode: function createStereoPannerNode(context, destination) {
-        var pan = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
+    createStereoPannerNode: function(context, destination, pan = 0){
         if (!context) {
             throw 'No context defined';
-        }
-        var _pan = context.createStereoPanner();
+        }          
+        const _pan = context.createStereoPanner();
         _pan.pan.value = pan;
         if (destination) {
             _pan.connect(destination);
         }
         return _pan;
     },
-    createConvolverNode: function createConvolverNode(context, destination) {
-        var buffer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
+    createConvolverNode: function(context, destination, buffer = null){
         if (!context) {
             throw 'No context defined';
-        }
-        var _convolver = context.createConvolver();
+        }          
+        const _convolver = context.createConvolver();
         if (buffer) {
             _convolver.buffer = buffer;
         }
@@ -152,108 +117,103 @@ exports.default = {
         }
         return _convolver;
     },
-    createAudioBufferSourceNode: function createAudioBufferSourceNode(context, destination) {
-        var buffer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
+    createAudioBufferSourceNode: function(context, destination, buffer = null){
         if (!context) {
             throw 'No context defined';
-        }
-        var _buffer = context.createBufferSource();
+        }  
+        const _buffer = context.createBufferSource();
         if (buffer) {
-            _buffer.buffer = buffer;
+            _buffer.buffer = buffer; 
         }
         if (destination) {
             _buffer.connect(destination);
         }
         return _buffer;
     },
-    createUserMediaNode: function createUserMediaNode(context, destination) {
+    createUserMediaNode: function(context, destination){
         if (!context) {
             throw 'No context defined';
-        }
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+        }  
+        navigator.getUserMedia = (navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia);
         var _source;
         if (navigator.getUserMedia) {
-            navigator.getUserMedia({ audio: true }, function (stream) {
-                _source = context.createMediaStreamSource(stream);
-                if (destination) {
-                    _source.connect(destination);
+            navigator.getUserMedia(
+                {audio: true},
+                function(stream){
+                    _source = context.createMediaStreamSource(stream);
+                    if (destination) {
+                        _source.connect(destination)
+                    }
+                },
+                function(err){
+                    console.log(err);
                 }
-            }, function (err) {
-                console.log(err);
-            });
+            );
         }
     },
     //Utilities
-    makeDistortionCurve: function makeDistortionCurve(amount) {
-        var k = typeof amount === 'number' ? amount : 50,
+    makeDistortionCurve: function(amount) {
+        let k = typeof amount === 'number' ? amount : 50,
             n_samples = 44100,
             curve = new Float32Array(n_samples),
             deg = Math.PI / 180,
             i = 0,
-            x = void 0;
-        for (; i < n_samples; ++i) {
+            x;
+        for ( ; i < n_samples; ++i ) {
             x = i * 2 / n_samples - 1;
-            curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+            curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
         }
         return curve;
     },
-    linearEnvelopeADSR: function linearEnvelopeADSR(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime) {
+    linearEnvelopeADSR: function(context, audioParam, startValue, peakValue, attackTime, decayTime, sustainValue, holdTime, releaseTime){
         if (!context) {
             throw 'No context defined';
-        }
-        var currentTime = context.currentTime;
+        }          
+        const currentTime = context.currentTime;
         audioParam.cancelScheduledValues(currentTime);
         audioParam.setValueAtTime(startValue, currentTime);
         audioParam.linearRampToValueAtTime(peakValue, currentTime + attackTime);
         audioParam.linearRampToValueAtTime(sustainValue, currentTime + attackTime + decayTime);
         audioParam.linearRampToValueAtTime(startValue, currentTime + attackTime + decayTime + holdTime + releaseTime);
     },
-    getAudioByXhr: function getAudioByXhr(url, reference) {
+    getAudioByXhr: function(url, reference){
         if (!reference) {
             throw 'No reference defined';
-        }
+        }          
         var ajaxRequest = new XMLHttpRequest();
         ajaxRequest.open('GET', url, true);
         ajaxRequest.responseType = 'arraybuffer';
-        ajaxRequest.onload = function () {
-            var audioData = ajaxRequest.response;
-            context.decodeAudioData(audioData, function (buffer) {
-                window.concertHallBuffer = buffer;
-                window.soundSource = context.createBufferSource();
-                window.soundSource.buffer = window.concertHallBuffer;
-                reference.buffer = buffer;
-            }, function (e) {
-                "Error with decoding audio data" + e.err;
-            });
-        };
+        ajaxRequest.onload = function() {
+        var audioData = ajaxRequest.response;
+        context.decodeAudioData(audioData, function(buffer) {
+            window.concertHallBuffer = buffer;
+            window.soundSource = context.createBufferSource();
+            window.soundSource.buffer = window.concertHallBuffer;
+            reference.buffer = buffer;
+            }, function(e){"Error with decoding audio data" + e.err});
+        }
         ajaxRequest.send();
     },
     //Compound Nodes
-    createLfoNode: function createLfoNode(context, destination) {
-        var waveform = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sine';
-        var frequency = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.1;
-        var gain = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+    createLfoNode: function(context, destination, waveform = 'sine', frequency = 0.1, gain = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _lfo = {};
+        }          
+        const _lfo = {};
         _lfo.gain = this.createGainNode(context, destination, gain);
         _lfo.oscillator = this.createOscillatorNode(context, _lfo.gain, waveform, frequency, 0);
         _lfo.oscillator.start(0);
         return _lfo;
     },
     //Effects Units
-    createEchoUnit: function createEchoUnit(context, destination) {
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.6;
-        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+    createEchoUnit: function(context, destination, delay = 1, feedback = 0.6, wetSignal = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _echoUnit = {};
+        }          
+        const _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannel = this.createGainNode(context);
         _echoUnit.dryChannel = this.createGainNode(context, null, wetSignal);
@@ -268,29 +228,23 @@ exports.default = {
         _echoUnit.feedback.connect(_echoUnit.delay);
         _echoUnit.delay.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
-        _echoUnit.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
+        _echoUnit.bypass = function(state = false){
             if (state) {
                 this.wetChannel.disconnect(this.delay);
-            } else {
+            }else{
                 this.wetChannel.connect(this.delay);
             }
-        };
+        }
         return _echoUnit;
     },
-    createDualEchoUnit: function createDualEchoUnit(context, destination) {
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.4;
-        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.6;
-        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+    createDualEchoUnit: function(context, destination, delay = 0.4, feedback = 0.6, wetSignal = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _echoUnit = {};
+        }          
+        const _echoUnit = {};
         _echoUnit.input = this.createGainNode(context);
         _echoUnit.wetChannelLeft = this.createGainNode(context, null, wetSignal);
-        _echoUnit.wetChannelRight = this.createGainNode(context, null, wetSignal);
+        _echoUnit.wetChannelRight = this.createGainNode(context, null , wetSignal);
         _echoUnit.dryChannel = this.createGainNode(context);
         _echoUnit.delayLeft = this.createDelayNode(context, null, delay);
         _echoUnit.delayRight = this.createDelayNode(context, null, delay * 1.5);
@@ -300,7 +254,7 @@ exports.default = {
         _echoUnit.panRight = this.createStereoPannerNode(context, null, 1);
         _echoUnit.output = this.createGainNode(context);
         _echoUnit.input.connect(_echoUnit.wetChannelLeft);
-        _echoUnit.input.connect(_echoUnit.wetChannelRight);
+        _echoUnit.input.connect(_echoUnit.wetChannelRight)
         _echoUnit.input.connect(_echoUnit.dryChannel);
         _echoUnit.dryChannel.connect(_echoUnit.output);
         _echoUnit.wetChannelLeft.connect(_echoUnit.delayLeft);
@@ -314,26 +268,22 @@ exports.default = {
         _echoUnit.panRight.connect(_echoUnit.output);
         _echoUnit.panLeft.connect(_echoUnit.output);
         _echoUnit.output.connect(destination);
-        _echoUnit.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
+        _echoUnit.bypass = function(state = false){
             if (state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
                 this.wetChannelRight.disconnect(this.delayRight);
-            } else {
+            }else{
                 this.wetChannelLeft.connect(this.delayLeft);
                 this.wetChannelRight.connect(this.delayRight);
             }
-        };
+        }   
         return _echoUnit;
     },
-    createReverbUnit: function createReverbUnit(context, destination) {
-        var wetSignal = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-
+    createReverbUnit: function(context, destination, wetSignal = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _reverb = {};
+        }          
+        const _reverb = {};
         _reverb.input = this.createGainNode(context);
         _reverb.wetChannel = this.createGainNode(context, null, wetSignal);
         _reverb.dryChannel = this.createGainNode(context);
@@ -347,26 +297,20 @@ exports.default = {
         _reverb.convolver.connect(_reverb.wetFilter);
         _reverb.wetFilter.connect(_reverb.output);
         _reverb.output.connect(destination);
-        _reverb.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-            if (state) {
+        _reverb.bypass = function(state = false){
+            if(state) {
                 this.wetChannel.disconnect(_reverb.convolver);
-            } else {
+            }else{
                 this.wetChannel.connect(_reverb.convolver);
             }
-        };
+        }
         return _reverb;
     },
-    createFlangerUnit: function createFlangerUnit(context, destination) {
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.013;
-        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.9;
-        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+    createFlangerUnit: function(context, destination, delay = 0.013, feedback = 0.9, wetSignal = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _flangerUnit = {};
+        }          
+        const _flangerUnit = {};
         _flangerUnit.input = this.createGainNode(context);
         _flangerUnit.wetChannel = this.createGainNode(context);
         _flangerUnit.dryChannel = this.createGainNode(context, null, wetSignal);
@@ -382,26 +326,20 @@ exports.default = {
         _flangerUnit.feedback.connect(_flangerUnit.delay);
         _flangerUnit.delay.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
-        _flangerUnit.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-            if (state) {
+        _flangerUnit.bypass = function(state = false){
+            if(state) {
                 this.wetChannel.disconnect(this.delay);
-            } else {
+            }else{
                 this.wetChannel.connect(this.delay);
             }
-        };
+        }
         return _flangerUnit;
     },
-    createDualFlangerUnit: function createDualFlangerUnit(context, destination) {
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.013;
-        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.9;
-        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+    createDualFlangerUnit: function(context, destination, delay = 0.013, feedback = 0.9, wetSignal = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _flangerUnit = {};
+        }          
+        const _flangerUnit = {};
         _flangerUnit.input = this.createGainNode(context);
         _flangerUnit.wetChannelLeft = this.createGainNode(context);
         _flangerUnit.wetChannelRight = this.createGainNode(context);
@@ -430,28 +368,22 @@ exports.default = {
         _flangerUnit.delayRight.connect(_flangerUnit.wetFilter);
         _flangerUnit.wetFilter.connect(_flangerUnit.output);
         _flangerUnit.output.connect(destination);
-        _flangerUnit.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-            if (state) {
+        _flangerUnit.bypass = function(state = false){
+            if(state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
-                this.wetChannelRight.disconnect(this.delayRight);
-            } else {
-                this.wetChannelLeft.connect(this.delayLeft);
-                this.wetChannelRight.connect(this.delayRight);
+                this.wetChannelRight.disconnect(this.delayRight); 
+            }else{
+                    this.wetChannelLeft.connect(this.delayLeft);
+                    this.wetChannelRight.connect(this.delayRight);                 
             }
-        };
+        }        
         return _flangerUnit;
     },
-    createDualChorusUnit: function createDualChorusUnit(context, destination) {
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.13;
-        var feedback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.2;
-        var wetSignal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+    createDualChorusUnit: function(context, destination, delay = 0.13, feedback = 0.2, wetSignal = 1){
         if (!context) {
             throw 'No context defined';
-        }
-        var _chorusUnit = {};
+        }  
+        const _chorusUnit = {};
         _chorusUnit.input = this.createGainNode(context);
         _chorusUnit.wetChannelLeft = this.createGainNode(context);
         _chorusUnit.wetChannelRight = this.createGainNode(context);
@@ -478,41 +410,37 @@ exports.default = {
         _chorusUnit.delayLeft.connect(_chorusUnit.output);
         _chorusUnit.delayRight.connect(_chorusUnit.output);
         _chorusUnit.output.connect(destination);
-        _chorusUnit.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
+        _chorusUnit.bypass = function(state = false){
             if (state) {
                 this.wetChannelLeft.disconnect(this.delayLeft);
                 this.wetChannelRight.disconnect(this.delayRight);
-            } else {
+            }else{
                 this.wetChannelLeft.connect(this.delayLeft);
                 this.wetChannelRight.connect(this.delayRight);
             }
-        };
+        }   
         return _chorusUnit;
     },
-    createCompressorUnit: function createCompressorUnit(context, destination) {
+    createCompressorUnit: function(context, destination){
         if (!context) {
             throw 'No context defined';
-        }
-        var _compressorUnit = {};
+        }          
+        const _compressorUnit = {};
         _compressorUnit.input = this.createGainNode(context);
         _compressorUnit.compressor = this.createDynamicsCompressorNode(context);
         _compressorUnit.output = this.createGainNode(context);
         _compressorUnit.input.connect(_compressorUnit.compressor);
         _compressorUnit.compressor.connect(_compressorUnit.output);
         _compressorUnit.output.connect(destination);
-        _compressorUnit.bypass = function () {
-            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
+        _compressorUnit.bypass = function(state = false){
             if (state) {
                 this.input.disconnect(this.compressor);
                 this.input.connect(this.output);
-            } else {
+            }else{
                 this.input.connect(this.compressor);
                 this.input.disconnect(this.output);
             }
-        };
+        }
         return _compressorUnit;
     }
-};
+}

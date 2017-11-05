@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "semi": "off",
+    "indent": [
+      "error",
+      4
+    ]
+  },
+  "extends": "standard",
+  "env": {
+    "browser": true,
+    "jasmine": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}

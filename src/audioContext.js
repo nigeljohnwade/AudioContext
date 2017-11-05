@@ -8,7 +8,7 @@ define({
         if (!context) {
             throw 'No context defined';
         }
-        const _osc = context.createOscillator()
+        const _osc = context.createOscillator();
         _osc.type = waveform;
         _osc.frequency.value = frequency;
         _osc.detune.value = detune;
